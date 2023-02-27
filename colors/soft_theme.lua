@@ -17,5 +17,5 @@ vim.g.colors_name = 'soft_theme'
 package.loaded['lush_theme.soft_theme'] = nil
 
 -- include our theme file and pass it to lush to apply
-require('lush')(require('lush_theme.soft_theme.lua'))
+require('lush')(require('soft_theme/lua/lush_theme/soft_theme.lua'))
 
