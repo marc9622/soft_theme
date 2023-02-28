@@ -63,6 +63,7 @@ local magentaLight  = hsl('#d0a0f0')
 local magentaMedium = hsl('#b770e0')
 
 local magentaSat    = hsl('#7030b0')
+local magentsVSat   = hsl('#8e00e0')
 
 -- Crimson
 local redMedium = hsl('#e07096')
@@ -74,23 +75,26 @@ local redVSat   = hsl('#e0004b')
 local yellowMedium = hsl('#e0b470')
 
 local yellowSat    = hsl('#b07020')
-
+local yellowVSat   = hsl('#e08700')
 -- Spring Green
 local greenLight  = hsl('#a0f0c0')
 local greenMedium = hsl('#70e0ae')
 
 local greenSat    = hsl('#30b070')
+local greenVSat   = hsl('#00e07b')
 
 -- Turquise
 local cyanMedium = hsl('#69d1c5')
 
 local cyanSat    = hsl('#20b0a0')
+local cyanVSat   = hsl('#00d1b9')
 
 -- Azure
 local blueLight  = hsl('#90d0f0')
 local blueMedium = hsl('#70b4e0')
 
 local blueSat    = hsl('#2080b0')
+local blueVSat   = hsl('#0087e0')
 
 -- LSP/Linters mistakenly show `undefined global` errors in the spec, they may
 -- support an annotation like the following. Consult your server documentation.
@@ -123,25 +127,25 @@ local theme = lush(function(injected_functions)
     -- EndOfBuffer  { }, -- Filler lines (~) after the end of the buffer. By default, this is highlighted like |hl-NonText|.
     -- TermCursor   { }, -- Cursor in a focused terminal
     -- TermCursorNC { }, -- Cursor in an unfocused terminal
-    ErrorMsg     { fg = grayLight.mix(redVSat, 80), bg = bgColor.da(10) }, -- Error messages on the command line
+    ErrorMsg     { fg = redVSat, bg = bgColor.da(10) }, -- Error messages on the command line
     -- VertSplit    { }, -- Column separating vertically split windows
     -- Folded       { }, -- Line used for closed folds
     FoldColumn   { fg = bgColor.mix(grayLight, 30) }, -- 'foldcolumn'
-    SignColumn   { fg = bgColor.mix(grayLight, 30) }, -- Column where |signs| are displayed
+    SignColumn   { FoldColumn }, -- Column where |signs| are displayed
     -- IncSearch    { }, -- 'incsearch' highlighting; also used for the text replaced with ":s///c"
     -- Substitute   { }, -- |:substitute| replacement text highlighting
-    LineNr       { fg = bgColor.mix(grayLight, 30), bg = bgColor }, -- Line number for ":number" and ":#" commands, and when 'number' or 'relativenumber' option is set.
+    LineNr       { fg = bgColor.mix(grayLight, 30) }, -- Line number for ":number" and ":#" commands, and when 'number' or 'relativenumber' option is set.
     CursorLineNr { fg = grayLight, bg = bgColor.mix(magentaMedium, 10) }, -- Like LineNr when 'cursorline' or 'relativenumber' is set for the cursor line.
     -- MatchParen   { }, -- Character under the cursor or just before it, if it is a paired bracket, and its match. |pi_paren.txt|
     ModeMsg      { fg = grayLight, bg = bgColor }, -- 'showmode' message (e.g., "-- INSERT -- ")
-    MsgArea      { fg = grayLight, bg = bgColor }, -- Area for messages and cmdline
+    MsgArea      { ModeMsg }, -- Area for messages and cmdline
     -- MsgSeparator { }, -- Separator for scrolled messages, `msgsep` flag of 'display'
     MoreMsg      { fg = greenSat }, -- |more-prompt|
     NonText      { fg = bgColor.mix(grayLight, 30) }, -- '@' at the end of the window, characters from 'showbreak' and other characters that do not really exist in the text (e.g., ">" displayed when a double-wide character doesn't fit at the end of the line). See also |hl-EndOfBuffer|.
     Normal       { fg = magentaLight, bg = bgColor }, -- Normal text
     NormalFloat  { fg = grayVLight, bg = grayVDark, blend = 10 }, -- Normal text in floating windows.
     NormalNC     { fg = magentaLight.de(10).da(10) , bg = bgColor.de(10).da(10) }, -- normal text in non-current windows
-    Pmenu        { fg = grayVLight, bg = grayVDark, blend = 10 }, -- Popup menu: Normal item.
+    Pmenu        { NormalFloat }, -- Popup menu: Normal item.
     PmenuSel     { fg = whiteMedium, bg = grayLight  }, -- Popup menu: Selected item.
     PmenuSbar    { fg = whiteMedium, bg = grayMedium }, -- Popup menu: Scrollbar.
     PmenuThumb   { fg = grayMedium, fg = whiteMedium }, -- Popup menu: Thumb of the scrollbar.
@@ -161,7 +165,7 @@ local theme = lush(function(injected_functions)
     -- Title        { }, -- Titles for output from ":set all", ":autocmd" etc.
     Visual       { bg = bgColor.mix(magentaMedium, 40) }, -- Visual mode selection
     -- VisualNOS    { }, -- Visual mode selection when vim is "Not Owning the Selection".
-    WarningMsg   { fg = redSat }, -- Warning messages
+    WarningMsg   { fg = redVSat }, -- Warning messages
     -- Whitespace   { }, -- "nbsp", "space", "tab" and "trail" in 'listchars'
     -- Winseparator { }, -- Separator between window splits. Inherts from |hl-VertSplit| by default, which it will replace eventually.
     -- WildMenu     { }, -- Current match in 'wildmenu' completion
@@ -178,21 +182,21 @@ local theme = lush(function(injected_functions)
 
     Constant       { fg = greenLight }, -- (*) Any constant
     String         { fg = magentaLight }, --   A string constant: "this is a string"
-    Character      { fg = magentaLight }, --   A character constant: 'c', '\n'
-    Number         { fg = greenLight }, --   A number constant: 234, 0xff
-    Boolean        { fg = greenLight }, --   A boolean constant: TRUE, false
-    Float          { fg = greenLight }, --   A floating point constant: 2.3e10
+    Character      { String }, --   A character constant: 'c', '\n'
+    Number         { Constant }, --   A number constant: 234, 0xff
+    Boolean        { Constant }, --   A boolean constant: TRUE, false
+    Float          { Constant }, --   A floating point constant: 2.3e10
 
     Identifier     { fg = blueLight }, -- (*) Any variable name
     Function       { fg = yellowMedium }, --   Function name (also: methods for classes)
 
-    Statement      { fg = magentaMedium }, -- (*) Any statement
-    Conditional    { fg = magentaMedium }, --   if, then, else, endif, switch, etc.
-    Repeat         { fg = magentaMedium }, --   for, do, while, etc.
-    Label          { fg = magentaMedium }, --   case, default, etc.
-    Operator       { fg = grayVLight }, --   "sizeof", "+", "*", etc.
     Keyword        { fg = magentaMedium }, --   any other keyword
-    Exception      { fg = magentaMedium }, --   try, catch, throw
+    Statement      { Keyword }, -- (*) Any statement
+    Conditional    { Keyword }, --   if, then, else, endif, switch, etc.
+    Repeat         { Keyword }, --   for, do, while, etc.
+    Label          { Keyword }, --   case, default, etc.
+    Operator       { fg = grayVLight }, --   "sizeof", "+", "*", etc.
+    Exception      { Keyword }, --   try, catch, throw
 
     -- PreProc        { }, -- (*) Generic Preprocessor
     -- Include        { }, --   Preprocessor #include
@@ -205,17 +209,17 @@ local theme = lush(function(injected_functions)
     Structure      { fg = magentaMedium }, --   struct, union, enum, etc.
     Typedef        { fg = magentaMedium }, --   A typedef
 
-    -- Special        { }, -- (*) Any special symbol
-    SpecialChar    { fg = magentaMedium }, --   Special character in a constant
+    Special        { fg = magentaMedium }, -- (*) Any special symbol
+    SpecialChar    { Special }, --   Special character in a constant
     -- Tag            { }, --   You can use CTRL-] on this
-    -- Delimiter      { }, --   Character that needs attention
+    Delimiter      { fg = grayLight }, --   Character that needs attention
     -- SpecialComment { }, --   Special things inside a comment (e.g. '\n')
     -- Debug          { }, --   Debugging statements
 
-    -- Underlined     { gui = "underline" }, -- Text that stands out, HTML links
+    Underlined     { fg = blueVSat, gui = 'italic_underline', sp = blueVSat }, -- Text that stands out, HTML links
     -- Ignore         { }, -- Left blank, hidden |hl-Ignore| (NOTE: May be invisible here in template)
-    Error          { fg = redMedium }, -- Any erroneous construct
-    Todo           { fg = blueMedium }, -- Anything that needs extra attention; mostly the keywords TODO FIXME and XXX
+    Error          { fg = redVSat }, -- Any erroneous construct
+    Todo           { fg = blueMedium, gui = 'italic' }, -- Anything that needs extra attention; mostly the keywords TODO FIXME and XXX
 
     -- These groups are for the native LSP client and diagnostic system. Some
     -- other LSP clients may use these groups, or use their own. Consult your
@@ -232,18 +236,18 @@ local theme = lush(function(injected_functions)
 
     -- See :h diagnostic-highlights, some groups may not be listed, submit a PR fix to lush-template!
     --
-    -- DiagnosticError            { } , -- Used as the base highlight group. Other Diagnostic highlights link to this by default (except Underline)
-    -- DiagnosticWarn             { } , -- Used as the base highlight group. Other Diagnostic highlights link to this by default (except Underline)
-    -- DiagnosticInfo             { } , -- Used as the base highlight group. Other Diagnostic highlights link to this by default (except Underline)
-    -- DiagnosticHint             { } , -- Used as the base highlight group. Other Diagnostic highlights link to this by default (except Underline)
+    DiagnosticError            { fg = redVSat } , -- Used as the base highlight group. Other Diagnostic highlights link to this by default (except Underline)
+    DiagnosticWarn             { fg = yellowVSat } , -- Used as the base highlight group. Other Diagnostic highlights link to this by default (except Underline)
+    DiagnosticInfo             { fg = blueMedium } , -- Used as the base highlight group. Other Diagnostic highlights link to this by default (except Underline)
+    DiagnosticHint             { fg = whiteMedium } , -- Used as the base highlight group. Other Diagnostic highlights link to this by default (except Underline)
     -- DiagnosticVirtualTextError { } , -- Used for "Error" diagnostic virtual text.
     -- DiagnosticVirtualTextWarn  { } , -- Used for "Warn" diagnostic virtual text.
     -- DiagnosticVirtualTextInfo  { } , -- Used for "Info" diagnostic virtual text.
     -- DiagnosticVirtualTextHint  { } , -- Used for "Hint" diagnostic virtual text.
-    -- DiagnosticUnderlineError   { } , -- Used to underline "Error" diagnostics.
-    -- DiagnosticUnderlineWarn    { } , -- Used to underline "Warn" diagnostics.
-    -- DiagnosticUnderlineInfo    { } , -- Used to underline "Info" diagnostics.
-    -- DiagnosticUnderlineHint    { } , -- Used to underline "Hint" diagnostics.
+    DiagnosticUnderlineError   { gui = 'undercurl', sp = redMedium } , -- Used to underline "Error" diagnostics.
+    DiagnosticUnderlineWarn    { gui = 'undercurl', sp = yellowMedium } , -- Used to underline "Warn" diagnostics.
+    DiagnosticUnderlineInfo    { gui = 'undercurl', sp = blueMedium } , -- Used to underline "Info" diagnostics.
+    DiagnosticUnderlineHint    { gui = 'undercurl', sp = bgColor.mix(whiteMedium, 80)} , -- Used to underline "Hint" diagnostics.
     -- DiagnosticFloatingError    { } , -- Used to color "Error" diagnostic messages in diagnostics float. See |vim.diagnostic.open_float()|
     -- DiagnosticFloatingWarn     { } , -- Used to color "Warn" diagnostic messages in diagnostics float.
     -- DiagnosticFloatingInfo     { } , -- Used to color "Info" diagnostic messages in diagnostics float.
@@ -269,7 +273,6 @@ local theme = lush(function(injected_functions)
     -- sym'@text.literal'
     --
     -- For more information see https://github.com/rktjmp/lush.nvim/issues/109
-
     -- sym"@text.literal"      { }, -- Comment
     -- sym"@text.reference"    { }, -- Identifier
     -- sym"@text.title"        { }, -- Title
@@ -277,9 +280,12 @@ local theme = lush(function(injected_functions)
     -- sym"@text.underline"    { }, -- Underlined
     -- sym"@text.todo"         { }, -- Todo
     -- sym"@comment"           { }, -- Comment
-    -- sym"@punctuation"       { }, -- Delimiter
+    sym"@punctuation"           { Delimiter }, -- Delimiter
+    sym'@punctuation.delimiter' { Delimiter },
+    sym'@punctuation.bracket'   { Keyword },
+    -- sym'@punctuation.special' { },
     -- sym"@constant"          { }, -- Constant
-    -- sym"@constant.builtin"  { }, -- Special
+    sym"@constant.builtin"  { Constant }, -- Special
     -- sym"@constant.macro"    { }, -- Define
     -- sym"@define"            { }, -- Define
     -- sym"@macro"             { }, -- Macro
@@ -292,12 +298,12 @@ local theme = lush(function(injected_functions)
     -- sym"@boolean"           { }, -- Boolean
     -- sym"@float"             { }, -- Float
     -- sym"@function"          { }, -- Function
-    -- sym"@function.builtin"  { }, -- Special
+    sym"@function.builtin"  { Function }, -- Special
     -- sym"@function.macro"    { }, -- Macro
     -- sym"@parameter"         { }, -- Identifier
     -- sym"@method"            { }, -- Function
     -- sym"@field"             { }, -- Identifier
-    -- sym"@property"          { }, -- Identifier
+    sym"@property"          { fg = blueMedium }, -- Identifier
     -- sym"@constructor"       { }, -- Special
     -- sym"@conditional"       { }, -- Conditional
     -- sym"@repeat"            { }, -- Repeat
@@ -310,8 +316,8 @@ local theme = lush(function(injected_functions)
     -- sym"@type.definition"   { }, -- Typedef
     -- sym"@storageclass"      { }, -- StorageClass
     -- sym"@structure"         { }, -- Structure
-    -- sym"@namespace"         { }, -- Identifier
-    -- sym"@include"           { }, -- Include
+    sym"@namespace"         { Type }, -- Identifier
+    sym"@include"           { Keyword }, -- Include
     -- sym"@preproc"           { }, -- PreProc
     -- sym"@debug"             { }, -- Debug
     -- sym"@tag"               { }, -- Tag
