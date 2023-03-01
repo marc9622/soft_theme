@@ -198,7 +198,7 @@ local theme = lush(function(injected_functions)
     Operator       { fg = grayVLight }, --   "sizeof", "+", "*", etc.
     Exception      { Keyword }, --   try, catch, throw
 
-    -- PreProc        { }, -- (*) Generic Preprocessor
+    PreProc        { fg = yellowMedium.mix(redMedium, 50) }, -- (*) Generic Preprocessor
     -- Include        { }, --   Preprocessor #include
     -- Define         { }, --   Preprocessor #define
     -- Macro          { }, --   Same as Define
