@@ -63,7 +63,7 @@ local magentaLight  = hsl('#d0a0f0')
 local magentaMedium = hsl('#b770e0')
 
 local magentaSat    = hsl('#7030b0')
-local magentsVSat   = hsl('#8e00e0')
+local magentaVSat   = hsl('#8e00e0')
 
 -- Crimson
 local redMedium = hsl('#e07096')
@@ -114,8 +114,8 @@ local theme = lush(function(injected_functions)
     --
     -- ColorColumn  { }, -- Columns set with 'colorcolumn'
     -- Conceal      { }, -- Placeholder characters substituted for concealed text (see 'conceallevel')
-    Cursor       { bg = magentaMedium }, -- Character under the cursor
-    lCursor      { bg = magentaMedium }, -- Character under the cursor when |language-mapping| is used (see 'guicursor')
+    Cursor       { fg = bgColor, bg = magentaMedium }, -- Character under the cursor
+    lCursor      { fg = bgColor, bg = magentaMedium }, -- Character under the cursor when |language-mapping| is used (see 'guicursor')
     -- CursorIM     { }, -- Like Cursor, but used when in IME mode |CursorIM|
     CursorColumn { bg = bgColor.mix(magentaMedium, 2)  },--hsl(bgColor).li(1).sa(3) }, -- Screen-column at the cursor, when 'cursorcolumn' is set.
     CursorLine   { bg = bgColor.mix(magentaMedium, 10) }, --hsl(bgColor).li(1).sa(3) }, -- Screen-line at the cursor, when 'cursorline' is set. Low-priority if foreground (ctermfg OR guifg) is not set.
@@ -129,21 +129,21 @@ local theme = lush(function(injected_functions)
     -- TermCursorNC { }, -- Cursor in an unfocused terminal
     ErrorMsg     { fg = redVSat, bg = bgColor.da(10) }, -- Error messages on the command line
     -- VertSplit    { }, -- Column separating vertically split windows
-    -- Folded       { }, -- Line used for closed folds
+    Folded       { bg = bgColor.mix(grayVDark, 50) }, -- Line used for closed folds
     FoldColumn   { fg = bgColor.mix(grayLight, 30) }, -- 'foldcolumn'
     SignColumn   { FoldColumn }, -- Column where |signs| are displayed
     -- IncSearch    { }, -- 'incsearch' highlighting; also used for the text replaced with ":s///c"
-    -- Substitute   { }, -- |:substitute| replacement text highlighting
+    Substitute   { fg = bgColor, bg = yellowMedium }, -- |:substitute| replacement text highlighting
     LineNr       { fg = bgColor.mix(grayLight, 30) }, -- Line number for ":number" and ":#" commands, and when 'number' or 'relativenumber' option is set.
     CursorLineNr { fg = grayLight, bg = bgColor.mix(magentaMedium, 10) }, -- Like LineNr when 'cursorline' or 'relativenumber' is set for the cursor line.
-    -- MatchParen   { }, -- Character under the cursor or just before it, if it is a paired bracket, and its match. |pi_paren.txt|
+    MatchParen   { fg = bgColor, bg = cyanVSat }, -- Character under the cursor or just before it, if it is a paired bracket, and its match. |pi_paren.txt|
     ModeMsg      { fg = grayLight, bg = bgColor }, -- 'showmode' message (e.g., "-- INSERT -- ")
     MsgArea      { ModeMsg }, -- Area for messages and cmdline
     -- MsgSeparator { }, -- Separator for scrolled messages, `msgsep` flag of 'display'
     MoreMsg      { fg = greenSat }, -- |more-prompt|
     NonText      { fg = bgColor.mix(grayLight, 30) }, -- '@' at the end of the window, characters from 'showbreak' and other characters that do not really exist in the text (e.g., ">" displayed when a double-wide character doesn't fit at the end of the line). See also |hl-EndOfBuffer|.
     Normal       { fg = magentaLight, bg = bgColor }, -- Normal text
-    NormalFloat  { fg = grayVLight, bg = grayVDark, blend = 10 }, -- Normal text in floating windows.
+    NormalFloat  { fg = grayVLight, bg = grayVDark, blend = 20 }, -- Normal text in floating windows.
     NormalNC     { fg = magentaLight.de(10).da(10) , bg = bgColor.de(10).da(10) }, -- normal text in non-current windows
     Pmenu        { NormalFloat }, -- Popup menu: Normal item.
     PmenuSel     { fg = whiteMedium, bg = grayLight  }, -- Popup menu: Selected item.
@@ -162,7 +162,7 @@ local theme = lush(function(injected_functions)
     -- TabLine      { }, -- Tab pages line, not active tab page label
     -- TabLineFill  { }, -- Tab pages line, where there are no labels
     -- TabLineSel   { }, -- Tab pages line, active tab page label
-    -- Title        { }, -- Titles for output from ":set all", ":autocmd" etc.
+    Title        { fg = magentaSat, gui = "italic_bold" }, -- Titles for output from ":set all", ":autocmd" etc.
     Visual       { bg = bgColor.mix(magentaMedium, 40) }, -- Visual mode selection
     -- VisualNOS    { }, -- Visual mode selection when vim is "Not Owning the Selection".
     WarningMsg   { fg = redVSat }, -- Warning messages
