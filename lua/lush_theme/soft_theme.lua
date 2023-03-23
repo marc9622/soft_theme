@@ -136,7 +136,7 @@ local theme = lush(function(injected_functions)
     Substitute   { fg = bgColor, bg = yellowMedium }, -- |:substitute| replacement text highlighting
     LineNr       { fg = bgColor.mix(grayLight, 30) }, -- Line number for ":number" and ":#" commands, and when 'number' or 'relativenumber' option is set.
     CursorLineNr { fg = grayLight, bg = bgColor.mix(magentaMedium, 10) }, -- Like LineNr when 'cursorline' or 'relativenumber' is set for the cursor line.
-    MatchParen   { fg = bgColor, bg = cyanVSat }, -- Character under the cursor or just before it, if it is a paired bracket, and its match. |pi_paren.txt|
+    MatchParen   { fg = bgColor, bg = cyanVSat.li(30).de(40) }, -- Character under the cursor or just before it, if it is a paired bracket, and its match. |pi_paren.txt|
     ModeMsg      { fg = grayLight, bg = bgColor }, -- 'showmode' message (e.g., "-- INSERT -- ")
     MsgArea      { ModeMsg }, -- Area for messages and cmdline
     -- MsgSeparator { }, -- Separator for scrolled messages, `msgsep` flag of 'display'
@@ -148,7 +148,7 @@ local theme = lush(function(injected_functions)
     Pmenu        { NormalFloat }, -- Popup menu: Normal item.
     PmenuSel     { fg = whiteMedium, bg = grayLight  }, -- Popup menu: Selected item.
     PmenuSbar    { fg = whiteMedium, bg = grayMedium }, -- Popup menu: Scrollbar.
-    PmenuThumb   { fg = grayMedium, fg = whiteMedium }, -- Popup menu: Thumb of the scrollbar.
+    PmenuThumb   { fg = whiteMedium, bg = magentaLight }, -- Popup menu: Thumb of the scrollbar.
     Question     { fg = greenSat }, -- |hit-enter| prompt and yes/no questions
     -- QuickFixLine { }, -- Current |quickfix| item in the quickfix window. Combined with |hl-CursorLine| when the cursor is there.
     -- Search       { }, -- Last search pattern highlighting (see 'hlsearch'). Also used for similar items that need to stand out.
@@ -163,7 +163,7 @@ local theme = lush(function(injected_functions)
     -- TabLineFill  { }, -- Tab pages line, where there are no labels
     -- TabLineSel   { }, -- Tab pages line, active tab page label
     Title        { fg = magentaSat, gui = "italic_bold" }, -- Titles for output from ":set all", ":autocmd" etc.
-    Visual       { bg = bgColor.mix(magentaMedium, 40) }, -- Visual mode selection
+    Visual       { bg = grayDark.mix(magentaVSat, 10) }, -- Visual mode selection
     -- VisualNOS    { }, -- Visual mode selection when vim is "Not Owning the Selection".
     WarningMsg   { fg = redVSat }, -- Warning messages
     -- Whitespace   { }, -- "nbsp", "space", "tab" and "trail" in 'listchars'
@@ -322,6 +322,19 @@ local theme = lush(function(injected_functions)
     -- sym"@debug"             { }, -- Debug
     -- sym"@tag"               { }, -- Tag
 
+    CmpItemAbbrDeprecates { gui = 'strikethrough' },
+    --CmpItemAbbrMatch      { fg = magentaMedium, bg = Visual.bg },
+    --CmpItemAbbrMatch      { fg = magentaMedium, gui = 'underline bold', sp = magentaMedium.sa(20) },
+    CmpItemAbbrMatch      { fg = magentaMedium },
+    CmpItemAbbrMatchFuzzy { CmpItemAbbrMatch },
+    CmpItemKindVariable   { Identifier },
+    CmpItemKindInterface  { Type },
+    CmpItemKindText       { String },
+    CmpItemKindFunction   { Function },
+    CmpItemKindMethod     { Function },
+    CmpItemKindKeyword    { Keyword },
+    CmpItemKindProperty   { Identifier },
+    CmpItemKindUnit       { Identifier },
 }
 end)
 
