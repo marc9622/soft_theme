@@ -327,15 +327,42 @@ local theme = lush(function(injected_functions)
     --CmpItemAbbrMatch      { fg = magentaMedium, gui = 'underline bold', sp = magentaMedium.sa(20) },
     CmpItemAbbrMatch      { fg = magentaMedium },
     CmpItemAbbrMatchFuzzy { CmpItemAbbrMatch },
-    CmpItemKindVariable   { Identifier },
-    CmpItemKindInterface  { Type },
-    CmpItemKindText       { String },
-    CmpItemKindFunction   { Function },
-    CmpItemKindMethod     { Function },
-    CmpItemKindKeyword    { Keyword },
-    CmpItemKindProperty   { Identifier },
-    CmpItemKindUnit       { Identifier },
-    CmpItemKindField      { Identifier },
+    CmpItemMenu           { fg = grayLight },
+
+    --CmpItemKindArray      { fg = greenLight }, -- I don't think this exists
+    --CmpItemKindBoolean    { fg = redMedium }, -- I don't think this exists
+    CmpItemKindClass      { fg = yellowMedium },
+    CmpItemKindColor      { fg = yellowMedium },
+    CmpItemKindConstant   { fg = blueMedium },
+    CmpItemKindConstructor{ fg = magentaMedium },
+    CmpItemKindEnum       { fg = blueMedium },
+    CmpItemKindEnumMember { fg = cyanMedium },
+    CmpItemKindEvent      { fg = magentaMedium },
+    CmpItemKindField      { fg = blueLight },
+    CmpItemKindFile       { fg = blueLight },
+    CmpItemKindFolder     { fg = yellowMedium },
+    CmpItemKindFunction   { fg = yellowMedium },
+    CmpItemKindInterface  { fg = blueLight },
+    --CmpItemKindKey        { fg = cyanMedium }, -- I don't think this exists
+    CmpItemKindKeyword    { fg = magentaMedium },
+    CmpItemKindMethod     { fg = magentaMedium },
+    CmpItemKindModule     { fg = blueMedium },
+    --CmpItemKindNamespace  { fg = magentaMedium }, -- I dont' think this exists
+    --CmpItemKindNull       { fg = redMedium }, -- I don't think this exists
+    --CmpItemKindNumber     { fg = greenMedium }, -- I don't think this exists
+    --CmpItemKindObject     { fg = yellowMedium }, -- I don't think this exists
+    CmpItemKindOperator   { fg = redMedium },
+    --CmpItemKindPackage    { fg = magentaMedium }, -- I don't think this exists
+    CmpItemKindProperty   { fg = blueMedium },
+    CmpItemKindReference  { fg = magentaMedium },
+    CmpItemKindSnippet    { fg = grayVLight },
+    --CmpItemKindString     { fg = magentaLight }, -- I don't think this exists
+    CmpItemKindStruct     { fg = yellowMedium },
+    CmpItemKindText       { fg = magentaLight },
+    CmpItemKindTypeParameter { fg = cyanMedium },
+    CmpItemKindUnit       { fg = cyanMedium },
+    CmpItemKindValue      { fg = greenLight },
+    CmpItemKindVariable   { fg = cyanMedium },
 }
 end)
 
