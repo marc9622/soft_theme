@@ -335,6 +335,7 @@ local theme = lush(function(injected_functions)
     CmpItemKindKeyword    { Keyword },
     CmpItemKindProperty   { Identifier },
     CmpItemKindUnit       { Identifier },
+    CmpItemKindField      { Identifier },
 }
 end)
 
