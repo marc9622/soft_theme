@@ -45,7 +45,7 @@
 local lush = require('lush')
 local hsl = lush.hsl
 
-local bgColor = hsl('#252535')
+local bgColor = hsl('#252232')
 
 -- White
 local whiteMedium = hsl('#d5d0f0')
@@ -59,42 +59,43 @@ local grayDark   = hsl('#454065')
 local grayVDark  = hsl('#25203a')
 
 -- Heliotrope
-local magentaLight  = hsl('#d0a0f0')
-local magentaMedium = hsl('#b770e0')
+local purpleLight  = hsl('#d0a0f0') -- Mauve
+local purpleMedium = hsl('#b770e0') -- Heliotrope
 
-local magentaSat    = hsl('#7030b0')
-local magentaVSat   = hsl('#8e00e0')
+local purpleSat    = hsl('#7030b0') -- Purple
+local purpleVSat   = hsl('#8e00e0') -- Electric Violet
 
 -- Crimson
-local redMedium = hsl('#e07096')
+local redMedium = hsl('#e07096') -- Deep Blush
 
-local redSat    = hsl('#b03060')
-local redVSat   = hsl('#e0004b')
+local redSat    = hsl('#b03060') -- Hibiscus
+local redVSat   = hsl('#e0004b') -- Radical Red
 
 -- Marigold
-local yellowMedium = hsl('#e0b470')
+local yellowMedium = hsl('#e0b470') -- Harvest Gold
 
-local yellowSat    = hsl('#b07020')
-local yellowVSat   = hsl('#e08700')
+local yellowSat    = hsl('#b07020') -- Bourbon
+local yellowVSat   = hsl('#e08700') -- Gold
+
 -- Spring Green
-local greenLight  = hsl('#a0f0c0')
-local greenMedium = hsl('#70e0ae')
+local greenLight  = hsl('#a0f0c0') -- Magic Mint
+local greenMedium = hsl('#70e0ae') -- Aquamarine
 
-local greenSat    = hsl('#30b070')
-local greenVSat   = hsl('#00e07b')
+local greenSat    = hsl('#30b070') -- Jungle Green
+local greenVSat   = hsl('#00e07b') -- Spring Green
 
 -- Turquise
-local cyanMedium = hsl('#69d1c5')
+local cyanMedium = hsl('#69d1c5') -- Downy
 
-local cyanSat    = hsl('#20b0a0')
-local cyanVSat   = hsl('#00d1b9')
+local cyanSat    = hsl('#20b0a0') -- Persian Green
+local cyanVSat   = hsl('#00d1b9') -- Robin's Egg
 
 -- Azure
-local blueLight  = hsl('#90d0f0')
-local blueMedium = hsl('#70b4e0')
+local blueLight  = hsl('#90d0f0') -- Anakiwa
+local blueMedium = hsl('#70b4e0') -- Malibu
 
-local blueSat    = hsl('#2080b0')
-local blueVSat   = hsl('#0087e0')
+local blueSat    = hsl('#2080b0') -- Eastern Blue
+local blueVSat   = hsl('#0087e0') -- Azure
 
 -- LSP/Linters mistakenly show `undefined global` errors in the spec, they may
 -- support an annotation like the following. Consult your server documentation.
@@ -114,11 +115,11 @@ local theme = lush(function(injected_functions)
     --
     -- ColorColumn  { }, -- Columns set with 'colorcolumn'
     -- Conceal      { }, -- Placeholder characters substituted for concealed text (see 'conceallevel')
-    Cursor       { fg = bgColor, bg = magentaMedium }, -- Character under the cursor
-    lCursor      { fg = bgColor, bg = magentaMedium }, -- Character under the cursor when |language-mapping| is used (see 'guicursor')
+    Cursor       { fg = bgColor, bg = purpleMedium }, -- Character under the cursor
+    lCursor      { Cursor }, -- Character under the cursor when |language-mapping| is used (see 'guicursor')
     -- CursorIM     { }, -- Like Cursor, but used when in IME mode |CursorIM|
-    CursorColumn { bg = bgColor.mix(magentaMedium, 2)  },--hsl(bgColor).li(1).sa(3) }, -- Screen-column at the cursor, when 'cursorcolumn' is set.
-    CursorLine   { bg = bgColor.mix(magentaMedium, 10) }, --hsl(bgColor).li(1).sa(3) }, -- Screen-line at the cursor, when 'cursorline' is set. Low-priority if foreground (ctermfg OR guifg) is not set.
+    CursorColumn { bg = bgColor.mix(purpleMedium, 2)  },--hsl(bgColor).li(1).sa(3) }, -- Screen-column at the cursor, when 'cursorcolumn' is set.
+    CursorLine   { bg = bgColor.mix(purpleMedium, 10) }, --hsl(bgColor).li(1).sa(3) }, -- Screen-line at the cursor, when 'cursorline' is set. Low-priority if foreground (ctermfg OR guifg) is not set.
     Directory    { fg = grayLight }, -- Directory names (and other special names in listings)
     DiffAdd      { fg = greenSat }, -- Diff mode: Added line |diff.txt|
     DiffChange   { fg = blueSat }, -- Diff mode: Changed line |diff.txt|
@@ -135,20 +136,20 @@ local theme = lush(function(injected_functions)
     -- IncSearch    { }, -- 'incsearch' highlighting; also used for the text replaced with ":s///c"
     Substitute   { fg = bgColor, bg = yellowMedium }, -- |:substitute| replacement text highlighting
     LineNr       { fg = bgColor.mix(grayLight, 30) }, -- Line number for ":number" and ":#" commands, and when 'number' or 'relativenumber' option is set.
-    CursorLineNr { fg = grayLight, bg = bgColor.mix(magentaMedium, 10) }, -- Like LineNr when 'cursorline' or 'relativenumber' is set for the cursor line.
+    CursorLineNr { fg = grayLight, bg = bgColor.mix(purpleMedium, 10) }, -- Like LineNr when 'cursorline' or 'relativenumber' is set for the cursor line.
     MatchParen   { fg = bgColor, bg = cyanVSat.li(30).de(40) }, -- Character under the cursor or just before it, if it is a paired bracket, and its match. |pi_paren.txt|
     ModeMsg      { fg = grayLight, bg = bgColor }, -- 'showmode' message (e.g., "-- INSERT -- ")
     MsgArea      { ModeMsg }, -- Area for messages and cmdline
     -- MsgSeparator { }, -- Separator for scrolled messages, `msgsep` flag of 'display'
     MoreMsg      { fg = greenSat }, -- |more-prompt|
-    NonText      { fg = bgColor.mix(grayLight, 30) }, -- '@' at the end of the window, characters from 'showbreak' and other characters that do not really exist in the text (e.g., ">" displayed when a double-wide character doesn't fit at the end of the line). See also |hl-EndOfBuffer|.
-    Normal       { fg = magentaLight, bg = bgColor }, -- Normal text
+    NonText      { fg = bgColor.mix(grayMedium, 75) }, -- '@' at the end of the window, characters from 'showbreak' and other characters that do not really exist in the text (e.g., ">" displayed when a double-wide character doesn't fit at the end of the line). See also |hl-EndOfBuffer|.
+    Normal       { fg = purpleLight, bg = bgColor }, -- Normal text
     NormalFloat  { fg = grayVLight, bg = grayVDark, blend = 20 }, -- Normal text in floating windows.
-    NormalNC     { fg = magentaLight.de(10).da(10) , bg = bgColor.de(10).da(10) }, -- normal text in non-current windows
+    NormalNC     { fg = purpleLight.de(10).da(10) , bg = bgColor.de(10).da(10) }, -- normal text in non-current windows
     Pmenu        { NormalFloat }, -- Popup menu: Normal item.
     PmenuSel     { fg = whiteMedium, bg = grayLight  }, -- Popup menu: Selected item.
     PmenuSbar    { fg = whiteMedium, bg = grayMedium }, -- Popup menu: Scrollbar.
-    PmenuThumb   { fg = whiteMedium, bg = magentaLight }, -- Popup menu: Thumb of the scrollbar.
+    PmenuThumb   { fg = whiteMedium, bg = purpleLight }, -- Popup menu: Thumb of the scrollbar.
     Question     { fg = greenSat }, -- |hit-enter| prompt and yes/no questions
     -- QuickFixLine { }, -- Current |quickfix| item in the quickfix window. Combined with |hl-CursorLine| when the cursor is there.
     -- Search       { }, -- Last search pattern highlighting (see 'hlsearch'). Also used for similar items that need to stand out.
@@ -157,13 +158,13 @@ local theme = lush(function(injected_functions)
     -- SpellCap     { }, -- Word that should start with a capital. |spell| Combined with the highlighting used otherwise.
     -- SpellLocal   { }, -- Word that is recognized by the spellchecker as one that is used in another region. |spell| Combined with the highlighting used otherwise.
     -- SpellRare    { }, -- Word that is recognized by the spellchecker as one that is hardly ever used. |spell| Combined with the highlighting used otherwise.
-    StatusLine   { fg = bgColor, bg = magentaLight }, -- Status line of current window
+    StatusLine   { fg = bgColor, bg = purpleLight }, -- Status line of current window
     StatusLineNC { fg = bgColor.de(10).da(10), bg = grayMedium }, -- Status lines of not-current windows. Note: If this is equal to "StatusLine" Vim will use "^^^" in the status line of the current window.
     -- TabLine      { }, -- Tab pages line, not active tab page label
     -- TabLineFill  { }, -- Tab pages line, where there are no labels
     -- TabLineSel   { }, -- Tab pages line, active tab page label
-    Title        { fg = magentaSat, gui = "italic_bold" }, -- Titles for output from ":set all", ":autocmd" etc.
-    Visual       { bg = grayDark.mix(magentaVSat, 10) }, -- Visual mode selection
+    Title        { fg = purpleSat, gui = "italic_bold" }, -- Titles for output from ":set all", ":autocmd" etc.
+    Visual       { bg = grayDark.mix(purpleVSat, 10) }, -- Visual mode selection
     -- VisualNOS    { }, -- Visual mode selection when vim is "Not Owning the Selection".
     WarningMsg   { fg = redVSat }, -- Warning messages
     -- Whitespace   { }, -- "nbsp", "space", "tab" and "trail" in 'listchars'
@@ -178,10 +179,10 @@ local theme = lush(function(injected_functions)
     --
     -- Uncomment and edit if you want more specific syntax highlighting.
 
-    Comment        { fg = grayMedium, gui = "italic" }, -- Any comment
+    Comment        { fg = NonText.fg, gui = "italic" }, -- Any comment
 
     Constant       { fg = greenLight }, -- (*) Any constant
-    String         { fg = magentaLight }, --   A string constant: "this is a string"
+    String         { fg = purpleLight }, --   A string constant: "this is a string"
     Character      { String }, --   A character constant: 'c', '\n'
     Number         { Constant }, --   A number constant: 234, 0xff
     Boolean        { Constant }, --   A boolean constant: TRUE, false
@@ -190,7 +191,7 @@ local theme = lush(function(injected_functions)
     Identifier     { fg = blueLight }, -- (*) Any variable name
     Function       { fg = yellowMedium }, --   Function name (also: methods for classes)
 
-    Keyword        { fg = magentaMedium }, --   any other keyword
+    Keyword        { fg = purpleMedium }, --   any other keyword
     Statement      { Keyword }, -- (*) Any statement
     Conditional    { Keyword }, --   if, then, else, endif, switch, etc.
     Repeat         { Keyword }, --   for, do, while, etc.
@@ -205,11 +206,11 @@ local theme = lush(function(injected_functions)
     -- PreCondit      { }, --   Preprocessor #if, #else, #endif, etc.
 
     Type           { fg = cyanMedium }, -- (*) int, long, char, etc.
-    StorageClass   { fg = magentaMedium }, --   static, register, volatile, etc.
-    Structure      { fg = magentaMedium }, --   struct, union, enum, etc.
-    Typedef        { fg = magentaMedium }, --   A typedef
+    StorageClass   { fg = purpleMedium }, --   static, register, volatile, etc.
+    Structure      { fg = purpleMedium }, --   struct, union, enum, etc.
+    Typedef        { fg = purpleMedium }, --   A typedef
 
-    Special        { fg = magentaMedium }, -- (*) Any special symbol
+    Special        { fg = purpleMedium }, -- (*) Any special symbol
     SpecialChar    { Special }, --   Special character in a constant
     -- Tag            { }, --   You can use CTRL-] on this
     Delimiter      { fg = grayLight }, --   Character that needs attention
@@ -325,7 +326,7 @@ local theme = lush(function(injected_functions)
     CmpItemAbbrDeprecates { gui = 'strikethrough' },
     --CmpItemAbbrMatch      { fg = magentaMedium, bg = Visual.bg },
     --CmpItemAbbrMatch      { fg = magentaMedium, gui = 'underline bold', sp = magentaMedium.sa(20) },
-    CmpItemAbbrMatch      { fg = magentaMedium },
+    CmpItemAbbrMatch      { fg = purpleMedium },
     CmpItemAbbrMatchFuzzy { CmpItemAbbrMatch },
     CmpItemMenu           { fg = grayLight },
 
@@ -334,18 +335,18 @@ local theme = lush(function(injected_functions)
     CmpItemKindClass      { fg = yellowMedium },
     CmpItemKindColor      { fg = yellowMedium },
     CmpItemKindConstant   { fg = blueMedium },
-    CmpItemKindConstructor{ fg = magentaMedium },
+    CmpItemKindConstructor{ fg = purpleMedium },
     CmpItemKindEnum       { fg = blueMedium },
     CmpItemKindEnumMember { fg = cyanMedium },
-    CmpItemKindEvent      { fg = magentaMedium },
+    CmpItemKindEvent      { fg = purpleMedium },
     CmpItemKindField      { fg = blueLight },
     CmpItemKindFile       { fg = blueLight },
     CmpItemKindFolder     { fg = yellowMedium },
     CmpItemKindFunction   { fg = yellowMedium },
     CmpItemKindInterface  { fg = blueLight },
     --CmpItemKindKey        { fg = cyanMedium }, -- I don't think this exists
-    CmpItemKindKeyword    { fg = magentaMedium },
-    CmpItemKindMethod     { fg = magentaMedium },
+    CmpItemKindKeyword    { fg = purpleMedium },
+    CmpItemKindMethod     { fg = purpleMedium },
     CmpItemKindModule     { fg = blueMedium },
     --CmpItemKindNamespace  { fg = magentaMedium }, -- I dont' think this exists
     --CmpItemKindNull       { fg = redMedium }, -- I don't think this exists
@@ -354,11 +355,11 @@ local theme = lush(function(injected_functions)
     CmpItemKindOperator   { fg = redMedium },
     --CmpItemKindPackage    { fg = magentaMedium }, -- I don't think this exists
     CmpItemKindProperty   { fg = blueMedium },
-    CmpItemKindReference  { fg = magentaMedium },
+    CmpItemKindReference  { fg = purpleMedium },
     CmpItemKindSnippet    { fg = grayVLight },
     --CmpItemKindString     { fg = magentaLight }, -- I don't think this exists
     CmpItemKindStruct     { fg = yellowMedium },
-    CmpItemKindText       { fg = magentaLight },
+    CmpItemKindText       { fg = purpleLight },
     CmpItemKindTypeParameter { fg = cyanMedium },
     CmpItemKindUnit       { fg = cyanMedium },
     CmpItemKindValue      { fg = greenLight },
