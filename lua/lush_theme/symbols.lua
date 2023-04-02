@@ -153,8 +153,8 @@ local theme = lush(function(injected_functions)
 
     Comment        { fg = NonText.fg, gui = "italic" }, -- Any comment
 
-    Constant       { fg = matrixLight }, -- (*) Any constant
-    String         { fg = purpleSat.mix(matrixMedium, 50) }, --   A string constant: "this is a string"
+    Constant       { fg = matrixVLight }, -- (*) Any constant
+    String         { Constant }, --   A string constant: "this is a string"
     Character      { String }, --   A character constant: 'c', '\n'
     Number         { Constant }, --   A number constant: 234, 0xff
     Boolean        { Constant }, --   A boolean constant: TRUE, false
@@ -177,7 +177,7 @@ local theme = lush(function(injected_functions)
     -- Macro          { }, --   Same as Define
     -- PreCondit      { }, --   Preprocessor #if, #else, #endif, etc.
 
-    Type           { fg = greenSat }, -- (*) int, long, char, etc.
+    Type           { fg = matrixLight }, -- (*) int, long, char, etc.
     StorageClass   { fg = purpleSat.mix(matrixMedium, 50) }, --   static, register, volatile, etc.
     Structure      { fg = StorageClass.fg }, --   struct, union, enum, etc.
     Typedef        { fg = StorageClass.fg }, --   A typedef
