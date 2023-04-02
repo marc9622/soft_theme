@@ -108,7 +108,7 @@ local theme = lush(function(injected_functions)
     -- IncSearch    { }, -- 'incsearch' highlighting; also used for the text replaced with ":s///c"
     Substitute   { fg = bgColor, bg = yellowMedium }, -- |:substitute| replacement text highlighting
     LineNr       { fg = bgColor.mix(matrixDark, 30) }, -- Line number for ":number" and ":#" commands, and when 'number' or 'relativenumber' option is set.
-    CursorLineNr { fg = matrixMedium, bg = CursorLine.bg }, -- Like LineNr when 'cursorline' or 'relativenumber' is set for the cursor line.
+    CursorLineNr { fg = matrixLight, bg = CursorLine.bg }, -- Like LineNr when 'cursorline' or 'relativenumber' is set for the cursor line.
     MatchParen   { fg = matrixLight, bg = blackDark , gui = 'bold' }, -- Character under the cursor or just before it, if it is a paired bracket, and its match. |pi_paren.txt|
     ModeMsg      { fg = matrixDark, bg = bgColor }, -- 'showmode' message (e.g., "-- INSERT -- ")
     MsgArea      { ModeMsg }, -- Area for messages and cmdline
@@ -136,7 +136,7 @@ local theme = lush(function(injected_functions)
     -- TabLineFill  { }, -- Tab pages line, where there are no labels
     -- TabLineSel   { }, -- Tab pages line, active tab page label
     Title        { fg = matrixMedium, gui = "italic_bold" }, -- Titles for output from ":set all", ":autocmd" etc.
-    Visual       { bg = bgColor.mix(matrixVDark, 25), gui = 'underline', sp = bgColor.mix(matrixVDark, 50) }, -- Visual mode selection
+    Visual       { bg = bgColor.mix(matrixVDark, 25), sp = bgColor.mix(matrixVDark, 50) }, -- Visual mode selection
     -- VisualNOS    { }, -- Visual mode selection when vim is "Not Owning the Selection".
     WarningMsg   { fg = redVSat }, -- Warning messages
     -- Whitespace   { }, -- "nbsp", "space", "tab" and "trail" in 'listchars'
@@ -154,14 +154,14 @@ local theme = lush(function(injected_functions)
     Comment        { fg = NonText.fg, gui = "italic" }, -- Any comment
 
     Constant       { fg = matrixLight }, -- (*) Any constant
-    String         { fg = whiteDark.mix(purpleSat, 75) }, --   A string constant: "this is a string"
+    String         { fg = purpleSat.mix(matrixMedium, 50) }, --   A string constant: "this is a string"
     Character      { String }, --   A character constant: 'c', '\n'
     Number         { Constant }, --   A number constant: 234, 0xff
     Boolean        { Constant }, --   A boolean constant: TRUE, false
     Float          { Constant }, --   A floating point constant: 2.3e10
 
-    Identifier     { fg = bgColor.mix(whiteVDark, 75) }, -- (*) Any variable name
-    Function       { fg = yellowDark }, --   Function name (also: methods for classes)
+    Identifier     { fg = blueMedium.mix(matrixMedium, 75) }, -- (*) Any variable name
+    Function       { fg = yellowDark.mix(matrixMedium, 50) }, --   Function name (also: methods for classes)
 
     Keyword        { fg = matrixMedium }, --   any other keyword
     Statement      { Keyword }, -- (*) Any statement
@@ -171,16 +171,16 @@ local theme = lush(function(injected_functions)
     Operator       { fg = matrixMedium }, --   "sizeof", "+", "*", etc.
     Exception      { Keyword }, --   try, catch, throw
 
-    PreProc        { fg = yellowSat.mix(redSat, 50) }, -- (*) Generic Preprocessor
+    PreProc        { fg = yellowSat.mix(redSat, 50).mix(matrixMedium, 50) }, -- (*) Generic Preprocessor
     -- Include        { }, --   Preprocessor #include
     -- Define         { }, --   Preprocessor #define
     -- Macro          { }, --   Same as Define
     -- PreCondit      { }, --   Preprocessor #if, #else, #endif, etc.
 
     Type           { fg = greenSat }, -- (*) int, long, char, etc.
-    StorageClass   { fg = purpleSat }, --   static, register, volatile, etc.
-    Structure      { fg = purpleSat }, --   struct, union, enum, etc.
-    Typedef        { fg = purpleSat }, --   A typedef
+    StorageClass   { fg = purpleSat.mix(matrixMedium, 50) }, --   static, register, volatile, etc.
+    Structure      { fg = StorageClass.fg }, --   struct, union, enum, etc.
+    Typedef        { fg = StorageClass.fg }, --   A typedef
 
     Special        { fg = matrixMedium }, -- (*) Any special symbol
     SpecialChar    { Special }, --   Special character in a constant
@@ -189,10 +189,10 @@ local theme = lush(function(injected_functions)
     -- SpecialComment { }, --   Special things inside a comment (e.g. '\n')
     -- Debug          { }, --   Debugging statements
 
-    Underlined     { fg = blueVSat, gui = 'italic_underline', sp = blueVSat }, -- Text that stands out, HTML links
+    Underlined     { fg = blueVSat.mix(matrixMedium, 50), gui = 'italic_underline', sp = blueVSat.mix(matrixMedium, 50) }, -- Text that stands out, HTML links
     -- Ignore         { }, -- Left blank, hidden |hl-Ignore| (NOTE: May be invisible here in template)
-    Error          { fg = redVSat }, -- Any erroneous construct
-    Todo           { fg = blueMedium, gui = 'italic' }, -- Anything that needs extra attention; mostly the keywords TODO FIXME and XXX
+    Error          { fg = redVSat.mix(matrixMedium, 50) }, -- Any erroneous construct
+    Todo           { fg = blueMedium.mix(matrixMedium, 50), gui = 'italic' }, -- Anything that needs extra attention; mostly the keywords TODO FIXME and XXX
 
     -- These groups are for the native LSP client and diagnostic system. Some
     -- other LSP clients may use these groups, or use their own. Consult your
@@ -217,10 +217,10 @@ local theme = lush(function(injected_functions)
     -- DiagnosticVirtualTextWarn  { } , -- Used for "Warn" diagnostic virtual text.
     -- DiagnosticVirtualTextInfo  { } , -- Used for "Info" diagnostic virtual text.
     -- DiagnosticVirtualTextHint  { } , -- Used for "Hint" diagnostic virtual text.
-    DiagnosticUnderlineError   { gui = 'undercurl', sp = bgColor.mix(redSat, 80) } , -- Used to underline "Error" diagnostics.
-    DiagnosticUnderlineWarn    { gui = 'undercurl', sp = bgColor.mix(yellowSat, 80) } , -- Used to underline "Warn" diagnostics.
-    DiagnosticUnderlineInfo    { gui = 'undercurl', sp = bgColor.mix(blueSat, 80) } , -- Used to underline "Info" diagnostics.
-    DiagnosticUnderlineHint    { gui = 'undercurl', sp = bgColor.mix(matrixDark, 80) } , -- Used to underline "Hint" diagnostics.
+    DiagnosticUnderlineError   { gui = 'undercurl', sp = matrixMedium.mix(redSat, 75) } , -- Used to underline "Error" diagnostics.
+    DiagnosticUnderlineWarn    { gui = 'undercurl', sp = matrixMedium.mix(yellowSat, 50) } , -- Used to underline "Warn" diagnostics.
+    DiagnosticUnderlineInfo    { gui = 'undercurl', sp = matrixMedium.mix(blueSat, 50) } , -- Used to underline "Info" diagnostics.
+    DiagnosticUnderlineHint    { gui = 'undercurl', sp = matrixMedium.mix(whiteVDark, 50) } , -- Used to underline "Hint" diagnostics.
     -- DiagnosticFloatingError    { } , -- Used to color "Error" diagnostic messages in diagnostics float. See |vim.diagnostic.open_float()|
     -- DiagnosticFloatingWarn     { } , -- Used to color "Warn" diagnostic messages in diagnostics float.
     -- DiagnosticFloatingInfo     { } , -- Used to color "Info" diagnostic messages in diagnostics float.
@@ -276,7 +276,7 @@ local theme = lush(function(injected_functions)
     -- sym"@parameter"         { }, -- Identifier
     -- sym"@method"            { }, -- Function
     -- sym"@field"             { }, -- Identifier
-    sym"@property"          { fg = blueSat }, -- Identifier
+    sym"@property"          { fg = blueSat.mix(matrixMedium, 60) }, -- Identifier
     -- sym"@constructor"       { }, -- Special
     -- sym"@conditional"       { }, -- Conditional
     -- sym"@repeat"            { }, -- Repeat
