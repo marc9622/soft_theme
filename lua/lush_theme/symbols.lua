@@ -153,7 +153,7 @@ local theme = lush(function(injected_functions)
 
     Comment        { fg = NonText.fg, gui = "italic" }, -- Any comment
 
-    Constant       { fg = greenSat }, -- (*) Any constant
+    Constant       { fg = matrixLight }, -- (*) Any constant
     String         { fg = whiteDark.mix(purpleSat, 75) }, --   A string constant: "this is a string"
     Character      { String }, --   A character constant: 'c', '\n'
     Number         { Constant }, --   A number constant: 234, 0xff
@@ -163,7 +163,7 @@ local theme = lush(function(injected_functions)
     Identifier     { fg = bgColor.mix(whiteVDark, 75) }, -- (*) Any variable name
     Function       { fg = yellowDark }, --   Function name (also: methods for classes)
 
-    Keyword        { fg = purpleSat }, --   any other keyword
+    Keyword        { fg = matrixMedium }, --   any other keyword
     Statement      { Keyword }, -- (*) Any statement
     Conditional    { Keyword }, --   if, then, else, endif, switch, etc.
     Repeat         { Keyword }, --   for, do, while, etc.
@@ -177,12 +177,12 @@ local theme = lush(function(injected_functions)
     -- Macro          { }, --   Same as Define
     -- PreCondit      { }, --   Preprocessor #if, #else, #endif, etc.
 
-    Type           { fg = cyanSat }, -- (*) int, long, char, etc.
+    Type           { fg = greenSat }, -- (*) int, long, char, etc.
     StorageClass   { fg = purpleSat }, --   static, register, volatile, etc.
     Structure      { fg = purpleSat }, --   struct, union, enum, etc.
     Typedef        { fg = purpleSat }, --   A typedef
 
-    Special        { fg = purpleSat }, -- (*) Any special symbol
+    Special        { fg = matrixMedium }, -- (*) Any special symbol
     SpecialChar    { Special }, --   Special character in a constant
     -- Tag            { }, --   You can use CTRL-] on this
     Delimiter      { fg = matrixVDark }, --   Character that needs attention

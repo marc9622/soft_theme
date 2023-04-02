@@ -100,16 +100,16 @@ local theme = lush(function(injected_functions)
     -- IncSearch    { }, -- 'incsearch' highlighting; also used for the text replaced with ":s///c"
     Substitute   { fg = bgColor, bg = yellowMedium }, -- |:substitute| replacement text highlighting
     LineNr       { fg = bgColor.mix(grayDark, 30) }, -- Line number for ":number" and ":#" commands, and when 'number' or 'relativenumber' option is set.
-    CursorLineNr { fg = bgColor.mix(grayDark, 70), bg = CursorLine.bg }, -- Like LineNr when 'cursorline' or 'relativenumber' is set for the cursor line.
+    CursorLineNr { fg = bgColor.mix(redMedium, 70), bg = CursorLine.bg, gui = "bold" }, -- Like LineNr when 'cursorline' or 'relativenumber' is set for the cursor line.
     MatchParen   { fg = bgColor, bg = greenLight.da(10).de(10) }, -- Character under the cursor or just before it, if it is a paired bracket, and its match. |pi_paren.txt|
     ModeMsg      { fg = grayDark, bg = bgColor }, -- 'showmode' message (e.g., "-- INSERT -- ")
     MsgArea      { ModeMsg }, -- Area for messages and cmdline
     -- MsgSeparator { }, -- Separator for scrolled messages, `msgsep` flag of 'display'
     MoreMsg      { fg = greenSat }, -- |more-prompt|
     NonText      { fg = bgColor.mix(grayMedium, 75) }, -- '@' at the end of the window, characters from 'showbreak' and other characters that do not really exist in the text (e.g., ">" displayed when a double-wide character doesn't fit at the end of the line). See also |hl-EndOfBuffer|.
-    Normal       { fg = redLight, bg = bgColor }, -- Normal text
-    NormalFloat  { fg = redLight, bg = grayLight, blend = 20 }, -- Normal text in floating windows.
-    NormalNC     { fg = redLight.de(10).da(10) , bg = bgColor.de(20).da(3) }, -- normal text in non-current windows
+    Normal       { fg = redMedium, bg = bgColor }, -- Normal text
+    NormalFloat  { fg = redMedium, bg = grayLight, blend = 20 }, -- Normal text in floating windows.
+    NormalNC     { fg = redMedium.de(10).da(10) , bg = bgColor.de(20).da(3) }, -- normal text in non-current windows
     Pmenu        { NormalFloat }, -- Popup menu: Normal item.
     PmenuSel     { fg = whiteMedium, bg = bgColor.mix(redLight, 50).li(25)  }, -- Popup menu: Selected item.
     PmenuSbar    { fg = whiteMedium, bg = grayLight }, -- Popup menu: Scrollbar.
@@ -174,7 +174,7 @@ local theme = lush(function(injected_functions)
     Structure      { fg = purpleDark }, --   struct, union, enum, etc.
     Typedef        { fg = purpleDark }, --   A typedef
 
-    Special        { fg = purpleDark }, -- (*) Any special symbol
+    Special        { fg = redMedium }, -- (*) Any special symbol
     SpecialChar    { Special }, --   Special character in a constant
     -- Tag            { }, --   You can use CTRL-] on this
     Delimiter      { fg = grayMedium }, --   Character that needs attention
@@ -247,7 +247,7 @@ local theme = lush(function(injected_functions)
     -- sym"@comment"           { }, -- Comment
     sym"@punctuation"           { Delimiter }, -- Delimiter
     sym'@punctuation.delimiter' { Delimiter },
-    sym'@punctuation.bracket'   { Keyword },
+    sym'@punctuation.bracket'   { fg = Normal.fg },
     -- sym'@punctuation.special' { },
     -- sym"@constant"          { }, -- Constant
     sym"@constant.builtin"  { Constant }, -- Special
