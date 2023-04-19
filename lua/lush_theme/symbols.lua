@@ -160,7 +160,7 @@ local theme = lush(function(injected_functions)
     Boolean        { Constant }, --   A boolean constant: TRUE, false
     Float          { Constant }, --   A floating point constant: 2.3e10
 
-    Identifier     { fg = blueMedium.mix(matrixMedium, 75) }, -- (*) Any variable name
+    Identifier     { fg = whiteVDark.mix(matrixMedium, 65) }, -- (*) Any variable name
     Function       { fg = yellowDark.mix(matrixMedium, 50) }, --   Function name (also: methods for classes)
 
     Keyword        { fg = matrixMedium }, --   any other keyword
@@ -286,6 +286,7 @@ local theme = lush(function(injected_functions)
     -- sym"@exception"         { }, -- Exception
     -- sym"@variable"          { }, -- Identifier
     -- sym"@type"              { }, -- Type
+    sym"@type.qualifier"    { Keyword },
     -- sym"@type.definition"   { }, -- Typedef
     -- sym"@storageclass"      { }, -- StorageClass
     -- sym"@structure"         { }, -- Structure
@@ -336,6 +337,8 @@ local theme = lush(function(injected_functions)
     CmpItemKindUnit       { fg = cyanDark },
     CmpItemKindValue      { fg = greenMedium },
     CmpItemKindVariable   { fg = cyanDark },
+
+    CopilotSuggestion     { Comment },
 }
 end)
 

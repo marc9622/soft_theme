@@ -331,6 +331,7 @@ local theme = lush(function(injected_functions)
     -- sym"@exception"         { }, -- Exception
     -- sym"@variable"          { }, -- Identifier
     -- sym"@type"              { }, -- Type
+    sym"@type.qualifier"    { Keyword },
     -- sym"@type.definition"   { }, -- Typedef
     -- sym"@storageclass"      { }, -- StorageClass
     -- sym"@structure"         { }, -- Structure
@@ -381,6 +382,8 @@ local theme = lush(function(injected_functions)
     CmpItemKindUnit       { fg = cyanMedium },
     CmpItemKindValue      { fg = greenLight },
     CmpItemKindVariable   { fg = cyanMedium },
+
+    CopilotSuggestion     { Comment },
 }
 end)
 
