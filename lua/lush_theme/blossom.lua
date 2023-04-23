@@ -136,11 +136,11 @@ local theme = lush(function(injected_functions)
     -- WildMenu     { }, -- Current match in 'wildmenu' completion
 
     -- Status line
-    StatusLineNormal  { fg = bgColor, bg = purpleLight },
-    StatusLineVisual  { fg = bgColor, bg = blueLight },
-    StatusLineInsert  { fg = bgColor, bg = greenMedium },
-    StatusLineReplace { fg = bgColor, bg = redMedium },
-    StatusLineCommand { fg = bgColor, bg = yellowMedium },
+    StatusLineNormal  { fg = bgColor, bg = redMedium },
+    StatusLineVisual  { fg = bgColor, bg = redLight },
+    StatusLineInsert  { fg = bgColor, bg = redLight },
+    StatusLineReplace { fg = bgColor, bg = redLight },
+    StatusLineCommand { fg = bgColor, bg = grayMedium },
 
     -- Common vim syntax groups used for all kinds of code and markup.
     -- Commented-out groups should chain up to their preferred (*) group
