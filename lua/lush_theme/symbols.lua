@@ -143,6 +143,13 @@ local theme = lush(function(injected_functions)
     -- Winseparator { }, -- Separator between window splits. Inherts from |hl-VertSplit| by default, which it will replace eventually.
     -- WildMenu     { }, -- Current match in 'wildmenu' completion
 
+    -- Status line
+    StatusLineNormal  { fg = bgColor, bg = matrixMedium },
+    StatusLineVisual  { fg = bgColor, bg = matrixMedium },
+    StatusLineInsert  { fg = bgColor, bg = matrixMedium },
+    StatusLineReplace { fg = bgColor, bg = matrixMedium },
+    StatusLineCommand { fg = bgColor, bg = matrixMedium },
+
     -- Common vim syntax groups used for all kinds of code and markup.
     -- Commented-out groups should chain up to their preferred (*) group
     -- by default.
@@ -178,7 +185,7 @@ local theme = lush(function(injected_functions)
     -- PreCondit      { }, --   Preprocessor #if, #else, #endif, etc.
 
     Type           { fg = matrixLight }, -- (*) int, long, char, etc.
-    StorageClass   { fg = purpleSat.mix(matrixMedium, 50) }, --   static, register, volatile, etc.
+    StorageClass   { fg = purpleSat.mix(matrixMedium, 75) }, --   static, register, volatile, etc.
     Structure      { fg = StorageClass.fg }, --   struct, union, enum, etc.
     Typedef        { fg = StorageClass.fg }, --   A typedef
 
