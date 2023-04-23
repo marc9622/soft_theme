@@ -200,10 +200,15 @@ local theme = lush(function(injected_functions)
     StatusLineParentFolder    { fg = StatusLine.bg, bg = StatusLine.fg.mix(StatusLine.bg, 25), gui = 'italic' },
     StatusLineFile            { fg = Normal.fg, bg = CursorLine.bg, gui = 'italic' },
 
-    StatusLinePostViMode        { fg = StatusLineViMode.bg, bg = StatusLineRootFolder.bg },
-    StatusLinePostRootFolder    { fg = StatusLineRootFolder.bg, bg = StatusLineParentFolder.bg },
-    StatusLinePostParentFolder  { fg = StatusLineParentFolder.bg, bg = StatusLineFile.bg },
-    StatusLinePostFile          { fg = StatusLineFile.bg, bg = Normal.bg },
+    StatusLineViModePost  { Normal },
+    StatusLineNormalPost  { fg = StatusLineNormal.bg, bg = StatusLineRootFolder.bg },
+    StatusLineVisualPost  { fg = StatusLineVisual.bg, bg = StatusLineRootFolder.bg },
+    StatusLineInsertPost  { fg = StatusLineInsert.bg, bg = StatusLineRootFolder.bg },
+    StatusLineReplacePost { fg = StatusLineReplace.bg, bg = StatusLineRootFolder.bg },
+
+    StatusLineRootFolderPost    { fg = StatusLineRootFolder.bg, bg = StatusLineParentFolder.bg },
+    StatusLineParentFolderPost  { fg = StatusLineParentFolder.bg, bg = StatusLineFile.bg },
+    StatusLineFilePost          { fg = StatusLineFile.bg, bg = Normal.bg },
 
     StatusLineLsp       { fg = Normal.fg, bg = Normal.bg, gui = 'italic' },
 
