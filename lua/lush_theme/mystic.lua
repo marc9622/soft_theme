@@ -175,8 +175,8 @@ local theme = lush(function(injected_functions)
     -- SpellCap     { }, -- Word that should start with a capital. |spell| Combined with the highlighting used otherwise.
     -- SpellLocal   { }, -- Word that is recognized by the spellchecker as one that is used in another region. |spell| Combined with the highlighting used otherwise.
     -- SpellRare    { }, -- Word that is recognized by the spellchecker as one that is hardly ever used. |spell| Combined with the highlighting used otherwise.
-    StatusLine   { fg = bgColor, bg = purpleLight }, -- Status line of current window
-    StatusLineNC { fg = bgColor.de(10).da(10), bg = grayMedium }, -- Status lines of not-current windows. Note: If this is equal to "StatusLine" Vim will use "^^^" in the status line of the current window.
+    StatusLine   { fg = Normal.fg, bg = Normal.bg }, --{ fg = bgColor, bg = purpleLight , -- Status line of current window
+    StatusLineNC { fg = Normal.fg, bg = Normal.bg }, --{ fg = bgColor.de(10).da(10), bg = grayMedium }, -- Status lines of not-current windows. Note: If this is equal to "StatusLine" Vim will use "^^^" in the status line of the current window.
     -- TabLine      { }, -- Tab pages line, not active tab page label
     -- TabLineFill  { }, -- Tab pages line, where there are no labels
     -- TabLineSel   { }, -- Tab pages line, active tab page label
@@ -189,11 +189,23 @@ local theme = lush(function(injected_functions)
     -- WildMenu     { }, -- Current match in 'wildmenu' completion
 
     -- Status line
+    StatusLineViMode  { Normal },
     StatusLineNormal  { fg = bgColor, bg = purpleLight },
     StatusLineVisual  { fg = bgColor, bg = purpleMedium },
     StatusLineInsert  { fg = bgColor, bg = purpleMedium },
     StatusLineReplace { fg = bgColor, bg = purpleMedium },
     StatusLineCommand { fg = bgColor, bg = grayLight },
+
+    StatusLineRootFolder      { fg = StatusLineViMode.bg, bg = StatusLine.fg.mix(StatusLine.bg, 50), gui = 'bold italic' },
+    StatusLineParentFolder    { fg = StatusLine.bg, bg = StatusLine.fg.mix(StatusLine.bg, 25), gui = 'italic' },
+    StatusLineFile            { fg = Normal.fg, bg = CursorLine.bg, gui = 'italic' },
+
+    StatusLinePostViMode        { fg = StatusLineViMode.bg, bg = StatusLineRootFolder.bg },
+    StatusLinePostRootFolder    { fg = StatusLineRootFolder.bg, bg = StatusLineParentFolder.bg },
+    StatusLinePostParentFolder  { fg = StatusLineParentFolder.bg, bg = StatusLineFile.bg },
+    StatusLinePostFile          { fg = StatusLineFile.bg, bg = Normal.bg },
+
+    StatusLineLsp       { fg = Normal.fg, bg = Normal.bg, gui = 'italic' },
 
     -- Common vim syntax groups used for all kinds of code and markup.
     -- Commented-out groups should chain up to their preferred (*) group
