@@ -164,7 +164,7 @@ local theme = lush(function(injected_functions)
     NormalFloat  { fg = grayVLight, bg = grayVDark, blend = 20 }, -- Normal text in floating windows.
     NormalNC     { fg = purpleLight.de(10).da(10) , bg = bgColor.de(10).da(10) }, -- normal text in non-current windows
     Pmenu        { NormalFloat }, -- Popup menu: Normal item.
-    PmenuSel     { fg = whiteMedium, bg = grayLight  }, -- Popup menu: Selected item.
+    PmenuSel     { fg = Pmenu.bg, bg = purpleLight }, --{ fg = whiteMedium, bg = grayLight  }, -- Popup menu: Selected item.
     PmenuSbar    { fg = whiteMedium, bg = grayMedium }, -- Popup menu: Scrollbar.
     PmenuThumb   { fg = whiteMedium, bg = purpleLight }, -- Popup menu: Thumb of the scrollbar.
     Question     { fg = greenSat }, -- |hit-enter| prompt and yes/no questions
@@ -198,12 +198,12 @@ local theme = lush(function(injected_functions)
 
     Comment        { fg = NonText.fg, gui = "italic" }, -- Any comment
 
-    Constant       { fg = greenLight }, -- (*) Any constant
+    Constant       { fg = blueMedium }, -- (*) Any constant
     String         { fg = purpleLight }, --   A string constant: "this is a string"
     Character      { String }, --   A character constant: 'c', '\n'
-    Number         { Constant }, --   A number constant: 234, 0xff
-    Boolean        { Constant }, --   A boolean constant: TRUE, false
-    Float          { Constant }, --   A floating point constant: 2.3e10
+    Number         { fg = greenLight }, --   A number constant: 234, 0xff
+    Boolean        { fg = greenLight }, --   A boolean constant: TRUE, false
+    Float          { fg = greenLight }, --   A floating point constant: 2.3e10
 
     Identifier     { fg = blueLight }, -- (*) Any variable name
     Function       { fg = yellowMedium }, --   Function name (also: methods for classes)
@@ -250,10 +250,9 @@ local theme = lush(function(injected_functions)
     -- LspReferenceWrite           { } , -- Used for highlighting "write" references
     -- LspCodeLens                 { } , -- Used to color the virtual text of the codelens. See |nvim_buf_set_extmark()|.
     -- LspCodeLensSeparator        { } , -- Used to color the seperator between two or more code lens.
-    -- LspSignatureActiveParameter { } , -- Used to highlight the active parameter in the signature help. See |vim.lsp.handlers.signature_help()|.
+    LspSignatureActiveParameter { fg = Normal.fg, gui = 'italic_underline', sp = Normal.fg } , -- Used to highlight the active parameter in the signature help. See |vim.lsp.handlers.signature_help()|.
 
     -- See :h diagnostic-highlights, some groups may not be listed, submit a PR fix to lush-template!
-    --
     DiagnosticError            { fg = redVSat } , -- Used as the base highlight group. Other Diagnostic highlights link to this by default (except Underline)
     DiagnosticWarn             { fg = yellowVSat } , -- Used as the base highlight group. Other Diagnostic highlights link to this by default (except Underline)
     DiagnosticInfo             { fg = blueMedium } , -- Used as the base highlight group. Other Diagnostic highlights link to this by default (except Underline)
@@ -341,49 +340,118 @@ local theme = lush(function(injected_functions)
     -- sym"@debug"             { }, -- Debug
     -- sym"@tag"               { }, -- Tag
 
+    --CmpItemAbbr           { },
     CmpItemAbbrDeprecates { gui = 'strikethrough' },
     --CmpItemAbbrMatch      { fg = magentaMedium, bg = Visual.bg },
     --CmpItemAbbrMatch      { fg = magentaMedium, gui = 'underline bold', sp = magentaMedium.sa(20) },
-    CmpItemAbbrMatch      { fg = purpleMedium },
+    CmpItemAbbrMatch      { fg = purpleMedium, gui = 'bold' },
     CmpItemAbbrMatchFuzzy { CmpItemAbbrMatch },
+    --CmpItemKind           { Comment },
     CmpItemMenu           { fg = grayLight },
 
-    --CmpItemKindArray      { fg = greenLight }, -- I don't think this exists
-    --CmpItemKindBoolean    { fg = redMedium }, -- I don't think this exists
-    CmpItemKindClass      { fg = yellowMedium },
-    CmpItemKindColor      { fg = yellowMedium },
-    CmpItemKindConstant   { fg = blueMedium },
-    CmpItemKindConstructor{ fg = purpleMedium },
-    CmpItemKindEnum       { fg = blueMedium },
-    CmpItemKindEnumMember { fg = cyanMedium },
-    CmpItemKindEvent      { fg = purpleMedium },
-    CmpItemKindField      { fg = blueLight },
-    CmpItemKindFile       { fg = blueLight },
-    CmpItemKindFolder     { fg = yellowMedium },
-    CmpItemKindFunction   { fg = yellowMedium },
-    CmpItemKindInterface  { fg = blueLight },
-    --CmpItemKindKey        { fg = cyanMedium }, -- I don't think this exists
-    CmpItemKindKeyword    { fg = purpleMedium },
-    CmpItemKindMethod     { fg = purpleMedium },
-    CmpItemKindModule     { fg = blueMedium },
-    --CmpItemKindNamespace  { fg = magentaMedium }, -- I dont' think this exists
-    --CmpItemKindNull       { fg = redMedium }, -- I don't think this exists
-    --CmpItemKindNumber     { fg = greenMedium }, -- I don't think this exists
-    --CmpItemKindObject     { fg = yellowMedium }, -- I don't think this exists
-    CmpItemKindOperator   { fg = redMedium },
-    --CmpItemKindPackage    { fg = magentaMedium }, -- I don't think this exists
-    CmpItemKindProperty   { fg = blueMedium },
-    CmpItemKindReference  { fg = purpleMedium },
-    CmpItemKindSnippet    { fg = grayVLight },
-    --CmpItemKindString     { fg = magentaLight }, -- I don't think this exists
-    CmpItemKindStruct     { fg = yellowMedium },
-    CmpItemKindText       { fg = purpleLight },
-    CmpItemKindTypeParameter { fg = cyanMedium },
-    CmpItemKindUnit       { fg = cyanMedium },
-    CmpItemKindValue      { fg = greenLight },
-    CmpItemKindVariable   { fg = cyanMedium },
+    --CmpItemKindArray      { Number }, -- I don't think this exists
+    --CmpItemKindBoolean    { Boolean }, -- I don't think this exists
+    CmpItemKindClass      { Keyword },
+    CmpItemKindColor      { Function },
+    CmpItemKindConstant   { Constant },
+    CmpItemKindConstructor{ Function },
+    CmpItemKindEnum       { Type },
+    CmpItemKindEnumMember { Constant },
+    CmpItemKindEvent      { Type },
+    CmpItemKindField      { Identifier },
+    CmpItemKindFile       { Operator },
+    CmpItemKindFolder     { Operator },
+    CmpItemKindFunction   { Function },
+    CmpItemKindInterface  { Identifier },
+    --CmpItemKindKey        { Keyword }, -- I don't think this exists
+    CmpItemKindKeyword    { Keyword },
+    CmpItemKindMethod     { Function },
+    CmpItemKindModule     { Operator },
+    --CmpItemKindNamespace  { Keyword }, -- I dont' think this exists
+    --CmpItemKindNull       { Number }, -- I don't think this exists
+    --CmpItemKindNumber     { Number }, -- I don't think this exists
+    --CmpItemKindObject     { Identifier }, -- I don't think this exists
+    CmpItemKindOperator   { Operator },
+    --CmpItemKindPackage    { Operator }, -- I don't think this exists
+    CmpItemKindProperty   { Identifier },
+    CmpItemKindReference  { Identifier },
+    CmpItemKindSnippet    { Operator },
+    --CmpItemKindString     { String }, -- I don't think this exists
+    CmpItemKindStruct     { Function },
+    CmpItemKindText       { fg = Normal.fg },
+    CmpItemKindTypeParameter { }, -- idk
+    CmpItemKindUnit       { Function },
+    CmpItemKindValue      { Number },
+    CmpItemKindVariable   { Identifier },
 
     CopilotSuggestion     { Comment },
+
+    TelescopeSelection      { StatusLine },
+    TelescopeSelectionCaret { fg = Normal.fg },
+    --TelescopeMultiSelection { },
+    --TelescopeMultiIcon      { },
+
+    --TelescopeNormal         { },
+    TelescopePreviewNormal  { Normal },
+    TelescopePromptNormal   { Normal },
+    TelescopeResultsNormal  { Pmenu },
+
+    --TelescopeBorder         { },
+    --TelescopePromptBorder   { },
+    --TelescopeResultsBorder  { },
+    --TelescopePreviewBorder  { },
+
+    --TelescopeTitle          { },
+    --TelescopePromptTitle    { },
+    --TelescopeResultsTitle   { },
+    --TelescopePreviewTitle   { },
+
+    --TelescopePrompCounter   { Comment },
+
+    TelescopeMatching       { CmpItemAbbrMatch },
+
+    TelescopePromptPrefix   { Normal },
+
+    --TelescopePreviewLine    { },
+    --TelescopePreviewMatch   { },
+
+    --TelescopePreviewPipe    { },
+    --TelescopePreviewCharDev { },
+    --TelescopePreviewDirectory { },
+    --TelescopePreviewBlock   { },
+    --TelescopePreviewLink    { },
+    --TelescopePreviewSocket  { },
+    --TelescopePreviewRead    { },
+    --TelescopePreviewWrite   { },
+    --TelescopePreviewExecute { },
+    --TelescopePreviewHyphen  { },
+    --TelescopePreviewSticky  { },
+    --TelescopePreviewSize    { },
+    --TelescopePreviewUser    { },
+    --TelescopePreviewGroup   { },
+    --TelescopePreviewDate    { },
+    --TelescopePreviewMessage { },
+    --TelescopePreviewMessageFillchar { },
+
+    --TelescopeResultsClass   { },
+    --TelescopeResultsConstant { },
+    --TelescopeResultsField   { },
+    --TelescopeResultsFunction { },
+    --TelescopeResultsMethod  { },
+    --TelescopeResultsOperator { },
+    --TelescopeResultsStruct  { },
+    --TelescopeResultsVariable { },
+
+    --TelescopeResultsLineNr  { },
+    --TelescopeResultsIdentifier { },
+    --TelescopeResultsNumber  { },
+    --TelescopeResultsComment { },
+    --TelescopeResultsSpecialComment { },
+
+    --TelescopeResultsDiffChange { },
+    --TelescopeResultsDiffAdd { },
+    --TelescopeResultsDiffDelete { },
+    --TelescopeResultsDiffUntracked { },
 }
 end)
 

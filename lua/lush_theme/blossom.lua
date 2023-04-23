@@ -9,11 +9,11 @@ local whiteMedium = hsl('#fff0ee')
 local whiteLight  = hsl('#ffffff')
 
 -- Blue-Gray
-local grayVLight = hsl('#f5d5d0')
-local grayLight  = hsl('#e6c8bc')
-local grayMedium = hsl('#bfa79f')
-local grayDark   = hsl('#806f69')
-local grayVDark  = hsl('#403834')
+local grayVLight = hsl('#f5d5d0').sa(10)
+local grayLight  = hsl('#e6c8bc').sa(10)
+local grayMedium = hsl('#bfa79f').sa(10)
+local grayDark   = hsl('#806f69').sa(10)
+local grayVDark  = hsl('#403834').sa(10)
 
 -- Heliotrope
 local purpleLight  = hsl('#d0a0f0')
@@ -32,11 +32,11 @@ local redSat    = hsl('#b03060')
 local redVSat   = hsl('#e0004b')
 
 -- Marigold
-local yellowMedium = hsl('#e0b470')
-local yellowDark   = hsl('#c79f63')
+local yellowMedium = hsl('#e0b470').sa(10)
+local yellowDark   = hsl('#c79f63').sa(10)
 
-local yellowSat    = hsl('#b07020')
-local yellowVSat   = hsl('#e08700')
+local yellowSat    = hsl('#b07020').sa(10)
+local yellowVSat   = hsl('#e08700').sa(10)
 
 -- Spring Green
 local greenLight  = hsl('#a0f0c0')
@@ -79,7 +79,7 @@ local theme = lush(function(injected_functions)
     --
     -- ColorColumn  { }, -- Columns set with 'colorcolumn'
     -- Conceal      { }, -- Placeholder characters substituted for concealed text (see 'conceallevel')
-    Cursor       { fg = bgColor, bg = redMedium }, -- Character under the cursor
+    Cursor       { fg = bgColor, bg = bgColor.mix(redMedium, 70) }, -- Character under the cursor
     lCursor      { Cursor }, -- Character under the cursor when |language-mapping| is used (see 'guicursor')
     -- CursorIM     { }, -- Like Cursor, but used when in IME mode |CursorIM|
     CursorColumn { bg = bgColor.mix(redMedium, 2)  },--hsl(bgColor).li(1).sa(3) }, -- Screen-column at the cursor, when 'cursorcolumn' is set.
@@ -89,7 +89,7 @@ local theme = lush(function(injected_functions)
     DiffChange   { fg = blueSat }, -- Diff mode: Changed line |diff.txt|
     DiffDelete   { fg = redSat }, -- Diff mode: Deleted line |diff.txt|
     -- DiffText     { }, -- Diff mode: Changed text within a changed line |diff.txt|
-    -- EndOfBuffer  { }, -- Filler lines (~) after the end of the buffer. By default, this is highlighted like |hl-NonText|.
+    EndOfBuffer  { fg = bgColor }, -- Filler lines (~) after the end of the buffer. By default, this is highlighted like |hl-NonText|.
     -- TermCursor   { }, -- Cursor in a focused terminal
     -- TermCursorNC { }, -- Cursor in an unfocused terminal
     ErrorMsg     { fg = redVSat, bg = bgColor.da(10) }, -- Error messages on the command line
@@ -108,12 +108,12 @@ local theme = lush(function(injected_functions)
     MoreMsg      { fg = greenSat }, -- |more-prompt|
     NonText      { fg = bgColor.mix(grayMedium, 75) }, -- '@' at the end of the window, characters from 'showbreak' and other characters that do not really exist in the text (e.g., ">" displayed when a double-wide character doesn't fit at the end of the line). See also |hl-EndOfBuffer|.
     Normal       { fg = redMedium, bg = bgColor }, -- Normal text
-    NormalFloat  { fg = redMedium, bg = grayLight, blend = 20 }, -- Normal text in floating windows.
+    NormalFloat  { fg = whiteMedium, bg = grayLight, blend = 20 }, -- Normal text in floating windows.
     NormalNC     { fg = redMedium.de(10).da(10) , bg = bgColor.de(20).da(3) }, -- normal text in non-current windows
-    Pmenu        { NormalFloat }, -- Popup menu: Normal item.
-    PmenuSel     { fg = whiteMedium, bg = bgColor.mix(redLight, 50).li(25)  }, -- Popup menu: Selected item.
-    PmenuSbar    { fg = whiteMedium, bg = grayLight }, -- Popup menu: Scrollbar.
-    PmenuThumb   { fg = whiteMedium, bg = redLight }, -- Popup menu: Thumb of the scrollbar.
+    Pmenu        { fg = redDark, bg = NormalFloat.bg }, -- Popup menu: Normal item.
+    PmenuSel     { fg = whiteMedium, bg = redMedium, gui = Pmenu.gui }, --{ fg = whiteMedium, bg = bgColor.mix(redLight, 50).li(25)  }, -- Popup menu: Selected item.
+    PmenuSbar    { fg = whiteMedium, bg = grayLight, gui = Pmenu.gui }, -- Popup menu: Scrollbar.
+    PmenuThumb   { fg = whiteMedium, bg = redLight, gui = Pmenu.gui }, -- Popup menu: Thumb of the scrollbar.
     Question     { fg = greenSat }, -- |hit-enter| prompt and yes/no questions
     -- QuickFixLine { }, -- Current |quickfix| item in the quickfix window. Combined with |hl-CursorLine| when the cursor is there.
     -- Search       { }, -- Last search pattern highlighting (see 'hlsearch'). Also used for similar items that need to stand out.
@@ -153,7 +153,7 @@ local theme = lush(function(injected_functions)
     Float          { Constant }, --   A floating point constant: 2.3e10
 
     Identifier     { fg = blueMedium }, -- (*) Any variable name
-    Function       { fg = yellowDark }, --   Function name (also: methods for classes)
+    Function       { fg = yellowMedium }, --   Function name (also: methods for classes)
 
     Keyword        { fg = purpleDark }, --   any other keyword
     Statement      { Keyword }, -- (*) Any statement
@@ -197,10 +197,9 @@ local theme = lush(function(injected_functions)
     -- LspReferenceWrite           { } , -- Used for highlighting "write" references
     -- LspCodeLens                 { } , -- Used to color the virtual text of the codelens. See |nvim_buf_set_extmark()|.
     -- LspCodeLensSeparator        { } , -- Used to color the seperator between two or more code lens.
-    -- LspSignatureActiveParameter { } , -- Used to highlight the active parameter in the signature help. See |vim.lsp.handlers.signature_help()|.
+    LspSignatureActiveParameter { fg = Normal.fg, gui = 'italic_underline', sp = Normal.fg } , -- Used to highlight the active parameter in the signature help. See |vim.lsp.handlers.signature_help()|.
 
     -- See :h diagnostic-highlights, some groups may not be listed, submit a PR fix to lush-template!
-    --
     DiagnosticError            { fg = redVSat } , -- Used as the base highlight group. Other Diagnostic highlights link to this by default (except Underline)
     DiagnosticWarn             { fg = yellowVSat } , -- Used as the base highlight group. Other Diagnostic highlights link to this by default (except Underline)
     DiagnosticInfo             { fg = blueMedium } , -- Used as the base highlight group. Other Diagnostic highlights link to this by default (except Underline)
@@ -288,49 +287,118 @@ local theme = lush(function(injected_functions)
     -- sym"@debug"             { }, -- Debug
     -- sym"@tag"               { }, -- Tag
 
+    --CmpItemAbbr           { },
     CmpItemAbbrDeprecates { gui = 'strikethrough' },
     --CmpItemAbbrMatch      { fg = magentaDark, bg = Visual.bg },
     --CmpItemAbbrMatch      { fg = magentaDark, gui = 'underline bold', sp = magentaMedium.sa(20) },
-    CmpItemAbbrMatch      { fg = purpleDark },
+    CmpItemAbbrMatch      { fg = whiteMedium, gui = 'bold' },
     CmpItemAbbrMatchFuzzy { CmpItemAbbrMatch },
+    --CmpItemKind           { Comment },
     CmpItemMenu           { fg = grayMedium },
 
-    --CmpItemKindArray      { fg = greenMedium }, -- I don't think this exists
-    --CmpItemKindBoolean    { fg = redDark }, -- I don't think this exists
-    CmpItemKindClass      { fg = yellowDark },
-    CmpItemKindColor      { fg = yellowDark },
-    CmpItemKindConstant   { fg = blueDark },
-    CmpItemKindConstructor{ fg = purpleDark },
-    CmpItemKindEnum       { fg = blueDark },
-    CmpItemKindEnumMember { fg = cyanDark },
-    CmpItemKindEvent      { fg = purpleDark },
-    CmpItemKindField      { fg = blueMedium },
-    CmpItemKindFile       { fg = blueMedium },
-    CmpItemKindFolder     { fg = yellowDark },
-    CmpItemKindFunction   { fg = yellowDark },
-    CmpItemKindInterface  { fg = blueMedium },
-    --CmpItemKindKey        { fg = cyanDark }, -- I don't think this exists
-    CmpItemKindKeyword    { fg = purpleDark },
-    CmpItemKindMethod     { fg = purpleDark },
-    CmpItemKindModule     { fg = blueDark },
-    --CmpItemKindNamespace  { fg = magentaDark }, -- I dont' think this exists
-    --CmpItemKindNull       { fg = redDark }, -- I don't think this exists
-    --CmpItemKindNumber     { fg = greenDark }, -- I don't think this exists
-    --CmpItemKindObject     { fg = yellowDark }, -- I don't think this exists
-    CmpItemKindOperator   { fg = redDark },
-    --CmpItemKindPackage    { fg = magentaDark }, -- I don't think this exists
-    CmpItemKindProperty   { fg = blueDark },
-    CmpItemKindReference  { fg = purpleDark },
-    CmpItemKindSnippet    { fg = grayMedium },
-    --CmpItemKindString     { fg = magentaMedium }, -- I don't think this exists
-    CmpItemKindStruct     { fg = yellowDark },
-    CmpItemKindText       { fg = purpleMedium },
-    CmpItemKindTypeParameter { fg = cyanDark },
-    CmpItemKindUnit       { fg = cyanDark },
-    CmpItemKindValue      { fg = greenMedium },
-    CmpItemKindVariable   { fg = cyanDark },
+    --CmpItemKindArray      { Number }, -- I don't think this exists
+    --CmpItemKindBoolean    { Boolean }, -- I don't think this exists
+    CmpItemKindClass      { Keyword },
+    CmpItemKindColor      { Function },
+    CmpItemKindConstant   { Constant },
+    CmpItemKindConstructor{ Function },
+    CmpItemKindEnum       { Type },
+    CmpItemKindEnumMember { Constant },
+    CmpItemKindEvent      { Type },
+    CmpItemKindField      { Identifier },
+    CmpItemKindFile       { Operator },
+    CmpItemKindFolder     { Operator },
+    CmpItemKindFunction   { Function },
+    CmpItemKindInterface  { Identifier },
+    --CmpItemKindKey        { Keyword }, -- I don't think this exists
+    CmpItemKindKeyword    { Keyword },
+    CmpItemKindMethod     { Function },
+    CmpItemKindModule     { Operator },
+    --CmpItemKindNamespace  { Keyword }, -- I dont' think this exists
+    --CmpItemKindNull       { Number }, -- I don't think this exists
+    --CmpItemKindNumber     { Number }, -- I don't think this exists
+    --CmpItemKindObject     { Identifier }, -- I don't think this exists
+    CmpItemKindOperator   { Operator },
+    --CmpItemKindPackage    { Operator }, -- I don't think this exists
+    CmpItemKindProperty   { Identifier },
+    CmpItemKindReference  { Identifier },
+    CmpItemKindSnippet    { Operator },
+    --CmpItemKindString     { String }, -- I don't think this exists
+    CmpItemKindStruct     { Function },
+    CmpItemKindText       { fg = Normal.fg },
+    CmpItemKindTypeParameter { }, -- idk
+    CmpItemKindUnit       { Function },
+    CmpItemKindValue      { Number },
+    CmpItemKindVariable   { Identifier },
 
     CopilotSuggestion     { Comment },
+
+    TelescopeSelection      { PmenuSel },
+    TelescopeSelectionCaret { fg = Normal.fg },
+    --TelescopeMultiSelection { },
+    --TelescopeMultiIcon      { },
+
+    --TelescopeNormal         { },
+    TelescopePreviewNormal  { Normal },
+    TelescopePromptNormal   { Normal },
+    TelescopeResultsNormal  { Pmenu },
+
+    --TelescopeBorder         { },
+    --TelescopePromptBorder   { },
+    --TelescopeResultsBorder  { },
+    --TelescopePreviewBorder  { },
+
+    --TelescopeTitle          { },
+    --TelescopePromptTitle    { },
+    --TelescopeResultsTitle   { },
+    --TelescopePreviewTitle   { },
+
+    --TelescopePrompCounter   { Comment },
+
+    TelescopeMatching       { CmpItemAbbrMatch },
+
+    TelescopePromptPrefix   { Normal },
+
+    --TelescopePreviewLine    { },
+    --TelescopePreviewMatch   { },
+
+    --TelescopePreviewPipe    { },
+    --TelescopePreviewCharDev { },
+    --TelescopePreviewDirectory { },
+    --TelescopePreviewBlock   { },
+    --TelescopePreviewLink    { },
+    --TelescopePreviewSocket  { },
+    --TelescopePreviewRead    { },
+    --TelescopePreviewWrite   { },
+    --TelescopePreviewExecute { },
+    --TelescopePreviewHyphen  { },
+    --TelescopePreviewSticky  { },
+    --TelescopePreviewSize    { },
+    --TelescopePreviewUser    { },
+    --TelescopePreviewGroup   { },
+    --TelescopePreviewDate    { },
+    --TelescopePreviewMessage { },
+    --TelescopePreviewMessageFillchar { },
+
+    --TelescopeResultsClass   { },
+    --TelescopeResultsConstant { },
+    --TelescopeResultsField   { },
+    --TelescopeResultsFunction { },
+    --TelescopeResultsMethod  { },
+    --TelescopeResultsOperator { },
+    --TelescopeResultsStruct  { },
+    --TelescopeResultsVariable { },
+
+    --TelescopeResultsLineNr  { },
+    --TelescopeResultsIdentifier { },
+    --TelescopeResultsNumber  { },
+    --TelescopeResultsComment { },
+    --TelescopeResultsSpecialComment { },
+
+    --TelescopeResultsDiffChange { },
+    --TelescopeResultsDiffAdd { },
+    --TelescopeResultsDiffDelete { },
+    --TelescopeResultsDiffUntracked { },
 }
 end)
 

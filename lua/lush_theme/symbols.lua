@@ -116,10 +116,10 @@ local theme = lush(function(injected_functions)
     MoreMsg      { fg = greenSat }, -- |more-prompt|
     NonText      { fg = bgColor.mix(matrixMedium, 35) }, -- '@' at the end of the window, characters from 'showbreak' and other characters that do not really exist in the text (e.g., ">" displayed when a double-wide character doesn't fit at the end of the line). See also |hl-EndOfBuffer|.
     Normal       { fg = matrixLight, bg = bgColor }, -- Normal text
-    NormalFloat  { fg = matrixLight, bg = bgColor, blend = 20 }, -- Normal text in floating windows.
+    NormalFloat  { fg = matrixLight, bg = blackLight, blend = 20 }, -- Normal text in floating windows.
     NormalNC     { fg = matrixLight.de(10).da(10) , bg = bgColor.de(20).da(3) }, -- normal text in non-current windows
-    Pmenu        { NormalFloat }, -- Popup menu: Normal item.
-    PmenuSel     { fg = blackMedium, bg = bgColor.mix(matrixMedium, 50).li(25)  }, -- Popup menu: Selected item.
+    Pmenu        { fg = matrixMedium, bg = NormalFloat.bg }, -- Popup menu: Normal item.
+    PmenuSel     { fg = Pmenu.bg, bg = matrixMedium  }, -- Popup menu: Selected item.
     PmenuSbar    { fg = whiteMedium, bg = matrixMedium }, -- Popup menu: Scrollbar.
     PmenuThumb   { fg = whiteLight, bg = matrixLight }, -- Popup menu: Thumb of the scrollbar.
     Question     { fg = greenSat }, -- |hit-enter| prompt and yes/no questions
@@ -189,10 +189,10 @@ local theme = lush(function(injected_functions)
     -- SpecialComment { }, --   Special things inside a comment (e.g. '\n')
     -- Debug          { }, --   Debugging statements
 
-    Underlined     { fg = blueVSat.mix(matrixMedium, 50), gui = 'italic_underline', sp = blueVSat.mix(matrixMedium, 50) }, -- Text that stands out, HTML links
+    Underlined     { fg = matrixMedium.mix(blueSat, 50), gui = 'italic_underline', sp = matrixMedium.mix(blueSat, 50) }, -- Text that stands out, HTML links
     -- Ignore         { }, -- Left blank, hidden |hl-Ignore| (NOTE: May be invisible here in template)
     Error          { fg = redVSat.mix(matrixMedium, 50) }, -- Any erroneous construct
-    Todo           { fg = blueMedium.mix(matrixMedium, 50), gui = 'italic' }, -- Anything that needs extra attention; mostly the keywords TODO FIXME and XXX
+    Todo           { fg = matrixMedium.mix(whiteVDark, 50), gui = 'italic' }, -- Anything that needs extra attention; mostly the keywords TODO FIXME and XXX
 
     -- These groups are for the native LSP client and diagnostic system. Some
     -- other LSP clients may use these groups, or use their own. Consult your
@@ -205,10 +205,9 @@ local theme = lush(function(injected_functions)
     -- LspReferenceWrite           { } , -- Used for highlighting "write" references
     -- LspCodeLens                 { } , -- Used to color the virtual text of the codelens. See |nvim_buf_set_extmark()|.
     -- LspCodeLensSeparator        { } , -- Used to color the seperator between two or more code lens.
-    -- LspSignatureActiveParameter { } , -- Used to highlight the active parameter in the signature help. See |vim.lsp.handlers.signature_help()|.
+    LspSignatureActiveParameter { fg = Normal.fg, gui = 'italic_underline', sp = Normal.fg } , -- Used to highlight the active parameter in the signature help. See |vim.lsp.handlers.signature_help()|.
 
     -- See :h diagnostic-highlights, some groups may not be listed, submit a PR fix to lush-template!
-    --
     DiagnosticError            { fg = redVSat } , -- Used as the base highlight group. Other Diagnostic highlights link to this by default (except Underline)
     DiagnosticWarn             { fg = yellowVSat } , -- Used as the base highlight group. Other Diagnostic highlights link to this by default (except Underline)
     DiagnosticInfo             { fg = blueMedium } , -- Used as the base highlight group. Other Diagnostic highlights link to this by default (except Underline)
@@ -296,49 +295,119 @@ local theme = lush(function(injected_functions)
     -- sym"@debug"             { }, -- Debug
     -- sym"@tag"               { }, -- Tag
 
+    --CmpItemAbbr           { },
     CmpItemAbbrDeprecates { gui = 'strikethrough' },
     --CmpItemAbbrMatch      { fg = magentaDark, bg = Visual.bg },
     --CmpItemAbbrMatch      { fg = magentaDark, gui = 'underline bold', sp = magentaMedium.sa(20) },
     CmpItemAbbrMatch      { fg = matrixVLight, gui = 'bold' },
     CmpItemAbbrMatchFuzzy { CmpItemAbbrMatch },
+    --CmpItemKind           { Comment },
     CmpItemMenu           { fg = matrixMedium },
 
-    --CmpItemKindArray      { fg = greenMedium }, -- I don't think this exists
-    --CmpItemKindBoolean    { fg = redDark }, -- I don't think this exists
-    CmpItemKindClass      { fg = yellowDark },
-    CmpItemKindColor      { fg = yellowDark },
-    CmpItemKindConstant   { fg = blueDark },
-    CmpItemKindConstructor{ fg = purpleDark },
-    CmpItemKindEnum       { fg = blueDark },
-    CmpItemKindEnumMember { fg = cyanDark },
-    CmpItemKindEvent      { fg = purpleDark },
-    CmpItemKindField      { fg = blueMedium },
-    CmpItemKindFile       { fg = blueMedium },
-    CmpItemKindFolder     { fg = yellowDark },
-    CmpItemKindFunction   { fg = yellowDark },
-    CmpItemKindInterface  { fg = blueMedium },
-    --CmpItemKindKey        { fg = cyanDark }, -- I don't think this exists
-    CmpItemKindKeyword    { fg = purpleDark },
-    CmpItemKindMethod     { fg = purpleDark },
-    CmpItemKindModule     { fg = blueDark },
-    --CmpItemKindNamespace  { fg = magentaDark }, -- I dont' think this exists
-    --CmpItemKindNull       { fg = redDark }, -- I don't think this exists
-    --CmpItemKindNumber     { fg = greenDark }, -- I don't think this exists
-    --CmpItemKindObject     { fg = yellowDark }, -- I don't think this exists
-    CmpItemKindOperator   { fg = redDark },
-    --CmpItemKindPackage    { fg = magentaDark }, -- I don't think this exists
-    CmpItemKindProperty   { fg = blueDark },
-    CmpItemKindReference  { fg = purpleDark },
-    CmpItemKindSnippet    { fg = whiteMedium.da(10).de(10) },
-    --CmpItemKindString     { fg = magentaMedium }, -- I don't think this exists
-    CmpItemKindStruct     { fg = yellowDark },
-    CmpItemKindText       { fg = purpleMedium },
-    CmpItemKindTypeParameter { fg = cyanDark },
-    CmpItemKindUnit       { fg = cyanDark },
-    CmpItemKindValue      { fg = greenMedium },
-    CmpItemKindVariable   { fg = cyanDark },
+    --CmpItemKindArray      { Number }, -- I don't think this exists
+    --CmpItemKindBoolean    { Boolean }, -- I don't think this exists
+    CmpItemKindClass      { Keyword },
+    CmpItemKindColor      { Function },
+    CmpItemKindConstant   { Constant },
+    CmpItemKindConstructor{ Function },
+    CmpItemKindEnum       { Type },
+    CmpItemKindEnumMember { Constant },
+    CmpItemKindEvent      { Type },
+    CmpItemKindField      { Identifier },
+    CmpItemKindFile       { Operator },
+    CmpItemKindFolder     { Operator },
+    CmpItemKindFunction   { Function },
+    CmpItemKindInterface  { Identifier },
+    --CmpItemKindKey        { Keyword }, -- I don't think this exists
+    CmpItemKindKeyword    { Keyword },
+    CmpItemKindMethod     { Function },
+    CmpItemKindModule     { Operator },
+    --CmpItemKindNamespace  { Keyword }, -- I dont' think this exists
+    --CmpItemKindNull       { Number }, -- I don't think this exists
+    --CmpItemKindNumber     { Number }, -- I don't think this exists
+    --CmpItemKindObject     { Identifier }, -- I don't think this exists
+    CmpItemKindOperator   { Operator },
+    --CmpItemKindPackage    { Operator }, -- I don't think this exists
+    CmpItemKindProperty   { Identifier },
+    CmpItemKindReference  { Identifier },
+    CmpItemKindSnippet    { Operator },
+    --CmpItemKindString     { String }, -- I don't think this exists
+    CmpItemKindStruct     { Function },
+    CmpItemKindText       { fg = Normal.fg },
+    CmpItemKindTypeParameter { }, -- idk
+    CmpItemKindUnit       { Function },
+    CmpItemKindValue      { Number },
+    CmpItemKindVariable   { Identifier },
+
 
     CopilotSuggestion     { Comment },
+
+    TelescopeSelection      { StatusLine },
+    TelescopeSelectionCaret { fg = Normal.fg },
+    --TelescopeMultiSelection { },
+    --TelescopeMultiIcon      { },
+
+    --TelescopeNormal         { },
+    TelescopePreviewNormal  { Normal },
+    TelescopePromptNormal   { Normal },
+    TelescopeResultsNormal  { Pmenu },
+
+    --TelescopeBorder         { },
+    --TelescopePromptBorder   { },
+    --TelescopeResultsBorder  { },
+    --TelescopePreviewBorder  { },
+
+    --TelescopeTitle          { },
+    --TelescopePromptTitle    { },
+    --TelescopeResultsTitle   { },
+    --TelescopePreviewTitle   { },
+
+    --TelescopePrompCounter   { Comment },
+
+    TelescopeMatching       { CmpItemAbbrMatch },
+
+    TelescopePromptPrefix   { Normal },
+
+    --TelescopePreviewLine    { },
+    --TelescopePreviewMatch   { },
+
+    --TelescopePreviewPipe    { },
+    --TelescopePreviewCharDev { },
+    --TelescopePreviewDirectory { },
+    --TelescopePreviewBlock   { },
+    --TelescopePreviewLink    { },
+    --TelescopePreviewSocket  { },
+    --TelescopePreviewRead    { },
+    --TelescopePreviewWrite   { },
+    --TelescopePreviewExecute { },
+    --TelescopePreviewHyphen  { },
+    --TelescopePreviewSticky  { },
+    --TelescopePreviewSize    { },
+    --TelescopePreviewUser    { },
+    --TelescopePreviewGroup   { },
+    --TelescopePreviewDate    { },
+    --TelescopePreviewMessage { },
+    --TelescopePreviewMessageFillchar { },
+
+    --TelescopeResultsClass   { },
+    --TelescopeResultsConstant { },
+    --TelescopeResultsField   { },
+    --TelescopeResultsFunction { },
+    --TelescopeResultsMethod  { },
+    --TelescopeResultsOperator { },
+    --TelescopeResultsStruct  { },
+    --TelescopeResultsVariable { },
+
+    --TelescopeResultsLineNr  { },
+    --TelescopeResultsIdentifier { },
+    --TelescopeResultsNumber  { },
+    --TelescopeResultsComment { },
+    --TelescopeResultsSpecialComment { },
+
+    --TelescopeResultsDiffChange { },
+    --TelescopeResultsDiffAdd { },
+    --TelescopeResultsDiffDelete { },
+    --TelescopeResultsDiffUntracked { },
 }
 end)
 
