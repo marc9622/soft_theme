@@ -5,8 +5,8 @@ local hsl = lush.hsl
 local bgColor = hsl('#ffddd0')
 
 -- White
-local whiteMedium = hsl('#fff0ee')
 local whiteLight  = hsl('#ffffff')
+local whiteMedium = hsl('#fff0ee')
 
 -- Blue-Gray
 local grayVLight = hsl('#f5d5d0').sa(10)
@@ -122,8 +122,8 @@ local theme = lush(function(injected_functions)
     -- SpellCap     { }, -- Word that should start with a capital. |spell| Combined with the highlighting used otherwise.
     -- SpellLocal   { }, -- Word that is recognized by the spellchecker as one that is used in another region. |spell| Combined with the highlighting used otherwise.
     -- SpellRare    { }, -- Word that is recognized by the spellchecker as one that is hardly ever used. |spell| Combined with the highlighting used otherwise.
-    StatusLine   { fg = bgColor, bg = redMedium }, -- Status line of current window
-    StatusLineNC { fg = bgColor.de(10).da(10), bg = redDark }, -- Status lines of not-current windows. Note: If this is equal to "StatusLine" Vim will use "^^^" in the status line of the current window.
+    StatusLine   { Normal }, --{ fg = bgColor, bg = redMedium }, -- Status line of current window
+    StatusLineNC { Normal }, --{ fg = bgColor.de(10).da(10), bg = redDark }, -- Status lines of not-current windows. Note: If this is equal to "StatusLine" Vim will use "^^^" in the status line of the current window.
     -- TabLine      { }, -- Tab pages line, not active tab page label
     -- TabLineFill  { }, -- Tab pages line, where there are no labels
     -- TabLineSel   { }, -- Tab pages line, active tab page label
@@ -136,11 +136,29 @@ local theme = lush(function(injected_functions)
     -- WildMenu     { }, -- Current match in 'wildmenu' completion
 
     -- Status line
+    StatusLineViMode  { Normal },
     StatusLineNormal  { fg = bgColor, bg = redMedium },
     StatusLineVisual  { fg = bgColor, bg = redLight },
     StatusLineInsert  { fg = bgColor, bg = redLight },
     StatusLineReplace { fg = bgColor, bg = redLight },
     StatusLineCommand { fg = bgColor, bg = grayMedium },
+
+    StatusLineRootFolder      { fg = StatusLineViMode.bg, bg = StatusLine.fg.mix(StatusLine.bg, 25), gui = 'bold italic' },
+    StatusLineParentFolder    { fg = StatusLine.bg, bg = StatusLine.fg.mix(StatusLine.bg, 50), gui = 'italic' },
+    StatusLineFile            { fg = Normal.fg, bg = StatusLine.fg.mix(StatusLine.bg, 75), gui = 'italic' },
+
+    StatusLineViModePost  { Normal },
+    StatusLineNormalPost  { fg = StatusLineNormal.bg, bg = StatusLineRootFolder.bg },
+    StatusLineVisualPost  { fg = StatusLineVisual.bg, bg = StatusLineRootFolder.bg },
+    StatusLineInsertPost  { fg = StatusLineInsert.bg, bg = StatusLineRootFolder.bg },
+    StatusLineReplacePost { fg = StatusLineReplace.bg, bg = StatusLineRootFolder.bg },
+    StatusLineCommandPost { fg = StatusLineCommand.bg, bg = StatusLineRootFolder.bg },
+
+    StatusLineRootFolderPost    { fg = StatusLineRootFolder.bg, bg = StatusLineParentFolder.bg },
+    StatusLineParentFolderPost  { fg = StatusLineParentFolder.bg, bg = StatusLineFile.bg },
+    StatusLineFilePost          { fg = StatusLineFile.bg, bg = Normal.bg },
+
+    StatusLineLsp       { fg = Normal.fg, bg = Normal.bg, gui = 'italic' },
 
     -- Common vim syntax groups used for all kinds of code and markup.
     -- Commented-out groups should chain up to their preferred (*) group
@@ -210,7 +228,7 @@ local theme = lush(function(injected_functions)
     DiagnosticError            { fg = redVSat } , -- Used as the base highlight group. Other Diagnostic highlights link to this by default (except Underline)
     DiagnosticWarn             { fg = yellowVSat } , -- Used as the base highlight group. Other Diagnostic highlights link to this by default (except Underline)
     DiagnosticInfo             { fg = blueMedium } , -- Used as the base highlight group. Other Diagnostic highlights link to this by default (except Underline)
-    DiagnosticHint             { fg = whiteMedium } , -- Used as the base highlight group. Other Diagnostic highlights link to this by default (except Underline)
+    DiagnosticHint             { fg = whiteLight } , -- Used as the base highlight group. Other Diagnostic highlights link to this by default (except Underline)
     -- DiagnosticVirtualTextError { } , -- Used for "Error" diagnostic virtual text.
     -- DiagnosticVirtualTextWarn  { } , -- Used for "Warn" diagnostic virtual text.
     -- DiagnosticVirtualTextInfo  { } , -- Used for "Info" diagnostic virtual text.

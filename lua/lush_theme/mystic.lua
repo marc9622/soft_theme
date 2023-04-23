@@ -196,8 +196,8 @@ local theme = lush(function(injected_functions)
     StatusLineReplace { fg = bgColor, bg = purpleMedium },
     StatusLineCommand { fg = bgColor, bg = grayLight },
 
-    StatusLineRootFolder      { fg = StatusLineViMode.bg, bg = StatusLine.fg.mix(StatusLine.bg, 50), gui = 'bold italic' },
-    StatusLineParentFolder    { fg = StatusLine.bg, bg = StatusLine.fg.mix(StatusLine.bg, 25), gui = 'italic' },
+    StatusLineRootFolder      { fg = Normal.fg, bg = StatusLine.fg.mix(StatusLine.bg, 50), gui = 'bold italic' },
+    StatusLineParentFolder    { fg = Normal.fg, bg = StatusLine.fg.mix(StatusLine.bg, 75), gui = 'italic' },
     StatusLineFile            { fg = Normal.fg, bg = CursorLine.bg, gui = 'italic' },
 
     StatusLineViModePost  { Normal },
@@ -205,6 +205,7 @@ local theme = lush(function(injected_functions)
     StatusLineVisualPost  { fg = StatusLineVisual.bg, bg = StatusLineRootFolder.bg },
     StatusLineInsertPost  { fg = StatusLineInsert.bg, bg = StatusLineRootFolder.bg },
     StatusLineReplacePost { fg = StatusLineReplace.bg, bg = StatusLineRootFolder.bg },
+    StatusLineCommandPost { fg = StatusLineCommand.bg, bg = StatusLineRootFolder.bg },
 
     StatusLineRootFolderPost    { fg = StatusLineRootFolder.bg, bg = StatusLineParentFolder.bg },
     StatusLineParentFolderPost  { fg = StatusLineParentFolder.bg, bg = StatusLineFile.bg },
@@ -410,7 +411,7 @@ local theme = lush(function(injected_functions)
 
     CopilotSuggestion     { Comment },
 
-    TelescopeSelection      { StatusLine },
+    TelescopeSelection      { PmenuSel },
     TelescopeSelectionCaret { fg = Normal.fg },
     --TelescopeMultiSelection { },
     --TelescopeMultiIcon      { },

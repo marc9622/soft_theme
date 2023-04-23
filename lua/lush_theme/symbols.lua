@@ -130,8 +130,8 @@ local theme = lush(function(injected_functions)
     -- SpellCap     { }, -- Word that should start with a capital. |spell| Combined with the highlighting used otherwise.
     -- SpellLocal   { }, -- Word that is recognized by the spellchecker as one that is used in another region. |spell| Combined with the highlighting used otherwise.
     -- SpellRare    { }, -- Word that is recognized by the spellchecker as one that is hardly ever used. |spell| Combined with the highlighting used otherwise.
-    StatusLine   { fg = blackDark, bg = matrixMedium, gui = 'bold' }, -- Status line of current window
-    StatusLineNC { fg = blackMedium, bg = matrixVDark }, -- Status lines of not-current windows. Note: If this is equal to "StatusLine" Vim will use "^^^" in the status line of the current window.
+    StatusLine   { Normal }, --{ fg = blackDark, bg = matrixMedium, gui = 'bold' }, -- Status line of current window
+    StatusLineNC { Normal }, --{ fg = blackMedium, bg = matrixVDark }, -- Status lines of not-current windows. Note: If this is equal to "StatusLine" Vim will use "^^^" in the status line of the current window.
     -- TabLine      { }, -- Tab pages line, not active tab page label
     -- TabLineFill  { }, -- Tab pages line, where there are no labels
     -- TabLineSel   { }, -- Tab pages line, active tab page label
@@ -144,11 +144,29 @@ local theme = lush(function(injected_functions)
     -- WildMenu     { }, -- Current match in 'wildmenu' completion
 
     -- Status line
+    StatusLineViMode  { Normal },
     StatusLineNormal  { fg = bgColor, bg = matrixMedium },
     StatusLineVisual  { fg = bgColor, bg = matrixMedium },
     StatusLineInsert  { fg = bgColor, bg = matrixMedium },
     StatusLineReplace { fg = bgColor, bg = matrixMedium },
     StatusLineCommand { fg = bgColor, bg = matrixMedium },
+
+    StatusLineRootFolder      { fg = StatusLine.bg, bg = StatusLine.fg.mix(StatusLine.bg, 50), gui = 'bold italic' },
+    StatusLineParentFolder    { fg = StatusLine.bg, bg = StatusLine.fg.mix(StatusLine.bg, 75), gui = 'italic' },
+    StatusLineFile            { fg = Normal.fg, bg = CursorLine.bg, gui = 'italic' },
+
+    StatusLineViModePost  { Normal },
+    StatusLineNormalPost  { fg = StatusLineNormal.bg, bg = StatusLineRootFolder.bg },
+    StatusLineVisualPost  { fg = StatusLineVisual.bg, bg = StatusLineRootFolder.bg },
+    StatusLineInsertPost  { fg = StatusLineInsert.bg, bg = StatusLineRootFolder.bg },
+    StatusLineReplacePost { fg = StatusLineReplace.bg, bg = StatusLineRootFolder.bg },
+    StatusLineCommandPost { fg = StatusLineCommand.bg, bg = StatusLineRootFolder.bg },
+
+    StatusLineRootFolderPost    { fg = StatusLineRootFolder.bg, bg = StatusLineParentFolder.bg },
+    StatusLineParentFolderPost  { fg = StatusLineParentFolder.bg, bg = StatusLineFile.bg },
+    StatusLineFilePost          { fg = StatusLineFile.bg, bg = Normal.bg },
+
+    StatusLineLsp       { fg = Normal.fg, bg = Normal.bg, gui = 'italic' },
 
     -- Common vim syntax groups used for all kinds of code and markup.
     -- Commented-out groups should chain up to their preferred (*) group
@@ -215,10 +233,10 @@ local theme = lush(function(injected_functions)
     LspSignatureActiveParameter { fg = Normal.fg, gui = 'italic_underline', sp = Normal.fg } , -- Used to highlight the active parameter in the signature help. See |vim.lsp.handlers.signature_help()|.
 
     -- See :h diagnostic-highlights, some groups may not be listed, submit a PR fix to lush-template!
-    DiagnosticError            { fg = redVSat } , -- Used as the base highlight group. Other Diagnostic highlights link to this by default (except Underline)
-    DiagnosticWarn             { fg = yellowVSat } , -- Used as the base highlight group. Other Diagnostic highlights link to this by default (except Underline)
-    DiagnosticInfo             { fg = blueMedium } , -- Used as the base highlight group. Other Diagnostic highlights link to this by default (except Underline)
-    DiagnosticHint             { fg = whiteMedium } , -- Used as the base highlight group. Other Diagnostic highlights link to this by default (except Underline)
+    DiagnosticError            { fg = redVSat.mix(matrixMedium, 66) } , -- Used as the base highlight group. Other Diagnostic highlights link to this by default (except Underline)
+    DiagnosticWarn             { fg = yellowVSat.mix(matrixMedium, 66) } , -- Used as the base highlight group. Other Diagnostic highlights link to this by default (except Underline)
+    DiagnosticInfo             { fg = blueMedium.mix(matrixMedium, 66) } , -- Used as the base highlight group. Other Diagnostic highlights link to this by default (except Underline)
+    DiagnosticHint             { fg = whiteMedium.mix(matrixMedium, 66) } , -- Used as the base highlight group. Other Diagnostic highlights link to this by default (except Underline)
     -- DiagnosticVirtualTextError { } , -- Used for "Error" diagnostic virtual text.
     -- DiagnosticVirtualTextWarn  { } , -- Used for "Warn" diagnostic virtual text.
     -- DiagnosticVirtualTextInfo  { } , -- Used for "Info" diagnostic virtual text.
@@ -349,7 +367,7 @@ local theme = lush(function(injected_functions)
 
     CopilotSuggestion     { Comment },
 
-    TelescopeSelection      { StatusLine },
+    TelescopeSelection      { PmenuSel },
     TelescopeSelectionCaret { fg = Normal.fg },
     --TelescopeMultiSelection { },
     --TelescopeMultiIcon      { },
