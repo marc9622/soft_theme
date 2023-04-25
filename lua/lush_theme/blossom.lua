@@ -93,7 +93,7 @@ local theme = lush(function(injected_functions)
     -- TermCursor   { }, -- Cursor in a focused terminal
     -- TermCursorNC { }, -- Cursor in an unfocused terminal
     ErrorMsg     { fg = redVSat, bg = bgColor.da(10) }, -- Error messages on the command line
-    -- VertSplit    { }, -- Column separating vertically split windows
+    VertSplit    { fg = grayLight, bg = bgColor.mix(grayLight, 25), gui = 'bold' }, -- Column separating vertically split windows
     Folded       { bg = bgColor.mix(grayLight, 50) }, -- Line used for closed folds
     FoldColumn   { fg = bgColor.mix(grayDark, 30) }, -- 'foldcolumn'
     SignColumn   { FoldColumn }, -- Column where |signs| are displayed
@@ -109,11 +109,11 @@ local theme = lush(function(injected_functions)
     NonText      { fg = bgColor.mix(grayMedium, 75) }, -- '@' at the end of the window, characters from 'showbreak' and other characters that do not really exist in the text (e.g., ">" displayed when a double-wide character doesn't fit at the end of the line). See also |hl-EndOfBuffer|.
     Normal       { fg = redMedium, bg = bgColor }, -- Normal text
     NormalFloat  { fg = whiteMedium, bg = grayLight, blend = 20 }, -- Normal text in floating windows.
-    NormalNC     { fg = redMedium.de(10).da(10) , bg = bgColor.de(20).da(3) }, -- normal text in non-current windows
+    NormalNC     { fg = redMedium.de(10).da(10) , bg = VertSplit.bg }, -- normal text in non-current windows
     Pmenu        { fg = redDark, bg = NormalFloat.bg }, -- Popup menu: Normal item.
-    PmenuSel     { fg = whiteMedium, bg = redMedium, gui = Pmenu.gui }, --{ fg = whiteMedium, bg = bgColor.mix(redLight, 50).li(25)  }, -- Popup menu: Selected item.
-    PmenuSbar    { fg = whiteMedium, bg = grayLight, gui = Pmenu.gui }, -- Popup menu: Scrollbar.
-    PmenuThumb   { fg = whiteMedium, bg = redLight, gui = Pmenu.gui }, -- Popup menu: Thumb of the scrollbar.
+    PmenuSel     { fg = whiteMedium, bg = redMedium }, --{ fg = whiteMedium, bg = bgColor.mix(redLight, 50).li(25)  }, -- Popup menu: Selected item.
+    PmenuSbar    { fg = whiteMedium, bg = grayLight }, -- Popup menu: Scrollbar.
+    PmenuThumb   { fg = whiteMedium, bg = redLight }, -- Popup menu: Thumb of the scrollbar.
     Question     { fg = greenSat }, -- |hit-enter| prompt and yes/no questions
     -- QuickFixLine { }, -- Current |quickfix| item in the quickfix window. Combined with |hl-CursorLine| when the cursor is there.
     -- Search       { }, -- Last search pattern highlighting (see 'hlsearch'). Also used for similar items that need to stand out.
@@ -122,8 +122,8 @@ local theme = lush(function(injected_functions)
     -- SpellCap     { }, -- Word that should start with a capital. |spell| Combined with the highlighting used otherwise.
     -- SpellLocal   { }, -- Word that is recognized by the spellchecker as one that is used in another region. |spell| Combined with the highlighting used otherwise.
     -- SpellRare    { }, -- Word that is recognized by the spellchecker as one that is hardly ever used. |spell| Combined with the highlighting used otherwise.
-    StatusLine   { Normal }, --{ fg = bgColor, bg = redMedium }, -- Status line of current window
-    StatusLineNC { Normal }, --{ fg = bgColor.de(10).da(10), bg = redDark }, -- Status lines of not-current windows. Note: If this is equal to "StatusLine" Vim will use "^^^" in the status line of the current window.
+    StatusLine   { fg = whiteLight, bg = VertSplit.fg }, --{ fg = bgColor, bg = redMedium }, -- Status line of current window
+    StatusLineNC { StatusLine }, --{ fg = bgColor.de(10).da(10), bg = redDark }, -- Status lines of not-current windows. Note: If this is equal to "StatusLine" Vim will use "^^^" in the status line of the current window.
     -- TabLine      { }, -- Tab pages line, not active tab page label
     -- TabLineFill  { }, -- Tab pages line, where there are no labels
     -- TabLineSel   { }, -- Tab pages line, active tab page label
@@ -137,28 +137,53 @@ local theme = lush(function(injected_functions)
 
     -- Status line
     StatusLineViMode  { Normal },
-    StatusLineNormal  { fg = bgColor, bg = redMedium },
-    StatusLineVisual  { fg = bgColor, bg = redLight },
-    StatusLineInsert  { fg = bgColor, bg = redLight },
-    StatusLineReplace { fg = bgColor, bg = redLight },
-    StatusLineCommand { fg = bgColor, bg = grayMedium },
+    StatusLineNormal  { fg = grayVLight, bg = redMedium },
+    StatusLineVisual  { fg = whiteMedium, bg = redLight },
+    StatusLineInsert  { fg = whiteMedium, bg = redLight },
+    StatusLineReplace { fg = whiteMedium, bg = redLight },
+    StatusLineCommand { fg = whiteMedium, bg = grayMedium },
 
-    StatusLineRootFolder      { fg = StatusLineViMode.bg, bg = StatusLine.fg.mix(StatusLine.bg, 25), gui = 'bold italic' },
-    StatusLineParentFolder    { fg = StatusLine.bg, bg = StatusLine.fg.mix(StatusLine.bg, 50), gui = 'italic' },
-    StatusLineFile            { fg = Normal.fg, bg = StatusLine.fg.mix(StatusLine.bg, 75), gui = 'italic' },
+    StatusLineLevel3 { fg = grayVLight, bg = StatusLine.bg.mix(redMedium, 75), gui = 'italic' },
+    StatusLineLevel2 { fg = whiteMedium, bg = StatusLine.bg.mix(redMedium, 50), gui = 'italic' },
+    StatusLineLevel1 { fg = whiteLight, bg = StatusLine.bg.mix(redMedium, 25), gui = 'bold italic' },
+    StatusLineLevel0 { StatusLine },
 
-    StatusLineViModePost  { Normal },
-    StatusLineNormalPost  { fg = StatusLineNormal.bg, bg = StatusLineRootFolder.bg },
-    StatusLineVisualPost  { fg = StatusLineVisual.bg, bg = StatusLineRootFolder.bg },
-    StatusLineInsertPost  { fg = StatusLineInsert.bg, bg = StatusLineRootFolder.bg },
-    StatusLineReplacePost { fg = StatusLineReplace.bg, bg = StatusLineRootFolder.bg },
-    StatusLineCommandPost { fg = StatusLineCommand.bg, bg = StatusLineRootFolder.bg },
+    StatusLineError { fg = redVSat, bg = StatusLineLevel0.bg },
+    StatusLineWarn  { fg = yellowVSat, bg = StatusLineLevel0.bg },
+    StatusLineInfo  { fg = blueMedium, bg = StatusLineLevel0.bg },
+    StatusLineHint  { fg = whiteLight, bg = StatusLineLevel0.bg },
 
-    StatusLineRootFolderPost    { fg = StatusLineRootFolder.bg, bg = StatusLineParentFolder.bg },
-    StatusLineParentFolderPost  { fg = StatusLineParentFolder.bg, bg = StatusLineFile.bg },
-    StatusLineFilePost          { fg = StatusLineFile.bg, bg = Normal.bg },
+    StatusLineViModeTo3  { Normal },
+    StatusLineNormalTo3  { fg = StatusLineNormal.bg, bg = StatusLineLevel3.bg },
+    StatusLineVisualTo3  { fg = StatusLineVisual.bg, bg = StatusLineLevel3.bg },
+    StatusLineInsertTo3  { fg = StatusLineInsert.bg, bg = StatusLineLevel3.bg },
+    StatusLineReplaceTo3 { fg = StatusLineReplace.bg, bg = StatusLineLevel3.bg },
+    StatusLineCommandTo3 { fg = StatusLineCommand.bg, bg = StatusLineLevel3.bg },
 
-    StatusLineLsp       { fg = Normal.fg, bg = Normal.bg, gui = 'italic' },
+    StatusLineViModeTo2  { Normal },
+    StatusLineNormalTo2  { fg = StatusLineNormal.bg, bg = StatusLineLevel2.bg },
+    StatusLineVisualTo2  { fg = StatusLineVisual.bg, bg = StatusLineLevel2.bg },
+    StatusLineInsertTo2  { fg = StatusLineInsert.bg, bg = StatusLineLevel2.bg },
+    StatusLineReplaceTo2 { fg = StatusLineReplace.bg, bg = StatusLineLevel2.bg },
+    StatusLineCommandTo2 { fg = StatusLineCommand.bg, bg = StatusLineLevel2.bg },
+
+    StatusLineViModeTo1  { Normal },
+    StatusLineNormalTo1  { fg = StatusLineNormal.bg, bg = StatusLineLevel1.bg },
+    StatusLineVisualTo1  { fg = StatusLineVisual.bg, bg = StatusLineLevel1.bg },
+    StatusLineInsertTo1  { fg = StatusLineInsert.bg, bg = StatusLineLevel1.bg },
+    StatusLineReplaceTo1 { fg = StatusLineReplace.bg, bg = StatusLineLevel1.bg },
+    StatusLineCommandTo1 { fg = StatusLineCommand.bg, bg = StatusLineLevel1.bg },
+
+    StatusLineViModeTo0  { Normal },
+    StatusLineNormalTo0  { fg = StatusLineNormal.bg, bg = StatusLineLevel0.bg },
+    StatusLineVisualTo0  { fg = StatusLineVisual.bg, bg = StatusLineLevel0.bg },
+    StatusLineInsertTo0  { fg = StatusLineInsert.bg, bg = StatusLineLevel0.bg },
+    StatusLineReplaceTo0 { fg = StatusLineReplace.bg, bg = StatusLineLevel0.bg },
+    StatusLineCommandTo0 { fg = StatusLineCommand.bg, bg = StatusLineLevel0.bg },
+
+    StatusLineLevel3To2 { fg = StatusLineLevel3.bg, bg = StatusLineLevel2.bg },
+    StatusLineLevel2To1 { fg = StatusLineLevel2.bg, bg = StatusLineLevel1.bg },
+    StatusLineLevel1To0 { fg = StatusLineLevel1.bg, bg = StatusLineLevel0.bg },
 
     -- Common vim syntax groups used for all kinds of code and markup.
     -- Commented-out groups should chain up to their preferred (*) group
@@ -225,10 +250,10 @@ local theme = lush(function(injected_functions)
     LspSignatureActiveParameter { fg = Normal.fg, gui = 'italic_underline', sp = Normal.fg } , -- Used to highlight the active parameter in the signature help. See |vim.lsp.handlers.signature_help()|.
 
     -- See :h diagnostic-highlights, some groups may not be listed, submit a PR fix to lush-template!
-    DiagnosticError            { fg = redVSat } , -- Used as the base highlight group. Other Diagnostic highlights link to this by default (except Underline)
-    DiagnosticWarn             { fg = yellowVSat } , -- Used as the base highlight group. Other Diagnostic highlights link to this by default (except Underline)
-    DiagnosticInfo             { fg = blueMedium } , -- Used as the base highlight group. Other Diagnostic highlights link to this by default (except Underline)
-    DiagnosticHint             { fg = whiteLight } , -- Used as the base highlight group. Other Diagnostic highlights link to this by default (except Underline)
+    DiagnosticError            { fg = StatusLineError.fg } , -- Used as the base highlight group. Other Diagnostic highlights link to this by default (except Underline)
+    DiagnosticWarn             { fg = StatusLineWarn.fg } , -- Used as the base highlight group. Other Diagnostic highlights link to this by default (except Underline)
+    DiagnosticInfo             { fg = StatusLineInfo.fg } , -- Used as the base highlight group. Other Diagnostic highlights link to this by default (except Underline)
+    DiagnosticHint             { fg = StatusLineHint.fg } , -- Used as the base highlight group. Other Diagnostic highlights link to this by default (except Underline)
     -- DiagnosticVirtualTextError { } , -- Used for "Error" diagnostic virtual text.
     -- DiagnosticVirtualTextWarn  { } , -- Used for "Warn" diagnostic virtual text.
     -- DiagnosticVirtualTextInfo  { } , -- Used for "Info" diagnostic virtual text.

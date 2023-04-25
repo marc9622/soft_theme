@@ -11,6 +11,7 @@ local whiteDark   = hsl('#d9e0d9')
 local whiteVDark  = hsl('#cad5ca')
 
 -- Black
+local blackVVLight= hsl('#203020')
 local blackVLight = hsl('#1a251a')
 local blackLight  = hsl('#101510')
 local blackMedium = hsl('#060904')
@@ -146,27 +147,52 @@ local theme = lush(function(injected_functions)
     -- Status line
     StatusLineViMode  { Normal },
     StatusLineNormal  { fg = bgColor, bg = matrixMedium },
-    StatusLineVisual  { fg = bgColor, bg = matrixMedium },
-    StatusLineInsert  { fg = bgColor, bg = matrixMedium },
-    StatusLineReplace { fg = bgColor, bg = matrixMedium },
-    StatusLineCommand { fg = bgColor, bg = matrixMedium },
+    StatusLineVisual  { fg = bgColor, bg = matrixLight },
+    StatusLineInsert  { fg = bgColor, bg = matrixLight },
+    StatusLineReplace { fg = bgColor, bg = matrixLight },
+    StatusLineCommand { fg = bgColor, bg = matrixDark },
 
-    StatusLineRootFolder      { fg = StatusLine.bg, bg = StatusLine.fg.mix(StatusLine.bg, 50), gui = 'bold italic' },
-    StatusLineParentFolder    { fg = StatusLine.bg, bg = StatusLine.fg.mix(StatusLine.bg, 75), gui = 'italic' },
-    StatusLineFile            { fg = Normal.fg, bg = CursorLine.bg, gui = 'italic' },
+    StatusLineLevel3 { fg = matrixLight, bg = blackVVLight, gui = 'italic' },
+    StatusLineLevel2 { fg = matrixMedium, bg = blackVLight, gui = 'italic' },
+    StatusLineLevel1 { fg = matrixDark, bg = blackLight, gui = 'italic' },
+    StatusLineLevel0 { fg = matrixDark, bg = StatusLine.bg },
 
-    StatusLineViModePost  { Normal },
-    StatusLineNormalPost  { fg = StatusLineNormal.bg, bg = StatusLineRootFolder.bg },
-    StatusLineVisualPost  { fg = StatusLineVisual.bg, bg = StatusLineRootFolder.bg },
-    StatusLineInsertPost  { fg = StatusLineInsert.bg, bg = StatusLineRootFolder.bg },
-    StatusLineReplacePost { fg = StatusLineReplace.bg, bg = StatusLineRootFolder.bg },
-    StatusLineCommandPost { fg = StatusLineCommand.bg, bg = StatusLineRootFolder.bg },
+    StatusLineError { fg = redVSat.mix(matrixMedium, 66), bg = StatusLineLevel0.bg },
+    StatusLineWarn  { fg = yellowVSat.mix(matrixMedium, 66), bg = StatusLineLevel0.bg },
+    StatusLineInfo  { fg = blueMedium.mix(matrixMedium, 66), bg = StatusLineLevel0.bg },
+    StatusLineHint  { fg = whiteMedium.mix(matrixMedium, 66), bg = StatusLineLevel0.bg },
 
-    StatusLineRootFolderPost    { fg = StatusLineRootFolder.bg, bg = StatusLineParentFolder.bg },
-    StatusLineParentFolderPost  { fg = StatusLineParentFolder.bg, bg = StatusLineFile.bg },
-    StatusLineFilePost          { fg = StatusLineFile.bg, bg = Normal.bg },
+    StatusLineViModeTo3  { Normal },
+    StatusLineNormalTo3  { fg = StatusLineNormal.bg, bg = StatusLineLevel3.bg },
+    StatusLineVisualTo3  { fg = StatusLineVisual.bg, bg = StatusLineLevel3.bg },
+    StatusLineInsertTo3  { fg = StatusLineInsert.bg, bg = StatusLineLevel3.bg },
+    StatusLineReplaceTo3 { fg = StatusLineReplace.bg, bg = StatusLineLevel3.bg },
+    StatusLineCommandTo3 { fg = StatusLineCommand.bg, bg = StatusLineLevel3.bg },
 
-    StatusLineLsp       { fg = Normal.fg, bg = Normal.bg, gui = 'italic' },
+    StatusLineViModeTo2  { Normal },
+    StatusLineNormalTo2  { fg = StatusLineNormal.bg, bg = StatusLineLevel2.bg },
+    StatusLineVisualTo2  { fg = StatusLineVisual.bg, bg = StatusLineLevel2.bg },
+    StatusLineInsertTo2  { fg = StatusLineInsert.bg, bg = StatusLineLevel2.bg },
+    StatusLineReplaceTo2 { fg = StatusLineReplace.bg, bg = StatusLineLevel2.bg },
+    StatusLineCommandTo2 { fg = StatusLineCommand.bg, bg = StatusLineLevel2.bg },
+
+    StatusLineViModeTo1  { Normal },
+    StatusLineNormalTo1  { fg = StatusLineNormal.bg, bg = StatusLineLevel1.bg },
+    StatusLineVisualTo1  { fg = StatusLineVisual.bg, bg = StatusLineLevel1.bg },
+    StatusLineInsertTo1  { fg = StatusLineInsert.bg, bg = StatusLineLevel1.bg },
+    StatusLineReplaceTo1 { fg = StatusLineReplace.bg, bg = StatusLineLevel1.bg },
+    StatusLineCommandTo1 { fg = StatusLineCommand.bg, bg = StatusLineLevel1.bg },
+
+    StatusLineViModeTo0  { Normal },
+    StatusLineNormalTo0  { fg = StatusLineNormal.bg, bg = StatusLineLevel0.bg },
+    StatusLineVisualTo0  { fg = StatusLineVisual.bg, bg = StatusLineLevel0.bg },
+    StatusLineInsertTo0  { fg = StatusLineInsert.bg, bg = StatusLineLevel0.bg },
+    StatusLineReplaceTo0 { fg = StatusLineReplace.bg, bg = StatusLineLevel0.bg },
+    StatusLineCommandTo0 { fg = StatusLineCommand.bg, bg = StatusLineLevel0.bg },
+
+    StatusLineLevel3To2 { fg = StatusLineLevel3.bg, bg = StatusLineLevel2.bg },
+    StatusLineLevel2To1 { fg = StatusLineLevel2.bg, bg = StatusLineLevel1.bg },
+    StatusLineLevel1To0 { fg = StatusLineLevel1.bg, bg = StatusLineLevel0.bg },
 
     -- Common vim syntax groups used for all kinds of code and markup.
     -- Commented-out groups should chain up to their preferred (*) group
@@ -233,10 +259,10 @@ local theme = lush(function(injected_functions)
     LspSignatureActiveParameter { fg = Normal.fg, gui = 'italic_underline', sp = Normal.fg } , -- Used to highlight the active parameter in the signature help. See |vim.lsp.handlers.signature_help()|.
 
     -- See :h diagnostic-highlights, some groups may not be listed, submit a PR fix to lush-template!
-    DiagnosticError            { fg = redVSat.mix(matrixMedium, 66) } , -- Used as the base highlight group. Other Diagnostic highlights link to this by default (except Underline)
-    DiagnosticWarn             { fg = yellowVSat.mix(matrixMedium, 66) } , -- Used as the base highlight group. Other Diagnostic highlights link to this by default (except Underline)
-    DiagnosticInfo             { fg = blueMedium.mix(matrixMedium, 66) } , -- Used as the base highlight group. Other Diagnostic highlights link to this by default (except Underline)
-    DiagnosticHint             { fg = whiteMedium.mix(matrixMedium, 66) } , -- Used as the base highlight group. Other Diagnostic highlights link to this by default (except Underline)
+    DiagnosticError            { fg = StatusLineError.fg } , -- Used as the base highlight group. Other Diagnostic highlights link to this by default (except Underline)
+    DiagnosticWarn             { fg = StatusLineWarn.fg } , -- Used as the base highlight group. Other Diagnostic highlights link to this by default (except Underline)
+    DiagnosticInfo             { fg = StatusLineInfo.fg } , -- Used as the base highlight group. Other Diagnostic highlights link to this by default (except Underline)
+    DiagnosticHint             { fg = StatusLineHint.fg } , -- Used as the base highlight group. Other Diagnostic highlights link to this by default (except Underline)
     -- DiagnosticVirtualTextError { } , -- Used for "Error" diagnostic virtual text.
     -- DiagnosticVirtualTextWarn  { } , -- Used for "Warn" diagnostic virtual text.
     -- DiagnosticVirtualTextInfo  { } , -- Used for "Info" diagnostic virtual text.

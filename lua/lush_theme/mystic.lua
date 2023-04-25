@@ -176,7 +176,7 @@ local theme = lush(function(injected_functions)
     -- SpellLocal   { }, -- Word that is recognized by the spellchecker as one that is used in another region. |spell| Combined with the highlighting used otherwise.
     -- SpellRare    { }, -- Word that is recognized by the spellchecker as one that is hardly ever used. |spell| Combined with the highlighting used otherwise.
     StatusLine   { fg = Normal.fg, bg = Normal.bg }, --{ fg = bgColor, bg = purpleLight , -- Status line of current window
-    StatusLineNC { fg = Normal.fg, bg = Normal.bg }, --{ fg = bgColor.de(10).da(10), bg = grayMedium }, -- Status lines of not-current windows. Note: If this is equal to "StatusLine" Vim will use "^^^" in the status line of the current window.
+    StatusLineNC { StatusLine }, --{ fg = bgColor.de(10).da(10), bg = grayMedium }, -- Status lines of not-current windows. Note: If this is equal to "StatusLine" Vim will use "^^^" in the status line of the current window.
     -- TabLine      { }, -- Tab pages line, not active tab page label
     -- TabLineFill  { }, -- Tab pages line, where there are no labels
     -- TabLineSel   { }, -- Tab pages line, active tab page label
@@ -200,6 +200,11 @@ local theme = lush(function(injected_functions)
     StatusLineLevel2 { fg = grayLight, bg = grayDark, gui = 'italic' },
     StatusLineLevel1 { fg = grayMedium, bg = grayVDark, gui = 'italic' },
     StatusLineLevel0 { fg = grayMedium, bg = Normal.bg },
+
+    StatusLineError { fg = redVSat, bg = StatusLineLevel0.bg },
+    StatusLineWarn  { fg = yellowVSat, bg = StatusLineLevel0.bg },
+    StatusLineInfo  { fg = blueMedium, bg = StatusLineLevel0.bg },
+    StatusLineHint  { fg = whiteLight, bg = StatusLineLevel0.bg },
 
     StatusLineViModeTo3  { Normal },
     StatusLineNormalTo3  { fg = StatusLineNormal.bg, bg = StatusLineLevel3.bg },
@@ -269,8 +274,8 @@ local theme = lush(function(injected_functions)
 
     Type           { fg = cyanMedium }, -- (*) int, long, char, etc.
     StorageClass   { fg = purpleMedium }, --   static, register, volatile, etc.
-    Structure      { fg = purpleMedium }, --   struct, union, enum, etc.
-    Typedef        { fg = purpleMedium }, --   A typedef
+    Structure      { fg = cyanMedium }, --   struct, union, enum, etc.
+    Typedef        { fg = cyanMedium }, --   A typedef
 
     Special        { fg = purpleMedium }, -- (*) Any special symbol
     SpecialChar    { Special }, --   Special character in a constant
@@ -298,10 +303,10 @@ local theme = lush(function(injected_functions)
     LspSignatureActiveParameter { fg = Normal.fg, gui = 'italic_underline', sp = Normal.fg } , -- Used to highlight the active parameter in the signature help. See |vim.lsp.handlers.signature_help()|.
 
     -- See :h diagnostic-highlights, some groups may not be listed, submit a PR fix to lush-template!
-    DiagnosticError            { fg = redVSat } , -- Used as the base highlight group. Other Diagnostic highlights link to this by default (except Underline)
-    DiagnosticWarn             { fg = yellowVSat } , -- Used as the base highlight group. Other Diagnostic highlights link to this by default (except Underline)
-    DiagnosticInfo             { fg = blueMedium } , -- Used as the base highlight group. Other Diagnostic highlights link to this by default (except Underline)
-    DiagnosticHint             { fg = whiteMedium } , -- Used as the base highlight group. Other Diagnostic highlights link to this by default (except Underline)
+    DiagnosticError            { fg = StatusLineError.fg } , -- Used as the base highlight group. Other Diagnostic highlights link to this by default (except Underline)
+    DiagnosticWarn             { fg = StatusLineWarn.fg } , -- Used as the base highlight group. Other Diagnostic highlights link to this by default (except Underline)
+    DiagnosticInfo             { fg = StatusLineInfo.fg } , -- Used as the base highlight group. Other Diagnostic highlights link to this by default (except Underline)
+    DiagnosticHint             { fg = StatusLineHint.fg } , -- Used as the base highlight group. Other Diagnostic highlights link to this by default (except Underline)
     -- DiagnosticVirtualTextError { } , -- Used for "Error" diagnostic virtual text.
     -- DiagnosticVirtualTextWarn  { } , -- Used for "Warn" diagnostic virtual text.
     -- DiagnosticVirtualTextInfo  { } , -- Used for "Info" diagnostic virtual text.
@@ -375,10 +380,11 @@ local theme = lush(function(injected_functions)
     -- sym"@exception"         { }, -- Exception
     -- sym"@variable"          { }, -- Identifier
     -- sym"@type"              { }, -- Type
+    -- sym"@type.builtin"      { }, -- Type
     sym"@type.qualifier"    { Keyword },
     -- sym"@type.definition"   { }, -- Typedef
     -- sym"@storageclass"      { }, -- StorageClass
-    -- sym"@structure"         { }, -- Structure
+    sym"@structure"         { Structure }, -- Structure
     sym"@namespace"         { Type }, -- Identifier
     sym"@include"           { Keyword }, -- Include
     -- sym"@preproc"           { }, -- PreProc
