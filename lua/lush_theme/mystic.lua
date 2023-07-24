@@ -367,6 +367,7 @@ local theme = lush(function(injected_functions)
     -- sym"@function"          { }, -- Function
     sym"@function.builtin"  { Function }, -- Special
     -- sym"@function.macro"    { }, -- Macro
+    sym"@function.call"     { Function },
     -- sym"@parameter"         { }, -- Identifier
     -- sym"@method"            { }, -- Function
     -- sym"@field"             { }, -- Identifier
@@ -390,6 +391,15 @@ local theme = lush(function(injected_functions)
     -- sym"@preproc"           { }, -- PreProc
     -- sym"@debug"             { }, -- Debug
     -- sym"@tag"               { }, -- Tag
+
+    -- TS-Rainbow
+    TSRainbowRed    { fg = yellowMedium },
+    TSRainbowYellow { fg = cyanMedium },
+    TSRainbowBlue   { fg = purpleMedium },
+    TSRainbowOrange { fg = blueMedium },
+    TSRainbowGreen  { fg = greenMedium },
+    TSRainbowViolet { fg = redMedium },
+    TSRainbowCyan   { fg = whiteMedium },
 
     --CmpItemAbbr           { },
     CmpItemAbbrDeprecates { gui = 'strikethrough' },
