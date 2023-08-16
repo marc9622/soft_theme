@@ -65,11 +65,11 @@ local hsl = lush.hsl
 local bgColor = hsl('#252232')
 
 -- White
-local whiteMedium = hsl('#d5d0f0')
+local whiteMedium = hsl('#dad5f5')
 local whiteLight  = hsl('#ffffff')
 
 -- Blue-Gray
-local grayVLight = hsl('#c5c0e5')
+local grayVLight = hsl('#bdb8dd')
 local grayLight  = hsl('#8580c0')
 local grayMedium = hsl('#656090')
 local grayDark   = hsl('#454065')
@@ -146,7 +146,7 @@ local theme = lush(function(injected_functions)
     -- TermCursor   { }, -- Cursor in a focused terminal
     -- TermCursorNC { }, -- Cursor in an unfocused terminal
     ErrorMsg     { fg = redVSat, bg = bgColor.da(10) }, -- Error messages on the command line
-    -- VertSplit    { }, -- Column separating vertically split windows
+    VertSplit    { fg = grayMedium }, -- Column separating vertically split windows
     Folded       { bg = bgColor.mix(grayVDark, 50) }, -- Line used for closed folds
     FoldColumn   { fg = bgColor.mix(grayLight, 30) }, -- 'foldcolumn'
     SignColumn   { FoldColumn }, -- Column where |signs| are displayed
@@ -288,6 +288,49 @@ local theme = lush(function(injected_functions)
     -- Ignore         { }, -- Left blank, hidden |hl-Ignore| (NOTE: May be invisible here in template)
     Error          { fg = redVSat }, -- Any erroneous construct
     Todo           { fg = blueMedium, gui = 'italic' }, -- Anything that needs extra attention; mostly the keywords TODO FIXME and XXX
+
+    -- Netrw
+    netrwBak       { },
+    netrwClassify  { fg = grayLight },
+    netrwCmdNote   { Keyword },
+    netrwCmdSep    { Delimiter },
+    netrwComma     { netrwCmdSep },
+    netrwComment   { Comment },
+    netrwCompress  { fg = grayLight },
+    netrwCoreDump  { },
+    netrwData      { },
+    netrwDateSep   { },
+    netrwDir       { fg = grayLight, gui = 'italic' },
+    netrwDoc       { fg = blueMedium },
+    netrwExe       { Function },
+    netrwGray      { },
+    netrwHdr       { fg = grayVLight },
+    netrwHelpCmd   { Function },
+    netrwHide      { Comment },
+    netrwHidePat   { netrwCmdNote },
+    netrwHideSep   { },
+    netrwLex       { },
+    netrwLib       { fg = purpleMedium },
+    netrwLink      { },
+    netrwList      { netrwCmdNote },
+    netrwMakefile  { },
+    netrwMarkFile  { gui = 'bold underline', sp = purpleMedium },
+    netrwObj       { netrwLib },
+    netrwPix       { fg = greenMedium },
+    netrwPlain     { fg = grayVLight },
+    netrwQHTopic   { Todo },
+    netrwQuickHelp { netrwCmdNote },
+    netrwSortBy    { },
+    netrwSortSeq   { },
+    netrwSpecFile  { },
+    netrwSymLink   { },
+    netrwTags      { netrwDir }, -- Idk what this is but it affects dirs named tags/.
+    netrwTilde     { },
+    netrwTimeSep   { },
+    netrwTmp       { },
+    netrwTreeBar   { fg = grayDark },
+    netrwVersion   { Todo },
+    netrwYacc      { },
 
     -- These groups are for the native LSP client and diagnostic system. Some
     -- other LSP clients may use these groups, or use their own. Consult your
