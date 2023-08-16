@@ -89,7 +89,9 @@ local redSat    = hsl('#b03060') -- Hibiscus
 local redVSat   = hsl('#e0004b') -- Radical Red
 
 -- Marigold
+local yellowLight  = hsl('#f0e0a0')
 local yellowMedium = hsl('#e0b470') -- Harvest Gold
+local yellowDark   = hsl('#c09a60')
 
 local yellowSat    = hsl('#b07020') -- Bourbon
 local yellowVSat   = hsl('#e08700') -- Gold
@@ -302,7 +304,7 @@ local theme = lush(function(injected_functions)
     netrwDateSep   { },
     netrwDir       { fg = grayLight, gui = 'italic' },
     netrwDoc       { fg = blueMedium },
-    netrwExe       { Function },
+    netrwExe       { fg = greenSat },
     netrwGray      { },
     netrwHdr       { fg = grayVLight },
     netrwHelpCmd   { Function },
@@ -310,12 +312,12 @@ local theme = lush(function(injected_functions)
     netrwHidePat   { netrwCmdNote },
     netrwHideSep   { },
     netrwLex       { },
-    netrwLib       { fg = purpleMedium },
+    netrwLib       { fg = blueVSat },
     netrwLink      { },
     netrwList      { netrwCmdNote },
-    netrwMakefile  { },
+    netrwMakefile  { fg = yellowDark },
     netrwMarkFile  { gui = 'bold underline', sp = purpleMedium },
-    netrwObj       { netrwLib },
+    netrwObj       { fg = grayMedium },
     netrwPix       { fg = greenMedium },
     netrwPlain     { fg = grayVLight },
     netrwQHTopic   { Todo },
@@ -324,13 +326,30 @@ local theme = lush(function(injected_functions)
     netrwSortSeq   { },
     netrwSpecFile  { },
     netrwSymLink   { },
-    netrwTags      { netrwDir }, -- Idk what this is but it affects dirs named tags/.
+    netrwTags      { netrwDir }, -- Idk what this is but it affects dirs named tags/
     netrwTilde     { },
     netrwTimeSep   { },
-    netrwTmp       { },
+    netrwTmp       { netrwDir }, -- Idk what this is but it affects dirs named tmp/
     netrwTreeBar   { fg = grayDark },
     netrwVersion   { Todo },
     netrwYacc      { },
+
+    -- Netrw custom stynax matches
+    netrwMylang    { fg = cyanMedium },
+    netrwHaskell   { fg = purpleVSat },
+    netrwPython    { fg = yellowMedium },
+    netrwLua       { fg = blueVSat },
+    netrwJS        { fg = yellowMedium },
+    netrwJSON      { fg = yellowDark },
+    netrwCSS       { fg = yellowLight },
+    netrwHTML      { fg = blueMedium },
+    netrwJava      { fg = purpleLight },
+    netrwGradle    { fg = blueLight },
+    netrwClass     { netrwObj },
+    netrwRust      { fg = yellowVSat },
+    netrwCargo     { fg = yellowDark },
+    netrwC         { fg = yellowLight }, -- .h = netrwHdr, makefile = netrwMakefile
+    netrwDebug     { fg = redMedium },
 
     -- These groups are for the native LSP client and diagnostic system. Some
     -- other LSP clients may use these groups, or use their own. Consult your
