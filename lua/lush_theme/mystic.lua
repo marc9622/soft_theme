@@ -453,6 +453,7 @@ local theme = lush(function(injected_functions)
     -- sym"@preproc"           { }, -- PreProc
     -- sym"@debug"             { }, -- Debug
     -- sym"@tag"               { }, -- Tag
+    sym"@attribute"         { Keyword },
 
     -- TS-Rainbow
     TSRainbowRed    { fg = yellowMedium },
