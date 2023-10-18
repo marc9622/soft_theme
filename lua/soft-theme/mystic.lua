@@ -130,7 +130,7 @@ local theme = lush(function(injected_functions)
       DiffChange   { fg = blueSat }, -- Diff mode: Changed line |diff.txt|
       DiffDelete   { fg = redSat }, -- Diff mode: Deleted line |diff.txt|
       -- DiffText     { }, -- Diff mode: Changed text within a changed line |diff.txt|
-      EndOfBuffer  { fg = ifBgOrNone(bgColor) }, -- Filler lines (~) after the end of the buffer. By default, this is highlighted like |hl-NonText|.
+      EndOfBuffer  { fg = ifBg(bgColor).noBg(grayDark) }, -- Filler lines (~) after the end of the buffer. By default, this is highlighted like |hl-NonText|.
       -- TermCursor   { }, -- Cursor in a focused terminal
       -- TermCursorNC { }, -- Cursor in an unfocused terminal
       ErrorMsg     { fg = redVSat, bg = bgColor.da(10) }, -- Error messages on the command line
@@ -140,8 +140,8 @@ local theme = lush(function(injected_functions)
       SignColumn   { FoldColumn }, -- Column where |signs| are displayed
       -- IncSearch    { }, -- 'incsearch' highlighting; also used for the text replaced with ":s///c"
       Substitute   { fg = bgColor, bg = yellowMedium }, -- |:substitute| replacement text highlighting
-      LineNr       { fg = bgColor.mix(grayLight, 30) }, -- Line number for ":number" and ":#" commands, and when 'number' or 'relativenumber' option is set.
-      CursorLineNr { fg = grayLight, bg = CursorLine.bg }, -- Like LineNr when 'cursorline' or 'relativenumber' is set for the cursor line.
+      LineNr       { fg = ifBg(bgColor.mix(grayLight, 30)).noBg(bgColor.mix(grayLight, 60)) }, -- Line number for ":number" and ":#" commands, and when 'number' or 'relativenumber' option is set.
+      CursorLineNr { fg = ifBg(grayLight).noBg(grayLight), bg = CursorLine.bg, gui = ifBg("").noBg("bold") }, -- Like LineNr when 'cursorline' or 'relativenumber' is set for the cursor line.
       MatchParen   { fg = bgColor, bg = cyanVSat.li(30).de(40) }, -- Character under the cursor or just before it, if it is a paired bracket, and its match. |pi_paren.txt|
       ModeMsg      { fg = grayLight, bg = bgColor }, -- 'showmode' message (e.g., "-- INSERT -- ")
       MsgArea      { ModeMsg }, -- Area for messages and cmdline
