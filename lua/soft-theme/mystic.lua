@@ -47,7 +47,7 @@ local hsl = lush.hsl
 local function ifBg(ifColor)
     return {
         noBg = function(elseColor)
-            if vim.g.colors_no_background == 1
+            if vim.g.soft_theme_no_background == 1
                 then return elseColor
                 else return ifColor
             end
