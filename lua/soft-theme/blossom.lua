@@ -67,16 +67,6 @@ local blueVSat   = hsl('#0087e0')
 local theme = lush(function(injected_functions)
   local sym = injected_functions.sym
   return {
-    -- The following are the Neovim (as of 0.8.0-dev+100-g371dfb174) highlight
-    -- groups, mostly used for styling UI elements.
-    -- Comment them out and add your own properties to override the defaults.
-    -- An empty definition `{}` will clear all styling, leaving elements looking
-    -- like the 'Normal' group.
-    -- To be able to link to a group, it must already be defined, so you may have
-    -- to reorder items as you go.
-    --
-    -- See :h highlight-groups
-    --
     -- ColorColumn  { }, -- Columns set with 'colorcolumn'
     -- Conceal      { }, -- Placeholder characters substituted for concealed text (see 'conceallevel')
     Cursor       { fg = bgColor, bg = bgColor.mix(redMedium, 70) }, -- Character under the cursor
