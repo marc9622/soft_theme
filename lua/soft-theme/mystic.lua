@@ -74,6 +74,7 @@ local grayVDark  = hsl('#25203a')
 -- Heliotrope
 local purpleLight  = hsl('#d0a0f0') -- Mauve
 local purpleMedium = hsl('#b770e0') -- Heliotrope
+local purpleDark   = hsl('#9060c0') -- Dark Heliotrope
 
 local purpleSat    = hsl('#7030b0') -- Purple
 local purpleVSat   = hsl('#8e00e0') -- Electric Violet
@@ -95,6 +96,7 @@ local yellowVSat   = hsl('#e08700') -- Gold
 -- Spring Green
 local greenLight  = hsl('#a0f0c0') -- Magic Mint
 local greenMedium = hsl('#70e0ae') -- Aquamarine
+local greenDark   = hsl('#60c090') -- Sea Green
 
 local greenSat    = hsl('#30b070') -- Jungle Green
 local greenVSat   = hsl('#00e07b') -- Spring Green
@@ -108,6 +110,7 @@ local cyanVSat   = hsl('#00d1b9') -- Robin's Egg
 -- Azure
 local blueLight  = hsl('#90d0f0') -- Anakiwa
 local blueMedium = hsl('#70b4e0') -- Malibu
+local blueDark   = hsl('#5080c0') -- Cornflower Blue
 
 local blueSat    = hsl('#2080b0') -- Eastern Blue
 local blueVSat   = hsl('#0087e0') -- Azure
