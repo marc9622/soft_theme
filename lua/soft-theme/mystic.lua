@@ -126,9 +126,9 @@ local theme = lush(function(injected_functions)
       CursorColumn { bg = ifBg(bgColor.mix(purpleMedium, 2)).noBg(bgColor.mix(grayDark, 50))  },--hsl(bgColor).li(1).sa(3) }, -- Screen-column at the cursor, when 'cursorcolumn' is set.
       CursorLine   { bg = ifBg(bgColor.mix(purpleMedium, 10)).noBg(bgColor.mix(grayDark, 50)) }, --hsl(bgColor).li(1).sa(3) }, -- Screen-line at the cursor, when 'cursorline' is set. Low-priority if foreground (ctermfg OR guifg) is not set.
       Directory    { fg = grayLight }, -- Directory names (and other special names in listings)
-      DiffAdd      { fg = greenSat }, -- Diff mode: Added line |diff.txt|
-      DiffChange   { fg = blueSat }, -- Diff mode: Changed line |diff.txt|
-      DiffDelete   { fg = redSat }, -- Diff mode: Deleted line |diff.txt|
+      DiffAdd      { fg = grayMedium.mix(greenSat, 75) }, -- Diff mode: Added line |diff.txt|
+      DiffChange   { fg = grayMedium.mix(blueSat, 75) }, -- Diff mode: Changed line |diff.txt|
+      DiffDelete   { fg = grayMedium.mix(redSat, 75) }, -- Diff mode: Deleted line |diff.txt|
       -- DiffText     { }, -- Diff mode: Changed text within a changed line |diff.txt|
       EndOfBuffer  { fg = ifBg(bgColor).noBg(grayDark) }, -- Filler lines (~) after the end of the buffer. By default, this is highlighted like |hl-NonText|.
       -- TermCursor   { }, -- Cursor in a focused terminal
@@ -141,7 +141,7 @@ local theme = lush(function(injected_functions)
       -- IncSearch    { }, -- 'incsearch' highlighting; also used for the text replaced with ":s///c"
       Substitute   { fg = bgColor, bg = yellowMedium }, -- |:substitute| replacement text highlighting
       LineNr       { fg = ifBg(bgColor.mix(grayLight, 30)).noBg(grayDark) }, -- Line number for ":number" and ":#" commands, and when 'number' or 'relativenumber' option is set.
-      CursorLineNr { fg = grayLight, bg = CursorLine.bg, gui = ifBg("").noBg("bold") }, -- Like LineNr when 'cursorline' or 'relativenumber' is set for the cursor line.
+      CursorLineNr { fg = grayMedium, bg = LineNr.bg --[[CursorLine.bg]], gui = ifBg("").noBg("bold") }, -- Like LineNr when 'cursorline' or 'relativenumber' is set for the cursor line.
       MatchParen   { fg = bgColor, bg = cyanVSat.li(30).de(40) }, -- Character under the cursor or just before it, if it is a paired bracket, and its match. |pi_paren.txt|
       ModeMsg      { fg = grayLight, bg = ifBgOrNone(bgColor) }, -- 'showmode' message (e.g., "-- INSERT -- ")
       MsgArea      { ModeMsg }, -- Area for messages and cmdline
@@ -175,6 +175,17 @@ local theme = lush(function(injected_functions)
       -- Whitespace   { }, -- "nbsp", "space", "tab" and "trail" in 'listchars'
       -- Winseparator { }, -- Separator between window splits. Inherts from |hl-VertSplit| by default, which it will replace eventually.
       -- WildMenu     { }, -- Current match in 'wildmenu' completion
+
+      -- Gitsigns
+      GitSignsAdd       { fg = grayLight.mix(DiffAdd.fg, 75) },
+      GitSignsAddNr     { fg = grayDark.mix(DiffAdd.fg, 50) },
+      GitSignsAddLn     { GitSignsAdd },
+      GitSignsChange    { fg = grayLight.mix(DiffChange.fg, 75) },
+      GitSignsChangeNr  { fg = grayDark.mix(DiffChange.fg, 50) },
+      GitSignsChangeLn  { GitSignsChange },
+      GitSignsDelete    { fg = grayLight.mix(DiffDelete.fg, 75) },
+      GitSignsDeleteNr  { fg = grayDark.mix(DiffDelete.fg, 50) },
+      GitSignsDeleteLn  { GitSignsDelete },
 
       -- Status line
       StatusLineViMode  { Normal },
