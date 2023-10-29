@@ -152,9 +152,9 @@ local theme = lush(function(injected_functions)
       NormalFloat  { fg = grayVLight, bg = ifBg(grayVDark).noBg("none"), blend = ifBg(20).noBg(0) }, -- Normal text in floating windows.
       NormalNC     { fg = purpleLight.de(10).da(10) , bg = ifBgOrNone(bgColor.de(10).da(10)) }, -- normal text in non-current windows
       Pmenu        { NormalFloat }, -- Popup menu: Normal item.
-      PmenuSel     { fg = Pmenu.bg, bg = purpleMedium }, --{ fg = whiteMedium, bg = grayLight  }, -- Popup menu: Selected item.
+      PmenuSel     { fg = bgColor, bg = purpleMedium, gui = "bold" }, --{ fg = whiteMedium, bg = grayLight  }, -- Popup menu: Selected item.
       PmenuSbar    { fg = whiteMedium, bg = grayMedium }, -- Popup menu: Scrollbar.
-      PmenuThumb   { fg = whiteMedium, bg = purpleLight }, -- Popup menu: Thumb of the scrollbar.
+      PmenuThumb   { fg = whiteMedium, bg = purpleMedium }, -- Popup menu: Thumb of the scrollbar.
       Question     { fg = greenSat }, -- |hit-enter| prompt and yes/no questions
       -- QuickFixLine { }, -- Current |quickfix| item in the quickfix window. Combined with |hl-CursorLine| when the cursor is there.
       -- Search       { }, -- Last search pattern highlighting (see 'hlsearch'). Also used for similar items that need to stand out.
