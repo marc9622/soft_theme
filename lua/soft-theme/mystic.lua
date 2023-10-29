@@ -142,7 +142,7 @@ local theme = lush(function(injected_functions)
       Substitute   { fg = bgColor, bg = yellowMedium }, -- |:substitute| replacement text highlighting
       LineNr       { fg = ifBg(bgColor.mix(grayLight, 30)).noBg(grayDark) }, -- Line number for ":number" and ":#" commands, and when 'number' or 'relativenumber' option is set.
       CursorLineNr { fg = grayMedium, bg = LineNr.bg --[[CursorLine.bg]], gui = ifBg("").noBg("bold") }, -- Like LineNr when 'cursorline' or 'relativenumber' is set for the cursor line.
-      MatchParen   { fg = bgColor, bg = cyanVSat.li(30).de(40) }, -- Character under the cursor or just before it, if it is a paired bracket, and its match. |pi_paren.txt|
+      MatchParen   { fg = cyanVSat.li(30) }, -- Character under the cursor or just before it, if it is a paired bracket, and its match. |pi_paren.txt|
       ModeMsg      { fg = grayLight, bg = ifBgOrNone(bgColor) }, -- 'showmode' message (e.g., "-- INSERT -- ")
       MsgArea      { ModeMsg }, -- Area for messages and cmdline
       -- MsgSeparator { }, -- Separator for scrolled messages, `msgsep` flag of 'display'
