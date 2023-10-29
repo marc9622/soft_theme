@@ -181,13 +181,13 @@ local theme = lush(function(injected_functions)
 
       -- Gitsigns
       GitSignsAdd       { fg = grayLight.mix(DiffAdd.fg, 75) },
-      GitSignsAddNr     { fg = grayDark.mix(DiffAdd.fg, 50) },
+      GitSignsAddNr     { fg = grayDark.mix(DiffAdd.fg, 75) },
       GitSignsAddLn     { GitSignsAdd },
       GitSignsChange    { fg = grayLight.mix(DiffChange.fg, 75) },
-      GitSignsChangeNr  { fg = grayDark.mix(DiffChange.fg, 50) },
+      GitSignsChangeNr  { fg = grayDark.mix(DiffChange.fg, 75) },
       GitSignsChangeLn  { GitSignsChange },
       GitSignsDelete    { fg = grayLight.mix(DiffDelete.fg, 75) },
-      GitSignsDeleteNr  { fg = grayDark.mix(DiffDelete.fg, 50) },
+      GitSignsDeleteNr  { fg = grayDark.mix(DiffDelete.fg, 75) },
       GitSignsDeleteLn  { GitSignsDelete },
 
       -- Status line
