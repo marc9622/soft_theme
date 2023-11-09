@@ -138,7 +138,7 @@ local theme = lush(function(injected_functions)
       -- TermCursorNC { }, -- Cursor in an unfocused terminal
       ErrorMsg     { fg = redVSat, bg = bgColor.da(10) }, -- Error messages on the command line
       VertSplit    { fg = ifBg(grayMedium).noBg(grayVDark) }, -- Column separating vertically split windows
-      Folded       { bg = ifBg(bgColor.mix(grayVDark, 50)).noBg(grayDark) }, -- Line used for closed folds
+      Folded       { bg = ifBg(bgColor.mix(grayVDark, 50)).noBg("") }, -- Line used for closed folds
       FoldColumn   { fg = bgColor.mix(grayLight, 30) }, -- 'foldcolumn'
       SignColumn   { FoldColumn }, -- Column where |signs| are displayed
       -- IncSearch    { }, -- 'incsearch' highlighting; also used for the text replaced with ":s///c"
