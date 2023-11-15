@@ -80,6 +80,7 @@ local purpleSat    = hsl('#7030b0') -- Purple
 local purpleVSat   = hsl('#8e00e0') -- Electric Violet
 
 -- Crimson
+local redLight  = hsl('#ea90b0') -- Pink Lace
 local redMedium = hsl('#e07096') -- Deep Blush
 
 local redSat    = hsl('#b03060') -- Hibiscus
@@ -102,15 +103,17 @@ local greenSat    = hsl('#30b070') -- Jungle Green
 local greenVSat   = hsl('#00e07b') -- Spring Green
 
 -- Turquise
+local cyanLight  = hsl('#8aeae0') -- Aquamarine
 local cyanMedium = hsl('#69d1c5') -- Downy
 
 local cyanSat    = hsl('#20b0a0') -- Persian Green
 local cyanVSat   = hsl('#00d1b9') -- Robin's Egg
 
 -- Azure
+local blueVLight = hsl('#b0e0ff') -- Pale Cornflower Blue
 local blueLight  = hsl('#90d0f0') -- Anakiwa
 local blueMedium = hsl('#70b4e0') -- Malibu
-local blueDark   = hsl('#5080c0') -- Cornflower Blue
+local blueDark   = hsl('#6090d0') -- Cornflower Blue
 
 local blueSat    = hsl('#2080b0') -- Eastern Blue
 local blueVSat   = hsl('#0087e0') -- Azure
@@ -145,7 +148,7 @@ local theme = lush(function(injected_functions)
       Substitute   { fg = bgColor, bg = yellowMedium }, -- |:substitute| replacement text highlighting
       LineNr       { fg = ifBg(bgColor.mix(grayLight, 30)).noBg(grayDark) }, -- Line number for ":number" and ":#" commands, and when 'number' or 'relativenumber' option is set.
       CursorLineNr { fg = grayMedium, bg = LineNr.bg --[[CursorLine.bg]], gui = ifBg("").noBg("bold") }, -- Like LineNr when 'cursorline' or 'relativenumber' is set for the cursor line.
-      MatchParen   { fg = cyanVSat.li(30) }, -- Character under the cursor or just before it, if it is a paired bracket, and its match. |pi_paren.txt|
+      MatchParen   { fg = cyanVSat }, -- Character under the cursor or just before it, if it is a paired bracket, and its match. |pi_paren.txt|
       ModeMsg      { fg = grayLight, bg = ifBgOrNone(bgColor) }, -- 'showmode' message (e.g., "-- INSERT -- ")
       MsgArea      { ModeMsg }, -- Area for messages and cmdline
       -- MsgSeparator { }, -- Separator for scrolled messages, `msgsep` flag of 'display'
@@ -166,7 +169,7 @@ local theme = lush(function(injected_functions)
       -- SpellCap     { }, -- Word that should start with a capital. |spell| Combined with the highlighting used otherwise.
       -- SpellLocal   { }, -- Word that is recognized by the spellchecker as one that is used in another region. |spell| Combined with the highlighting used otherwise.
       -- SpellRare    { }, -- Word that is recognized by the spellchecker as one that is hardly ever used. |spell| Combined with the highlighting used otherwise.
-      StatusLine   { fg = Normal.fg, bg = Normal.bg }, --{ fg = bgColor, bg = purpleLight , -- Status line of current window
+      StatusLine   { fg = Normal.fg, bg = ifBg(Normal.bg).noBg(CursorLine.bg) }, --{ fg = bgColor, bg = purpleLight , -- Status line of current window
       StatusLineNC { StatusLine }, --{ fg = bgColor.de(10).da(10), bg = grayMedium }, -- Status lines of not-current windows. Note: If this is equal to "StatusLine" Vim will use "^^^" in the status line of the current window.
       -- TabLine      { }, -- Tab pages line, not active tab page label
       -- TabLineFill  { }, -- Tab pages line, where there are no labels
@@ -254,8 +257,8 @@ local theme = lush(function(injected_functions)
       String         { fg = purpleLight }, --   A string constant: "this is a string"
       Character      { String }, --   A character constant: 'c', '\n'
       Number         { fg = greenLight }, --   A number constant: 234, 0xff
-      Boolean        { fg = greenLight }, --   A boolean constant: TRUE, false
-      Float          { fg = greenLight }, --   A floating point constant: 2.3e10
+      Boolean        { Number }, --   A boolean constant: TRUE, false
+      Float          { Number }, --   A floating point constant: 2.3e10
 
       Identifier     { fg = blueLight }, -- (*) Any variable name
       Function       { fg = yellowMedium }, --   Function name (also: methods for classes)
@@ -271,13 +274,13 @@ local theme = lush(function(injected_functions)
       PreProc        { fg = yellowMedium.mix(redMedium, 50) }, -- (*) Generic Preprocessor
       -- Include        { }, --   Preprocessor #include
       -- Define         { }, --   Preprocessor #define
-      -- Macro          { }, --   Same as Define
+      Macro          { PreProc }, --   Same as Define
       -- PreCondit      { }, --   Preprocessor #if, #else, #endif, etc.
 
       Type           { fg = cyanMedium }, -- (*) int, long, char, etc.
       StorageClass   { fg = purpleMedium }, --   static, register, volatile, etc.
-      Structure      { fg = cyanMedium }, --   struct, union, enum, etc.
-      Typedef        { fg = cyanMedium }, --   A typedef
+      Structure      { Type }, --   struct, union, enum, etc.
+      Typedef        { Type }, --   A typedef
 
       Special        { fg = purpleMedium }, -- (*) Any special symbol
       SpecialChar    { Special }, --   Special character in a constant
@@ -290,6 +293,227 @@ local theme = lush(function(injected_functions)
       -- Ignore         { }, -- Left blank, hidden |hl-Ignore| (NOTE: May be invisible here in template)
       Error          { fg = redVSat }, -- Any erroneous construct
       Todo           { fg = blueMedium, gui = 'italic' }, -- Anything that needs extra attention; mostly the keywords TODO FIXME and XXX
+
+      -- Tree-Sitter syntax groups.
+      --
+      -- See :h treesitter-highlight-groups, some groups may not be listed,
+      -- submit a PR fix to lush-template!
+      --
+      -- Tree-Sitter groups are defined with an "@" symbol, which must be
+      -- specially handled to be valid lua code, we do this via the special
+      -- sym function. The following are all valid ways to call the sym function,
+      -- for more details see https://www.lua.org/pil/5.html
+      --
+      -- sym("@text.literal")
+      -- sym('@text.literal')
+      -- sym"@text.literal"
+      -- sym'@text.literal'
+      --
+      -- For more information see https://github.com/rktjmp/lush.nvim/issues/109
+      -- sym"@text.literal"      { }, -- Comment
+      -- sym"@text.reference"    { }, -- Identifier
+      -- sym"@text.title"        { }, -- Title
+      -- sym"@text.uri"          { }, -- Underlined
+      -- sym"@text.underline"    { }, -- Underlined
+      -- sym"@text.todo"         { }, -- Todo
+      -- sym"@comment"           { }, -- Comment
+      sym"@punctuation"           { Delimiter }, -- Delimiter
+      sym"@punctuation.delimiter" { Delimiter },
+      sym"@punctuation.bracket"   { Keyword },
+      -- sym"@punctuation.special" { },
+      -- sym"@constant"          { }, -- Constant
+      sym"@constant.builtin"  { Constant }, -- Special
+      -- sym"@constant.macro"    { }, -- Define
+      -- sym"@define"            { }, -- Define
+      -- sym"@macro"             { }, -- Macro
+      -- sym"@string"            { }, -- String
+      -- sym"@string.escape"     { }, -- SpecialChar
+      -- sym"@string.special"    { }, -- SpecialChar
+      -- sym"@character"         { }, -- Character
+      -- sym"@character.special" { }, -- SpecialChar
+      -- sym"@number"            { }, -- Number
+      -- sym"@boolean"           { }, -- Boolean
+      -- sym"@float"             { }, -- Float
+      -- sym"@function"          { }, -- Function
+      sym"@function.builtin"  { Function }, -- Special
+      -- sym"@function.macro"    { }, -- Macro
+      -- sym"@function.call"     { },
+      -- sym"@function.method"   { }, -- Function
+      -- sym"@function.method.builtin" { }, -- Function
+      -- sym"@method"            { }, -- Function
+      -- sym"@variable"          { }, -- Identifier
+      -- sym"@variable.parameter" { }, -- Identifier
+      -- sym"@variable.builtin"  { }, -- Identifier
+      -- sym"@parameter"         { }, -- Identifier
+      sym"@field"             { Constant }, -- Identifier
+      sym"@property"          { Constant }, -- Identifier
+      -- sym"@constructor"       { }, -- Special
+      -- sym"@conditional"       { }, -- Conditional
+      -- sym"@repeat"            { }, -- Repeat
+      -- sym"@label"             { }, -- Label
+      -- sym"@operator"          { }, -- Operator
+      -- sym"@keyword"           { }, -- Keyword
+      -- sym"@keyword.coroutine" { }, -- Keyword
+      -- sym"@keyword.function"  { }, -- Keyword
+      -- sym"@keyword.return"    { },
+      -- sym"@exception"         { }, -- Exception
+      -- sym"@type"              { }, -- Type
+      -- sym"@type.builtin"      { }, -- Type
+      sym"@type.qualifier"    { Keyword },
+      -- sym"@type.definition"   { }, -- Typedef
+      -- sym"@storageclass"      { }, -- StorageClass
+      -- sym"@structure"         { }, -- Structure
+      sym"@namespace"         { Type }, -- Identifier
+      sym"@include"           { Keyword }, -- Include
+      -- sym"@preproc"           { }, -- PreProc
+      -- sym"@debug"             { }, -- Debug
+      sym"@tag"               { Type }, -- Tag
+      sym"@tag.attribute"     { Identifier },
+      sym"@tag.delimiter"     { Keyword },
+      sym"@attribute"         { Keyword },
+      -- sym"@none"              { }, -- Found in Nix file
+
+      sym"@lsp.type.enum"             { fg = redVSat }, -- Structure
+      sym"@lsp.type.path"             { fg = redVSat },
+      sym"@lsp.type.type"             { fg = redVSat }, -- Type
+      sym"@lsp.type.class"            { fg = redVSat }, -- Structure
+      sym"@lsp.type.label"            { fg = redVSat },
+      sym"@lsp.type.macro"            { fg = redVSat }, -- Macro
+      sym"@lsp.type.method"           { fg = redVSat }, -- Function
+      sym"@lsp.type.number"           { fg = redVSat },
+      sym"@lsp.type.string"           { fg = redVSat },
+      sym"@lsp.type.struct"           { fg = redVSat }, -- Structure
+      sym"@lsp.type.boolean"          { fg = redVSat },
+      sym"@lsp.type.comment"          { fg = redVSat }, -- Comment
+      sym"@lsp.type.generic"          { fg = redVSat },
+      sym"@lsp.type.keyword"          { fg = redVSat },
+      sym"@lsp.type.unknown"          { fg = redVSat },
+      sym"@lsp.type.constant"         { fg = redVSat },
+      sym"@lsp.type.function"         { fg = redVSat }, -- Function
+      sym"@lsp.type.lifetime"         { fg = redVSat },
+      sym"@lsp.type.modifier"         { fg = redVSat },
+      sym"@lsp.type.operator"         { fg = redVSat },
+      sym"@lsp.type.property"         { fg = redVSat }, -- Identifier
+      sym"@lsp.type.variable"         { fg = redVSat }, -- Identifier
+      sym"@lsp.type.decorator"        { fg = redVSat }, -- Function
+      sym"@lsp.type.interface"        { fg = redVSat }, -- Structure
+      sym"@lsp.type.namespace"        { fg = redVSat }, -- Structure
+      sym"@lsp.type.parameter"        { fg = redVSat }, -- Identifier
+      sym"@lsp.type.typeAlias"        { fg = redVSat }, -- Structure
+      sym"@lsp.type.enumMember"       { fg = redVSat }, -- Constant
+      sym"@lsp.type.builtinType"      { fg = redVSat },
+      sym"@lsp.type.selfKeyword"      { fg = redVSat },
+      sym"@lsp.type.punctuation"      { fg = redVSat },
+      sym"@lsp.type.typeParameter"    { fg = redVSat }, -- Typedef
+      sym"@lsp.type.escapeSequence"   { fg = redVSat }, -- Typedef
+      sym"@lsp.type.attributeBracket" { fg = redVSat },
+      sym"@lsp.type.builtinAttribute" { fg = redVSat },
+      sym"@lsp.type.unresolvedReference" { fg = redVSat },
+
+      -- C
+      sym"@lsp.type.macro.c"          { Macro },
+      sym"@lsp.type.function.c"       { },
+      sym"@lsp.type.parameter.c"      { },
+      sym"@lsp.type.class.c"          { },
+      sym"@lsp.type.variable.c"       { },
+      sym"@lsp.type.type.c"           { },
+      sym"@lsp.type.property.c"       { },
+      sym"@lsp.type.enumMember.c"     { },
+
+      -- C++
+      sym"@lsp.type.macro.cpp"        { Macro },
+      sym"@lsp.type.function.cpp"     { },
+      sym"@lsp.type.class.cpp"        { },
+      sym"@lsp.type.parameter.cpp"    { },
+      sym"@lsp.type.type.cpp"         { },
+      sym"@lsp.type.variable.cpp"     { },
+      sym"@lsp.type.enumMember.cpp"   { },
+      sym"@lsp.type.enum.cpp"         { },
+      sym"@lsp.type.namespace.cpp"    { },
+      sym"@lsp.type.property.cpp"     { },
+      sym"@lsp.type.typeParameter.cpp" { },
+      sym"@lsp.type.method.cpp"       { },
+      sym"@lsp.type.unknown.cpp"      { },
+
+      -- C#
+      sym"@lsp.type.comment.cs"       { },
+      sym"@lsp.type.keyword.cs"       { },
+      sym"@lsp.type.namespace.cs"     { },
+      sym"@lsp.type.operator.cs"      { },
+      sym"@lsp.type.interface.cs"     { },
+      sym"@lsp.type.class.cs"         { },
+      sym"@lsp.type.property.cs"      { sym"@property" },
+      sym"@lsp.type.parameter.cs"     { },
+      sym"@lsp.type.method.cs"        { },
+      sym"@lsp.type.variable.cs"      { },
+      sym"@lsp.type.enum.cs"          { },
+      sym"@lsp.type.enumMember.cs"    { Constant },
+      sym"@lsp.type.number.cs"        { },
+      sym"@lsp.type.typeParameter.cs" { Type },
+      sym"@lsp.type.string.cs"        { },
+      sym"@lsp.type.struct.cs"        { Structure },
+
+      -- Lua
+      sym"@lsp.type.comment.lua"      { },
+      sym"@lsp.type.variable.lua"     { },
+      sym"@lsp.type.property.lua"     { },
+      sym"@lsp.type.method.lua"       { },
+      sym"@lsp.type.function.lua"     { },
+      sym"@lsp.type.parameter.lua"    { },
+      sym"@lsp.type.keyword.lua"      { },
+      sym"@keyword.luadoc"            { Delimiter },
+
+      -- Nix
+      sym"@lsp.type.comment.nix"      { },
+      sym"@lsp.type.punctuation.nix"  { },
+      sym"@lsp.type.constant.nix"     { },
+      sym"@lsp.type.property.nix"     { },
+      sym"@lsp.type.number.nix"       { },
+      sym"@lsp.type.string.nix"       { },
+      sym"@lsp.type.boolean.nix"      { },
+      sym"@lsp.type.parameter.nix"    { },
+      sym"@lsp.type.keyword.nix"      { },
+      sym"@lsp.type.operator.nix"     { },
+      sym"@lsp.type.variable.nix"     { Identifier },
+      sym"@lsp.type.function.nix"     { },
+      sym"@lsp.typemod.struct.builtin.nix" { Constant },
+      sym"@lsp.mod.delimiter.nix"     { Delimiter },
+      sym"@lsp.type.path.nix"         { fg = greenLight },
+
+      -- Rust
+      sym"@lsp.type.comment.rust"     { },
+      sym"@lsp.type.unresolvedReference.rust" { },
+      sym"@lsp.type.typeAlias.rust"   { },
+      sym"@lsp.type.builtinType.rust" { },
+      sym"@lsp.type.attributeBracket.rust" { },
+      sym"@lsp.type.decorator.rust"   { },
+      sym"@lsp.type.generic.rust"     { },
+      sym"@lsp.type.struct.rust"      { },
+      sym"@lsp.type.property.rust"    { },
+      sym"@lsp.type.method.rust"      { },
+      sym"@lsp.type.parameter.rust"   { },
+      sym"@lsp.type.variable.rust"    { },
+      sym"@lsp.type.keyword.rust"     { },
+      sym"@lsp.type.macro.rust"       { },
+      sym"@lsp.type.operator.rust"    { },
+      sym"@lsp.type.selfKeyword.rust" { },
+      sym"@lsp.type.enumMember.rust"  { },
+      sym"@lsp.type.enum.rust"        { },
+      sym"@lsp.type.interface.rust"   { },
+      sym"@lsp.type.builtinAttribute.rust" { },
+      sym"@lsp.type.string.rust"      { },
+      sym"@lsp.type.lifetime.rust"    { },
+      sym"@lsp.type.function.rust"    { },
+      sym"@lsp.type.namespace.rust"   { },
+
+      -- TS-Rainbow
+      TSRainbowRed    { fg = yellowMedium },
+      TSRainbowYellow { fg = cyanMedium },
+      TSRainbowBlue   { fg = purpleMedium },
+      TSRainbowOrange { fg = blueMedium },
+      TSRainbowGreen  { fg = greenMedium },
+      TSRainbowViolet { fg = redMedium },
+      TSRainbowCyan   { fg = whiteMedium },
 
       -- Netrw
       netrwBak       { },
@@ -365,6 +589,7 @@ local theme = lush(function(injected_functions)
       LspSignatureActiveParameter { fg = Normal.fg, gui = 'italic_underline', sp = Normal.fg } , -- Used to highlight the active parameter in the signature help. See |vim.lsp.handlers.signature_help()|.
 
       -- See :h diagnostic-highlights, some groups may not be listed, submit a PR fix to lush-template!
+      DiagnosticUnnecessary      { fg = grayLight }, -- Used for unused identifiers.
       DiagnosticError            { fg = StatusLineError.fg } , -- Used as the base highlight group. Other Diagnostic highlights link to this by default (except Underline)
       DiagnosticWarn             { fg = StatusLineWarn.fg } , -- Used as the base highlight group. Other Diagnostic highlights link to this by default (except Underline)
       DiagnosticInfo             { fg = StatusLineInfo.fg } , -- Used as the base highlight group. Other Diagnostic highlights link to this by default (except Underline)
@@ -385,84 +610,6 @@ local theme = lush(function(injected_functions)
       -- DiagnosticSignWarn         { } , -- Used for "Warn" signs in sign column.
       -- DiagnosticSignInfo         { } , -- Used for "Info" signs in sign column.
       -- DiagnosticSignHint         { } , -- Used for "Hint" signs in sign column.
-
-      -- Tree-Sitter syntax groups.
-      --
-      -- See :h treesitter-highlight-groups, some groups may not be listed,
-      -- submit a PR fix to lush-template!
-      --
-      -- Tree-Sitter groups are defined with an "@" symbol, which must be
-      -- specially handled to be valid lua code, we do this via the special
-      -- sym function. The following are all valid ways to call the sym function,
-      -- for more details see https://www.lua.org/pil/5.html
-      --
-      -- sym("@text.literal")
-      -- sym('@text.literal')
-      -- sym"@text.literal"
-      -- sym'@text.literal'
-      --
-      -- For more information see https://github.com/rktjmp/lush.nvim/issues/109
-      -- sym"@text.literal"      { }, -- Comment
-      -- sym"@text.reference"    { }, -- Identifier
-      -- sym"@text.title"        { }, -- Title
-      -- sym"@text.uri"          { }, -- Underlined
-      -- sym"@text.underline"    { }, -- Underlined
-      -- sym"@text.todo"         { }, -- Todo
-      -- sym"@comment"           { }, -- Comment
-      sym"@punctuation"           { Delimiter }, -- Delimiter
-      sym'@punctuation.delimiter' { Delimiter },
-      sym'@punctuation.bracket'   { Keyword },
-      -- sym'@punctuation.special' { },
-      -- sym"@constant"          { }, -- Constant
-      sym"@constant.builtin"  { Constant }, -- Special
-      -- sym"@constant.macro"    { }, -- Define
-      -- sym"@define"            { }, -- Define
-      -- sym"@macro"             { }, -- Macro
-      -- sym"@string"            { }, -- String
-      -- sym"@string.escape"     { }, -- SpecialChar
-      -- sym"@string.special"    { }, -- SpecialChar
-      -- sym"@character"         { }, -- Character
-      -- sym"@character.special" { }, -- SpecialChar
-      -- sym"@number"            { }, -- Number
-      -- sym"@boolean"           { }, -- Boolean
-      -- sym"@float"             { }, -- Float
-      -- sym"@function"          { }, -- Function
-      sym"@function.builtin"  { Function }, -- Special
-      -- sym"@function.macro"    { }, -- Macro
-      sym"@function.call"     { Function },
-      -- sym"@parameter"         { }, -- Identifier
-      -- sym"@method"            { }, -- Function
-      -- sym"@field"             { }, -- Identifier
-      sym"@property"          { fg = blueMedium }, -- Identifier
-      -- sym"@constructor"       { }, -- Special
-      -- sym"@conditional"       { }, -- Conditional
-      -- sym"@repeat"            { }, -- Repeat
-      -- sym"@label"             { }, -- Label
-      -- sym"@operator"          { }, -- Operator
-      -- sym"@keyword"           { }, -- Keyword
-      -- sym"@exception"         { }, -- Exception
-      -- sym"@variable"          { }, -- Identifier
-      -- sym"@type"              { }, -- Type
-      -- sym"@type.builtin"      { }, -- Type
-      sym"@type.qualifier"    { Keyword },
-      -- sym"@type.definition"   { }, -- Typedef
-      -- sym"@storageclass"      { }, -- StorageClass
-      sym"@structure"         { Structure }, -- Structure
-      sym"@namespace"         { Type }, -- Identifier
-      sym"@include"           { Keyword }, -- Include
-      -- sym"@preproc"           { }, -- PreProc
-      -- sym"@debug"             { }, -- Debug
-      -- sym"@tag"               { }, -- Tag
-      sym"@attribute"         { Keyword },
-
-      -- TS-Rainbow
-      TSRainbowRed    { fg = yellowMedium },
-      TSRainbowYellow { fg = cyanMedium },
-      TSRainbowBlue   { fg = purpleMedium },
-      TSRainbowOrange { fg = blueMedium },
-      TSRainbowGreen  { fg = greenMedium },
-      TSRainbowViolet { fg = redMedium },
-      TSRainbowCyan   { fg = whiteMedium },
 
       --CmpItemAbbr           { },
       CmpItemAbbrDeprecates { gui = 'strikethrough' },
