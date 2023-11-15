@@ -126,7 +126,7 @@ local theme = lush(function(injected_functions)
   return {
       -- ColorColumn  { }, -- Columns set with 'colorcolumn'
       -- Conceal      { }, -- Placeholder characters substituted for concealed text (see 'conceallevel')
-      Cursor       { fg = bgColor, bg = purpleMedium }, -- Character under the cursor
+      Cursor       { fg = ifBg(bgColor).noBg('none'), bg = purpleMedium }, -- Character under the cursor
       lCursor      { Cursor }, -- Character under the cursor when |language-mapping| is used (see 'guicursor')
       -- CursorIM     { }, -- Like Cursor, but used when in IME mode |CursorIM|
       CursorColumn { bg = ifBg(bgColor.mix(purpleMedium, 2)).noBg(bgColor.mix(grayDark, 50))  },--hsl(bgColor).li(1).sa(3) }, -- Screen-column at the cursor, when 'cursorcolumn' is set.
@@ -141,7 +141,7 @@ local theme = lush(function(injected_functions)
       -- TermCursorNC { }, -- Cursor in an unfocused terminal
       ErrorMsg     { fg = redVSat, bg = bgColor.da(10) }, -- Error messages on the command line
       VertSplit    { fg = ifBg(grayMedium).noBg(grayVDark) }, -- Column separating vertically split windows
-      Folded       { bg = ifBg(bgColor.mix(grayVDark, 50)).noBg("") }, -- Line used for closed folds
+      Folded       { bg = ifBg(bgColor.mix(grayVDark, 50)).noBg(""), sp = grayVDark, gui = "underdotted" }, -- Line used for closed folds
       FoldColumn   { fg = bgColor.mix(grayLight, 30) }, -- 'foldcolumn'
       SignColumn   { FoldColumn }, -- Column where |signs| are displayed
       -- IncSearch    { }, -- 'incsearch' highlighting; also used for the text replaced with ":s///c"
@@ -158,7 +158,7 @@ local theme = lush(function(injected_functions)
       NormalFloat  { fg = grayVLight, bg = ifBg(grayVDark).noBg("none"), blend = ifBg(20).noBg(0) }, -- Normal text in floating windows.
       NormalNC     { fg = purpleLight.de(10).da(10) , bg = ifBgOrNone(bgColor.de(10).da(10)) }, -- normal text in non-current windows
       Pmenu        { NormalFloat }, -- Popup menu: Normal item.
-      PmenuSel     { fg = bgColor, bg = purpleMedium, gui = "bold" }, --{ fg = whiteMedium, bg = grayLight  }, -- Popup menu: Selected item.
+      PmenuSel     { CursorLine, gui = "bold" }, --{ fg = whiteMedium, bg = grayLight  }, -- Popup menu: Selected item.
       PmenuSbar    { fg = whiteMedium, bg = grayMedium }, -- Popup menu: Scrollbar.
       PmenuThumb   { fg = whiteMedium, bg = purpleMedium }, -- Popup menu: Thumb of the scrollbar.
       Question     { fg = greenSat }, -- |hit-enter| prompt and yes/no questions
@@ -260,6 +260,7 @@ local theme = lush(function(injected_functions)
       Boolean        { Number }, --   A boolean constant: TRUE, false
       Float          { Number }, --   A floating point constant: 2.3e10
 
+      Property       { fg = blueMedium }, -- Only used in this file (is linked to from other groups)
       Identifier     { fg = blueLight }, -- (*) Any variable name
       Function       { fg = yellowMedium }, --   Function name (also: methods for classes)
 
@@ -271,16 +272,17 @@ local theme = lush(function(injected_functions)
       Operator       { fg = grayVLight }, --   "sizeof", "+", "*", etc.
       Exception      { Keyword }, --   try, catch, throw
 
-      PreProc        { fg = yellowMedium.mix(redMedium, 50) }, -- (*) Generic Preprocessor
+      Macro          { fg = yellowMedium.mix(redMedium, 50) }, --   Same as Define
+      PreProc        { Macro }, -- (*) Generic Preprocessor
       -- Include        { }, --   Preprocessor #include
       -- Define         { }, --   Preprocessor #define
-      Macro          { PreProc }, --   Same as Define
       -- PreCondit      { }, --   Preprocessor #if, #else, #endif, etc.
 
       Type           { fg = cyanMedium }, -- (*) int, long, char, etc.
       StorageClass   { fg = purpleMedium }, --   static, register, volatile, etc.
       Structure      { Type }, --   struct, union, enum, etc.
       Typedef        { Type }, --   A typedef
+      Namespace      { Type }, -- Only used in this file (is linked to from other groups)
 
       Special        { fg = purpleMedium }, -- (*) Any special symbol
       SpecialChar    { Special }, --   Special character in a constant
@@ -289,6 +291,7 @@ local theme = lush(function(injected_functions)
       -- SpecialComment { }, --   Special things inside a comment (e.g. '\n')
       -- Debug          { }, --   Debugging statements
 
+      Unknown        { gui = "strikethrough" }, -- Only used in this file (is linked to from other groups)
       Underlined     { fg = blueVSat, gui = 'italic_underline', sp = blueVSat }, -- Text that stands out, HTML links
       -- Ignore         { }, -- Left blank, hidden |hl-Ignore| (NOTE: May be invisible here in template)
       Error          { fg = redVSat }, -- Any erroneous construct
@@ -345,8 +348,8 @@ local theme = lush(function(injected_functions)
       -- sym"@variable.parameter" { }, -- Identifier
       -- sym"@variable.builtin"  { }, -- Identifier
       -- sym"@parameter"         { }, -- Identifier
-      sym"@field"             { Constant }, -- Identifier
-      sym"@property"          { Constant }, -- Identifier
+      sym"@field"             { Property }, -- Identifier
+      sym"@property"          { Property }, -- Identifier
       -- sym"@constructor"       { }, -- Special
       -- sym"@conditional"       { }, -- Conditional
       -- sym"@repeat"            { }, -- Repeat
@@ -363,16 +366,17 @@ local theme = lush(function(injected_functions)
       -- sym"@type.definition"   { }, -- Typedef
       -- sym"@storageclass"      { }, -- StorageClass
       -- sym"@structure"         { }, -- Structure
-      sym"@namespace"         { Type }, -- Identifier
+      sym"@namespace"         { Namespace }, -- Identifier
       sym"@include"           { Keyword }, -- Include
       -- sym"@preproc"           { }, -- PreProc
       -- sym"@debug"             { }, -- Debug
       sym"@tag"               { Type }, -- Tag
-      sym"@tag.attribute"     { Identifier },
+      sym"@tag.attribute"     { Property },
       sym"@tag.delimiter"     { Keyword },
       sym"@attribute"         { Keyword },
       -- sym"@none"              { }, -- Found in Nix file
 
+      -- Temporarily turn all found lsp groups to red, so we can find them and overwrite them for each language
       sym"@lsp.type.enum"             { fg = redVSat }, -- Structure
       sym"@lsp.type.path"             { fg = redVSat },
       sym"@lsp.type.type"             { fg = redVSat }, -- Type
@@ -419,6 +423,7 @@ local theme = lush(function(injected_functions)
       sym"@lsp.type.type.c"           { },
       sym"@lsp.type.property.c"       { },
       sym"@lsp.type.enumMember.c"     { },
+      sym"@lsp.type.enum.c"           { },
 
       -- C++
       sym"@lsp.type.macro.cpp"        { Macro },
@@ -433,7 +438,7 @@ local theme = lush(function(injected_functions)
       sym"@lsp.type.property.cpp"     { },
       sym"@lsp.type.typeParameter.cpp" { },
       sym"@lsp.type.method.cpp"       { },
-      sym"@lsp.type.unknown.cpp"      { },
+      sym"@lsp.type.unknown.cpp"      { Unknown },
 
       -- C#
       sym"@lsp.type.comment.cs"       { },
@@ -442,7 +447,7 @@ local theme = lush(function(injected_functions)
       sym"@lsp.type.operator.cs"      { },
       sym"@lsp.type.interface.cs"     { },
       sym"@lsp.type.class.cs"         { },
-      sym"@lsp.type.property.cs"      { sym"@property" },
+      sym"@lsp.type.property.cs"      { Property },
       sym"@lsp.type.parameter.cs"     { },
       sym"@lsp.type.method.cs"        { },
       sym"@lsp.type.variable.cs"      { },
@@ -452,6 +457,26 @@ local theme = lush(function(injected_functions)
       sym"@lsp.type.typeParameter.cs" { Type },
       sym"@lsp.type.string.cs"        { },
       sym"@lsp.type.struct.cs"        { Structure },
+
+      -- Java
+      sym"@lsp.type.namespace.java"   { Namespace },
+      sym"@lsp.type.class.java"       { },
+      sym"@lsp.type.interface.java"   { },
+      sym"@lsp.type.modifier.java"    { },
+      sym"@lsp.type.method.java"      { },
+      sym"@lsp.type.property.java"    { },
+      sym"@lsp.type.parameter.java"   { },
+      sym"@lsp.type.typeParameter.java" { },
+      sym"@lsp.type.enum.java"        { },
+      sym"@lsp.type.enumMember.java"  { },
+      sym"@lsp.type.variable.java"    { },
+      sym"@lsp.type.keyword.java"     { },
+
+      -- Javascript
+      sym"@lsp.type.property.javascript" { },
+      sym"@lsp.type.parameter.javascript" { },
+      sym"@lsp.type.function.javascript" { },
+      sym"@lsp.type.variable.javascript" { },
 
       -- Lua
       sym"@lsp.type.comment.lua"      { },
@@ -482,7 +507,7 @@ local theme = lush(function(injected_functions)
 
       -- Rust
       sym"@lsp.type.comment.rust"     { },
-      sym"@lsp.type.unresolvedReference.rust" { },
+      sym"@lsp.type.unresolvedReference.rust" { Unknown },
       sym"@lsp.type.typeAlias.rust"   { },
       sym"@lsp.type.builtinType.rust" { },
       sym"@lsp.type.attributeBracket.rust" { },
@@ -505,8 +530,11 @@ local theme = lush(function(injected_functions)
       sym"@lsp.type.lifetime.rust"    { },
       sym"@lsp.type.function.rust"    { },
       sym"@lsp.type.namespace.rust"   { },
+      sym"@lsp.type.escapeSequence.rust" { },
+      sym"@lsp.type.typeParameter.rust" { },
+      sym"@lsp.type.label.rust"       { },
 
-      -- TS-Rainbow
+      -- TS-Rainbow TODO: Rename these
       TSRainbowRed    { fg = yellowMedium },
       TSRainbowYellow { fg = cyanMedium },
       TSRainbowBlue   { fg = purpleMedium },
@@ -558,7 +586,7 @@ local theme = lush(function(injected_functions)
       netrwVersion   { Todo },
       netrwYacc      { },
 
-      -- Netrw custom stynax matches
+      -- Netrw custom syntax matches
       netrwMylang    { fg = cyanMedium },
       netrwHaskell   { fg = purpleVSat },
       netrwPython    { fg = yellowMedium },
@@ -589,7 +617,7 @@ local theme = lush(function(injected_functions)
       LspSignatureActiveParameter { fg = Normal.fg, gui = 'italic_underline', sp = Normal.fg } , -- Used to highlight the active parameter in the signature help. See |vim.lsp.handlers.signature_help()|.
 
       -- See :h diagnostic-highlights, some groups may not be listed, submit a PR fix to lush-template!
-      DiagnosticUnnecessary      { fg = grayLight }, -- Used for unused identifiers.
+      DiagnosticUnnecessary      { Unknown }, -- Used for unused identifiers.
       DiagnosticError            { fg = StatusLineError.fg } , -- Used as the base highlight group. Other Diagnostic highlights link to this by default (except Underline)
       DiagnosticWarn             { fg = StatusLineWarn.fg } , -- Used as the base highlight group. Other Diagnostic highlights link to this by default (except Underline)
       DiagnosticInfo             { fg = StatusLineInfo.fg } , -- Used as the base highlight group. Other Diagnostic highlights link to this by default (except Underline)
@@ -600,8 +628,8 @@ local theme = lush(function(injected_functions)
       -- DiagnosticVirtualTextHint  { } , -- Used for "Hint" diagnostic virtual text.
       DiagnosticUnderlineError   { gui = 'undercurl', sp = redMedium } , -- Used to underline "Error" diagnostics.
       DiagnosticUnderlineWarn    { gui = 'undercurl', sp = yellowMedium } , -- Used to underline "Warn" diagnostics.
-      DiagnosticUnderlineInfo    { gui = 'undercurl', sp = blueMedium } , -- Used to underline "Info" diagnostics.
-      DiagnosticUnderlineHint    { gui = 'undercurl', sp = bgColor.mix(whiteMedium, 80)} , -- Used to underline "Hint" diagnostics.
+      DiagnosticUnderlineInfo    { gui = 'underdotted', sp = blueVSat } , -- Used to underline "Info" diagnostics.
+      DiagnosticUnderlineHint    { gui = 'underdotted', sp = grayLight} , -- Used to underline "Hint" diagnostics.
       -- DiagnosticFloatingError    { } , -- Used to color "Error" diagnostic messages in diagnostics float. See |vim.diagnostic.open_float()|
       -- DiagnosticFloatingWarn     { } , -- Used to color "Warn" diagnostic messages in diagnostics float.
       -- DiagnosticFloatingInfo     { } , -- Used to color "Info" diagnostic messages in diagnostics float.
@@ -612,10 +640,10 @@ local theme = lush(function(injected_functions)
       -- DiagnosticSignHint         { } , -- Used for "Hint" signs in sign column.
 
       --CmpItemAbbr           { },
-      CmpItemAbbrDeprecates { gui = 'strikethrough' },
+      CmpItemAbbrDeprecates { Unknown },
       --CmpItemAbbrMatch      { fg = magentaMedium, bg = Visual.bg },
       --CmpItemAbbrMatch      { fg = magentaMedium, gui = 'underline bold', sp = magentaMedium.sa(20) },
-      CmpItemAbbrMatch      { fg = purpleMedium, gui = 'bold' },
+      CmpItemAbbrMatch      { fg = purpleMedium },
       CmpItemAbbrMatchFuzzy { CmpItemAbbrMatch },
       --CmpItemKind           { Comment },
       CmpItemMenu           { fg = grayLight },
@@ -655,16 +683,16 @@ local theme = lush(function(injected_functions)
       CmpItemKindValue      { Number },
       CmpItemKindVariable   { Identifier },
 
-      CopilotSuggestion     { Comment },
+      CopilotSuggestion     { fg = grayMedium, gui = 'italic' },
 
-      TelescopeSelection      { PmenuSel },
+      TelescopeSelection      { CursorLine },
       TelescopeSelectionCaret { fg = Normal.fg },
       --TelescopeMultiSelection { },
       --TelescopeMultiIcon      { },
 
       --TelescopeNormal         { },
       TelescopePreviewNormal  { Normal },
-      TelescopePromptNormal   { Normal },
+      TelescopePromptNormal   { CursorLine },
       TelescopeResultsNormal  { Pmenu },
 
       --TelescopeBorder         { },
