@@ -169,7 +169,7 @@ local theme = lush(function(injected_functions)
       -- SpellCap     { }, -- Word that should start with a capital. |spell| Combined with the highlighting used otherwise.
       -- SpellLocal   { }, -- Word that is recognized by the spellchecker as one that is used in another region. |spell| Combined with the highlighting used otherwise.
       -- SpellRare    { }, -- Word that is recognized by the spellchecker as one that is hardly ever used. |spell| Combined with the highlighting used otherwise.
-      StatusLine   { fg = Normal.fg, bg = ifBg(Normal.bg).noBg(CursorLine.bg) }, --{ fg = bgColor, bg = purpleLight , -- Status line of current window
+      StatusLine   { fg = Normal.fg, bg = ifBg(Normal.bg).noBg(VertSplit.fg) }, --{ fg = bgColor, bg = purpleLight , -- Status line of current window
       StatusLineNC { StatusLine }, --{ fg = bgColor.de(10).da(10), bg = grayMedium }, -- Status lines of not-current windows. Note: If this is equal to "StatusLine" Vim will use "^^^" in the status line of the current window.
       -- TabLine      { }, -- Tab pages line, not active tab page label
       -- TabLineFill  { }, -- Tab pages line, where there are no labels
@@ -184,14 +184,17 @@ local theme = lush(function(injected_functions)
 
       -- Gitsigns
       GitSignsAdd       { fg = grayLight.mix(DiffAdd.fg, 75) },
-      GitSignsAddNr     { fg = grayDark.mix(DiffAdd.fg, 75) },
+      GitSignsAddNr     { fg = grayDark .mix(DiffAdd.fg, 50) },
       GitSignsAddLn     { GitSignsAdd },
       GitSignsChange    { fg = grayLight.mix(DiffChange.fg, 75) },
-      GitSignsChangeNr  { fg = grayDark.mix(DiffChange.fg, 75) },
+      GitSignsChangeNr  { fg = grayDark .mix(DiffChange.fg, 50) },
       GitSignsChangeLn  { GitSignsChange },
       GitSignsDelete    { fg = grayLight.mix(DiffDelete.fg, 75) },
-      GitSignsDeleteNr  { fg = grayDark.mix(DiffDelete.fg, 75) },
-      GitSignsDeleteLn  { GitSignsDelete },
+      GitSignsDeleteNr  { fg = LineNr.fg, gui = 'underline', sp = grayDark.mix(DiffDelete.fg, 50) },
+      GitSignsDeleteLn  {                 gui = 'underline', sp = grayDark.mix(DiffDelete.fg, 50) },
+
+      -- Indent-blankline
+      IndentLine        { VertSplit },
 
       -- Status line
       StatusLineViMode  { Normal },
@@ -253,7 +256,7 @@ local theme = lush(function(injected_functions)
 
       Comment        { fg = NonText.fg, gui = "italic" }, -- Any comment
 
-      Constant       { fg = blueMedium }, -- (*) Any constant
+      Constant       { fg = blueDark }, -- (*) Any constant
       String         { fg = purpleLight }, --   A string constant: "this is a string"
       Character      { String }, --   A character constant: 'c', '\n'
       Number         { fg = greenLight }, --   A number constant: 234, 0xff
@@ -464,19 +467,38 @@ local theme = lush(function(injected_functions)
       sym"@lsp.type.interface.java"   { },
       sym"@lsp.type.modifier.java"    { },
       sym"@lsp.type.method.java"      { },
-      sym"@lsp.type.property.java"    { },
+      sym"@lsp.type.property.java"    { Property },
       sym"@lsp.type.parameter.java"   { },
       sym"@lsp.type.typeParameter.java" { },
       sym"@lsp.type.enum.java"        { },
       sym"@lsp.type.enumMember.java"  { },
       sym"@lsp.type.variable.java"    { },
       sym"@lsp.type.keyword.java"     { },
+      sym"@lsp.mod.documentation.java" { Delimiter },
+      sym"@lsp.typemod.namespace.documentation.java" { Namespace },
+      sym"@lsp.typemod.class.documentation.java" { Namespace },
+      sym"@lsp.typemod.property.readonly.java" { Constant },
+      sym"@lsp.typemod.variable.readonly.java" { Constant },
+      sym"@lsp.typemod.parameter.readonly.java" { Constant },
 
       -- Javascript
       sym"@lsp.type.property.javascript" { },
       sym"@lsp.type.parameter.javascript" { },
       sym"@lsp.type.function.javascript" { },
       sym"@lsp.type.variable.javascript" { },
+
+      -- Typescript
+      -- typescriptFuncKeyword           { },
+      -- typescriptFuncName              { },
+      typescriptFuncComma             { Delimiter },
+      typescriptTypeAnnotation        { Delimiter },
+      typescriptRestOrSpread          { Operator },
+      -- typescriptParens                { },
+      typescriptCall                  { Identifier },
+      typescriptIdentifierName        { Identifier },
+      -- typescriptPredefinedType        { },
+      -- typescriptType                  { },
+      typescriptTypeBracket           { Keyword },
 
       -- Lua
       sym"@lsp.type.comment.lua"      { },
