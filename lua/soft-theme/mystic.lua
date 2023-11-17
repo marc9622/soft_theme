@@ -196,6 +196,15 @@ local theme = lush(function(injected_functions)
       -- Indent-blankline
       IndentLine        { VertSplit },
 
+      -- TS-Rainbow TODO: Rename these
+      TSRainbowRed    { fg = yellowMedium },
+      TSRainbowYellow { fg = cyanMedium },
+      TSRainbowBlue   { fg = purpleMedium },
+      TSRainbowOrange { fg = blueMedium },
+      TSRainbowGreen  { fg = greenMedium },
+      TSRainbowViolet { fg = redMedium },
+      TSRainbowCyan   { fg = whiteMedium },
+
       -- Status line
       StatusLineViMode  { Normal },
       StatusLineNormal  { fg = bgColor, bg = purpleLight },
@@ -555,15 +564,6 @@ local theme = lush(function(injected_functions)
       sym"@lsp.type.escapeSequence.rust" { },
       sym"@lsp.type.typeParameter.rust" { },
       sym"@lsp.type.label.rust"       { },
-
-      -- TS-Rainbow TODO: Rename these
-      TSRainbowRed    { fg = yellowMedium },
-      TSRainbowYellow { fg = cyanMedium },
-      TSRainbowBlue   { fg = purpleMedium },
-      TSRainbowOrange { fg = blueMedium },
-      TSRainbowGreen  { fg = greenMedium },
-      TSRainbowViolet { fg = redMedium },
-      TSRainbowCyan   { fg = whiteMedium },
 
       -- Netrw
       netrwBak       { },
