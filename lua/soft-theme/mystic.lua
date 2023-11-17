@@ -449,7 +449,7 @@ local theme = lush(function(injected_functions)
       sym"@lsp.type.namespace.cs"     { },
       sym"@lsp.type.operator.cs"      { },
       sym"@lsp.type.interface.cs"     { },
-      sym"@lsp.type.class.cs"         { },
+      sym"@lsp.type.class.cs"         { Type },
       sym"@lsp.type.property.cs"      { Property },
       sym"@lsp.type.parameter.cs"     { },
       sym"@lsp.type.method.cs"        { },
