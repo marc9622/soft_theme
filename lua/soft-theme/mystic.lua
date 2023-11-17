@@ -193,9 +193,6 @@ local theme = lush(function(injected_functions)
       GitSignsDeleteNr  { fg = LineNr.fg, gui = 'underline', sp = grayDark.mix(DiffDelete.fg, 50) },
       GitSignsDeleteLn  {                 gui = 'underline', sp = grayDark.mix(DiffDelete.fg, 50) },
 
-      -- Indent-blankline
-      IndentLine        { VertSplit },
-
       -- TS-Rainbow TODO: Rename these
       TSRainbowRed    { fg = yellowMedium },
       TSRainbowYellow { fg = cyanMedium },
