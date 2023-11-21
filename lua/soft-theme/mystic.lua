@@ -105,6 +105,7 @@ local greenVSat   = hsl('#00e07b') -- Spring Green
 -- Turquise
 local cyanLight  = hsl('#8aeae0') -- Aquamarine
 local cyanMedium = hsl('#69d1c5') -- Downy
+local cyanDark   = hsl('#4db0a0') -- Turquoise
 
 local cyanSat    = hsl('#20b0a0') -- Persian Green
 local cyanVSat   = hsl('#00d1b9') -- Robin's Egg
@@ -148,7 +149,7 @@ local theme = lush(function(injected_functions)
       Substitute   { fg = bgColor, bg = yellowMedium }, -- |:substitute| replacement text highlighting
       LineNr       { fg = ifBg(bgColor.mix(grayLight, 30)).noBg(grayDark) }, -- Line number for ":number" and ":#" commands, and when 'number' or 'relativenumber' option is set.
       CursorLineNr { fg = grayMedium, bg = LineNr.bg --[[CursorLine.bg]], gui = ifBg("").noBg("bold") }, -- Like LineNr when 'cursorline' or 'relativenumber' is set for the cursor line.
-      MatchParen   { fg = cyanVSat }, -- Character under the cursor or just before it, if it is a paired bracket, and its match. |pi_paren.txt|
+      MatchParen   { gui = "bold underline" }, -- Character under the cursor or just before it, if it is a paired bracket, and its match. |pi_paren.txt|
       ModeMsg      { fg = grayLight, bg = ifBgOrNone(bgColor) }, -- 'showmode' message (e.g., "-- INSERT -- ")
       MsgArea      { ModeMsg }, -- Area for messages and cmdline
       -- MsgSeparator { }, -- Separator for scrolled messages, `msgsep` flag of 'display'
@@ -194,13 +195,13 @@ local theme = lush(function(injected_functions)
       GitSignsDeleteLn  {                 gui = 'underline', sp = grayDark.mix(DiffDelete.fg, 50) },
 
       -- TS-Rainbow TODO: Rename these
-      TSRainbowRed    { fg = yellowMedium },
-      TSRainbowYellow { fg = cyanMedium },
-      TSRainbowBlue   { fg = purpleMedium },
-      TSRainbowOrange { fg = blueMedium },
-      TSRainbowGreen  { fg = greenMedium },
-      TSRainbowViolet { fg = redMedium },
-      TSRainbowCyan   { fg = whiteMedium },
+      TSRainbowRed    { fg = blueMedium },
+      TSRainbowYellow { fg = greenMedium },
+      TSRainbowBlue   { fg = yellowLight },
+      TSRainbowOrange { fg = redMedium },
+      TSRainbowGreen  { fg = cyanMedium },
+      TSRainbowViolet { fg = purpleMedium },
+      TSRainbowCyan   { fg = yellowMedium },
 
       -- Status line
       StatusLineViMode  { Normal },
@@ -291,7 +292,7 @@ local theme = lush(function(injected_functions)
       StorageClass   { fg = purpleMedium }, --   static, register, volatile, etc.
       Structure      { Type }, --   struct, union, enum, etc.
       Typedef        { Type }, --   A typedef
-      Namespace      { Type }, -- Only used in this file (is linked to from other groups)
+      Namespace      { fg = cyanDark }, -- Only used in this file (is linked to from other groups)
 
       Special        { fg = purpleMedium }, -- (*) Any special symbol
       SpecialChar    { Special }, --   Special character in a constant
@@ -367,7 +368,8 @@ local theme = lush(function(injected_functions)
       -- sym"@keyword"           { }, -- Keyword
       -- sym"@keyword.coroutine" { }, -- Keyword
       -- sym"@keyword.function"  { }, -- Keyword
-      -- sym"@keyword.return"    { },
+      sym"@keyword.operator"  { Statement }, -- Keyword
+      sym"@keyword.return"    { Statement },
       -- sym"@exception"         { }, -- Exception
       -- sym"@type"              { }, -- Type
       -- sym"@type.builtin"      { }, -- Type
@@ -423,6 +425,9 @@ local theme = lush(function(injected_functions)
       sym"@lsp.type.builtinAttribute" { fg = redVSat },
       sym"@lsp.type.unresolvedReference" { fg = redVSat },
 
+      -- Bash
+      sym"@keyword.bash"      { Statement }, -- Keyword
+
       -- C
       sym"@lsp.type.macro.c"          { Macro },
       sym"@lsp.type.function.c"       { },
@@ -452,7 +457,7 @@ local theme = lush(function(injected_functions)
       -- C#
       sym"@lsp.type.comment.cs"       { },
       sym"@lsp.type.keyword.cs"       { },
-      sym"@lsp.type.namespace.cs"     { },
+      sym"@lsp.type.namespace.cs"     { Namespace },
       sym"@lsp.type.operator.cs"      { },
       sym"@lsp.type.interface.cs"     { },
       sym"@lsp.type.class.cs"         { Type },
@@ -469,7 +474,7 @@ local theme = lush(function(injected_functions)
 
       -- Java
       sym"@lsp.type.namespace.java"   { Namespace },
-      sym"@lsp.type.class.java"       { },
+      sym"@lsp.type.class.java"       { Type },
       sym"@lsp.type.interface.java"   { },
       sym"@lsp.type.modifier.java"    { },
       sym"@lsp.type.method.java"      { },
@@ -479,10 +484,11 @@ local theme = lush(function(injected_functions)
       sym"@lsp.type.enum.java"        { },
       sym"@lsp.type.enumMember.java"  { },
       sym"@lsp.type.variable.java"    { },
-      sym"@lsp.type.keyword.java"     { },
+      sym"@lsp.mod.readonly.java"     { },
       sym"@lsp.mod.documentation.java" { Delimiter },
       sym"@lsp.typemod.namespace.documentation.java" { Namespace },
       sym"@lsp.typemod.class.documentation.java" { Namespace },
+      sym"@lsp.typemod.enum.readonly.java" { Type },
       sym"@lsp.typemod.property.readonly.java" { Constant },
       sym"@lsp.typemod.variable.readonly.java" { Constant },
       sym"@lsp.typemod.parameter.readonly.java" { Constant },
@@ -516,6 +522,10 @@ local theme = lush(function(injected_functions)
       sym"@lsp.type.keyword.lua"      { },
       sym"@keyword.luadoc"            { Delimiter },
 
+      -- Make
+      sym"@symbol.make"               { Identifier },
+      sym"@string.make"               { Identifier },
+
       -- Nix
       sym"@lsp.type.comment.nix"      { },
       sym"@lsp.type.punctuation.nix"  { },
@@ -527,7 +537,7 @@ local theme = lush(function(injected_functions)
       sym"@lsp.type.parameter.nix"    { },
       sym"@lsp.type.keyword.nix"      { },
       sym"@lsp.type.operator.nix"     { },
-      sym"@lsp.type.variable.nix"     { Identifier },
+      sym"@lsp.type.variable.nix"     { Identifier }, -- TODO: Should variables in functional languages where all variables are immutable use Constant instead?
       sym"@lsp.type.function.nix"     { },
       sym"@lsp.typemod.struct.builtin.nix" { Constant },
       sym"@lsp.mod.delimiter.nix"     { Delimiter },
@@ -545,7 +555,7 @@ local theme = lush(function(injected_functions)
       sym"@lsp.type.property.rust"    { },
       sym"@lsp.type.method.rust"      { },
       sym"@lsp.type.parameter.rust"   { },
-      sym"@lsp.type.variable.rust"    { },
+      sym"@lsp.type.variable.rust"    { Identifier },
       sym"@lsp.type.keyword.rust"     { },
       sym"@lsp.type.macro.rust"       { },
       sym"@lsp.type.operator.rust"    { },
@@ -561,6 +571,7 @@ local theme = lush(function(injected_functions)
       sym"@lsp.type.escapeSequence.rust" { },
       sym"@lsp.type.typeParameter.rust" { },
       sym"@lsp.type.label.rust"       { },
+      sym"@keyword.rust"              { Statement },
 
       -- Netrw
       netrwBak       { },
