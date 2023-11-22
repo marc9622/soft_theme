@@ -573,6 +573,9 @@ local theme = lush(function(injected_functions)
       sym"@lsp.type.label.rust"       { },
       sym"@keyword.rust"              { Statement },
 
+      -- Vimdoc
+      sym"@text.literal.vimdoc"       { Number },
+
       -- Netrw
       netrwBak       { },
       netrwClassify  { fg = grayLight },
