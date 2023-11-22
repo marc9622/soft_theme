@@ -545,7 +545,7 @@ local theme = lush(function(injected_functions)
 
       -- Rust
       sym"@lsp.type.comment.rust"     { },
-      sym"@lsp.type.unresolvedReference.rust" { Unknown },
+      sym"@lsp.type.unresolvedReference.rust" { --[[ Unknown ]] }, -- Apparently rust_analyzer uses this on almost all identifiers, bug? TODO: Put Unknown back if it gets fixed.
       sym"@lsp.type.typeAlias.rust"   { },
       sym"@lsp.type.builtinType.rust" { },
       sym"@lsp.type.attributeBracket.rust" { },
@@ -560,7 +560,7 @@ local theme = lush(function(injected_functions)
       sym"@lsp.type.macro.rust"       { },
       sym"@lsp.type.operator.rust"    { },
       sym"@lsp.type.selfKeyword.rust" { },
-      sym"@lsp.type.enumMember.rust"  { },
+      sym"@lsp.type.enumMember.rust"  { Constant },
       sym"@lsp.type.enum.rust"        { },
       sym"@lsp.type.interface.rust"   { },
       sym"@lsp.type.builtinAttribute.rust" { },
