@@ -69,7 +69,7 @@ local grayVLight = hsl('#bdb8dd')
 local grayLight  = hsl('#8580c0')
 local grayMedium = hsl('#656090')
 local grayDark   = hsl('#454065')
-local grayVDark  = hsl('#25203a')
+local grayVDark  = hsl('#27203a')
 
 -- Heliotrope
 local purpleLight  = hsl('#d0a0f0') -- Mauve
@@ -130,9 +130,8 @@ local theme = lush(function(injected_functions)
       Cursor       { fg = ifBg(bgColor).noBg('none'), bg = purpleMedium }, -- Character under the cursor
       lCursor      { Cursor }, -- Character under the cursor when |language-mapping| is used (see 'guicursor')
       -- CursorIM     { }, -- Like Cursor, but used when in IME mode |CursorIM|
-      CursorColumn { bg = ifBg(bgColor.mix(purpleMedium, 2)).noBg(bgColor.mix(grayDark, 50))  },--hsl(bgColor).li(1).sa(3) }, -- Screen-column at the cursor, when 'cursorcolumn' is set.
-      CursorLine   { bg = ifBg(bgColor.mix(purpleMedium, 10)).noBg(bgColor.mix(grayDark, 50)) }, --hsl(bgColor).li(1).sa(3) }, -- Screen-line at the cursor, when 'cursorline' is set. Low-priority if foreground (ctermfg OR guifg) is not set.
-      Directory    { fg = grayLight }, -- Directory names (and other special names in listings)
+      CursorColumn { bg = ifBg(bgColor.mix(purpleMedium, 2)).noBg(grayVDark)  },--hsl(bgColor).li(1).sa(3) }, -- Screen-column at the cursor, when 'cursorcolumn' is set.
+      CursorLine   { bg = ifBg(bgColor.mix(purpleMedium, 10)).noBg(grayVDark) }, --hsl(bgColor).li(1).sa(3) }, -- Screen-line at the cursor, when 'cursorline' is set. Low-priority if foreground (ctermfg OR guifg) is not set.
       DiffAdd      { fg = grayMedium.mix(greenSat, 75) }, -- Diff mode: Added line |diff.txt|
       DiffChange   { fg = grayMedium.mix(blueSat, 75) }, -- Diff mode: Changed line |diff.txt|
       DiffDelete   { fg = grayMedium.mix(redSat, 75) }, -- Diff mode: Deleted line |diff.txt|
@@ -141,7 +140,7 @@ local theme = lush(function(injected_functions)
       -- TermCursor   { }, -- Cursor in a focused terminal
       -- TermCursorNC { }, -- Cursor in an unfocused terminal
       ErrorMsg     { fg = redVSat, bg = bgColor.da(10) }, -- Error messages on the command line
-      VertSplit    { fg = ifBg(grayMedium).noBg(grayVDark) }, -- Column separating vertically split windows
+      VertSplit    { fg = ifBg(grayMedium).noBg(CursorLine.bg) }, -- Column separating vertically split windows
       Folded       { bg = ifBg(bgColor.mix(grayVDark, 50)).noBg(""), sp = grayVDark, gui = "underdotted" }, -- Line used for closed folds
       FoldColumn   { fg = bgColor.mix(grayLight, 30) }, -- 'foldcolumn'
       SignColumn   { FoldColumn }, -- Column where |signs| are displayed
@@ -170,12 +169,12 @@ local theme = lush(function(injected_functions)
       -- SpellCap     { }, -- Word that should start with a capital. |spell| Combined with the highlighting used otherwise.
       -- SpellLocal   { }, -- Word that is recognized by the spellchecker as one that is used in another region. |spell| Combined with the highlighting used otherwise.
       -- SpellRare    { }, -- Word that is recognized by the spellchecker as one that is hardly ever used. |spell| Combined with the highlighting used otherwise.
-      StatusLine   { fg = Normal.fg, bg = ifBg(Normal.bg).noBg(VertSplit.fg) }, --{ fg = bgColor, bg = purpleLight , -- Status line of current window
-      StatusLineNC { StatusLine }, --{ fg = bgColor.de(10).da(10), bg = grayMedium }, -- Status lines of not-current windows. Note: If this is equal to "StatusLine" Vim will use "^^^" in the status line of the current window.
-      -- TabLine      { }, -- Tab pages line, not active tab page label
-      -- TabLineFill  { }, -- Tab pages line, where there are no labels
-      -- TabLineSel   { }, -- Tab pages line, active tab page label
-      Title        { fg = purpleSat, gui = "italic_bold" }, -- Titles for output from ":set all", ":autocmd" etc.
+      StatusLine   { fg = grayVLight, bg = ifBg(Normal.bg).noBg(VertSplit.fg) }, --{ fg = bgColor, bg = purpleLight , -- Status line of current window
+      StatusLineNC { fg = StatusLine.fg, bg = Normal.bg, blend = 50 }, --{ fg = bgColor.de(10).da(10), bg = grayMedium }, -- Status lines of not-current windows. Note: If this is equal to "StatusLine" Vim will use "^^^" in the status line of the current window.
+      TabLine      { StatusLineNC }, -- Tab pages line, not active tab page label
+      TabLineFill  { StatusLineNC }, -- Tab pages line, where there are no labels
+      TabLineSel   { StatusLine }, -- Tab pages line, active tab page label
+      Title        { fg = purpleSat, gui = 0 }, -- Titles for output from ":set all", ":autocmd" etc.
       Visual       { bg = ifBg(grayDark.mix(purpleVSat, 10)).noBg(grayVDark.mix(purpleSat, 50)) }, -- Visual mode selection
       -- VisualNOS    { }, -- Visual mode selection when vim is "Not Owning the Selection".
       WarningMsg   { fg = redVSat }, -- Warning messages
@@ -476,6 +475,7 @@ local theme = lush(function(injected_functions)
       sym"@lsp.type.keyword.java"     { },
       sym"@lsp.type.namespace.java"   { Namespace },
       sym"@lsp.type.class.java"       { Type },
+      sym"@lsp.type.type.java"        { },
       sym"@lsp.type.annotation.java"  { Function },
       sym"@lsp.type.interface.java"   { },
       sym"@lsp.type.modifier.java"    { },
@@ -491,6 +491,7 @@ local theme = lush(function(injected_functions)
       sym"@lsp.typemod.namespace.documentation.java" { Namespace },
       sym"@lsp.typemod.class.documentation.java" { Namespace },
       sym"@lsp.typemod.method.documentation.java" { Function },
+      sym"@lsp.typemod.parameter.documentation.java" { Identifier },
       sym"@lsp.typemod.keyword.documentation.java" { Keyword },
       sym"@lsp.typemod.enum.readonly.java" { Type },
       sym"@lsp.type.property.java"    { fg = Property.fg, gui = "italic" },
@@ -660,7 +661,7 @@ local theme = lush(function(injected_functions)
       -- LspReferenceWrite           { } , -- Used for highlighting "write" references
       -- LspCodeLens                 { } , -- Used to color the virtual text of the codelens. See |nvim_buf_set_extmark()|.
       -- LspCodeLensSeparator        { } , -- Used to color the seperator between two or more code lens.
-      LspSignatureActiveParameter { fg = Normal.fg, gui = 'italic_underline', sp = Normal.fg } , -- Used to highlight the active parameter in the signature help. See |vim.lsp.handlers.signature_help()|.
+      LspSignatureActiveParameter { gui = 'underline' } , -- Used to highlight the active parameter in the signature help. See |vim.lsp.handlers.signature_help()|.
 
       -- See :h diagnostic-highlights, some groups may not be listed, submit a PR fix to lush-template!
       DiagnosticUnnecessary      { Unknown }, -- Used for unused identifiers.
