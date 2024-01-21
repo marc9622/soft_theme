@@ -154,9 +154,9 @@ local theme = lush(function(injected_functions)
         -- MsgSeparator { }, -- Separator for scrolled messages, `msgsep` flag of 'display'
         MoreMsg      { fg = greenSat }, -- |more-prompt|
         NonText      { fg = bgColor.mix(grayMedium, 75) }, -- '@' at the end of the window, characters from 'showbreak' and other characters that do not really exist in the text (e.g., ">" displayed when a double-wide character doesn't fit at the end of the line). See also |hl-EndOfBuffer|.
-        Normal       { fg = purpleMedium, bg = ifBgOrNone(bgColor) }, -- Normal text
+        Normal       { fg = whiteMedium, bg = ifBgOrNone(bgColor) }, -- Normal text
         NormalFloat  { fg = grayVLight, bg = ifBg(grayVDark).noBg("none"), blend = ifBg(20).noBg(0) }, -- Normal text in floating windows.
-        NormalNC     { fg = purpleLight.de(10).da(10) , bg = ifBgOrNone(bgColor.de(10).da(10)) }, -- normal text in non-current windows
+        NormalNC     { fg = whiteMedium.de(10).da(10), bg = ifBgOrNone(bgColor.de(10).da(10)) }, -- normal text in non-current windows
         Pmenu        { NormalFloat }, -- Popup menu: Normal item.
         PmenuSel     { CursorLine, gui = "bold" }, --{ fg = whiteMedium, bg = grayLight  }, -- Popup menu: Selected item.
         PmenuSbar    { fg = whiteMedium, bg = grayMedium }, -- Popup menu: Scrollbar.
@@ -341,6 +341,7 @@ local theme = lush(function(injected_functions)
         -- sym"@string"            { }, -- String
         -- sym"@string.escape"     { }, -- SpecialChar
         -- sym"@string.special"    { }, -- SpecialChar
+        sym"@string.special.url"    { Underlined }, -- SpecialChar
         -- sym"@character"         { }, -- Character
         -- sym"@character.special" { }, -- SpecialChar
         -- sym"@number"            { }, -- Number
@@ -362,7 +363,7 @@ local theme = lush(function(injected_functions)
         -- sym"@constructor"       { }, -- Special
         -- sym"@conditional"       { }, -- Conditional
         -- sym"@repeat"            { }, -- Repeat
-        sym"@label"             { Operator }, -- Label
+        sym"@label"             { fg = purpleLight }, -- Label
         -- sym"@operator"          { }, -- Operator
         -- sym"@keyword"           { }, -- Keyword
         -- sym"@keyword.coroutine" { }, -- Keyword
@@ -545,11 +546,30 @@ local theme = lush(function(injected_functions)
         sym"@string.make"               { Identifier },
 
         -- Markdown
-        sym"@text.title.1.marker.markdown"  { fg = Title.fg, gui = "bold" },
-        sym"@text.title.1.markdown"         { fg = Title.fg, gui = "bold" },
-        sym"@text.emphasis.markdown_inline" { gui = "italic" },
-        sym"@text.strong.markdown_inline"   { gui = "bold" },
-        sym"@punctuation.delimiter.markdown_inline" { },
+        sym"@markup.heading.1.marker.markdown"  { fg = blueMedium, gui = "bold italic" },
+        sym"@markup.heading.1.markdown"         { fg = blueMedium, gui = "bold italic" },
+        sym"@markup.heading.2.marker.markdown"  { fg = greenMedium, gui = "bold italic" },
+        sym"@markup.heading.2.markdown"         { fg = greenMedium, gui = "bold italic" },
+        sym"@markup.heading.3.marker.markdown"  { fg = yellowLight, gui = "bold italic" },
+        sym"@markup.heading.3.markdown"         { fg = yellowLight, gui = "bold italic" },
+        sym"@markup.heading.4.marker.markdown"  { fg = redMedium, gui = "bold italic" },
+        sym"@markup.heading.4.markdown"         { fg = redMedium, gui = "bold italic" },
+        sym"@markup.heading.5.marker.markdown"  { fg = cyanMedium, gui = "bold italic" },
+        sym"@markup.heading.5.markdown"         { fg = cyanMedium, gui = "bold italic" },
+        sym"@markup.heading.6.marker.markdown"  { fg = purpleMedium, gui = "bold italic" },
+        sym"@markup.heading.6.markdown"         { fg = purpleMedium, gui = "bold italic" },
+        sym"@punctuation.special.markdown"      { fg = Comment.fg },
+        sym"@markup.raw.block.markdown"         { fg = Comment.fg, gui = "italic" },
+        sym"@label.markdown"                    { fg = grayLight, gui = "italic" },
+        sym"@markup.list"                       { fg = Comment.fg },
+        sym"@markup.strong.markdown_inline"     { gui = "bold" },
+        sym"@markup.italic.markdown_inline"     { gui = "italic" },
+        --sym"@markup.link.markdown_inline"       { },
+        sym"@markup.link.label.markdown_inline" { fg = greenLight, gui = "bold italic" },
+        sym"@markup.link.url.markdown_inline"   { Underlined },
+        sym"@markup.list.unchecked.markdown"    { fg = redLight },
+        sym"@markup.list.checked.markdown"      { fg = greenLight },
+        sym"@lsp.type.class.markdown"           { },
 
         -- Nix
         sym"@lsp.type.comment.nix"      { },
