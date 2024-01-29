@@ -357,6 +357,7 @@ local theme = lush(function(injected_functions)
         -- sym"@variable"          { }, -- Identifier
         -- sym"@variable.parameter" { }, -- Identifier
         -- sym"@variable.builtin"  { }, -- Identifier
+        sym"@variable.member"   { Property },
         -- sym"@parameter"         { }, -- Identifier
         sym"@field"             { Property }, -- Identifier
         sym"@property"          { Property }, -- Identifier
@@ -399,6 +400,7 @@ local theme = lush(function(injected_functions)
         sym"@lsp.type.string"           { fg = redVSat },
         sym"@lsp.type.struct"           { fg = redVSat }, -- Structure
         sym"@lsp.type.boolean"          { fg = redVSat },
+        sym"@lsp.type.builtin"          { fg = redVSat },
         sym"@lsp.type.comment"          { fg = redVSat }, -- Comment
         sym"@lsp.type.generic"          { fg = redVSat },
         sym"@lsp.type.keyword"          { fg = redVSat },
@@ -559,6 +561,7 @@ local theme = lush(function(injected_functions)
         sym"@markup.heading.6.marker.markdown"  { fg = purpleMedium, gui = "bold italic" },
         sym"@markup.heading.6.markdown"         { fg = purpleMedium, gui = "bold italic" },
         sym"@punctuation.special.markdown"      { fg = Comment.fg },
+        sym"@markup.raw.markdown_inline"        { fg = Comment.fg, gui = "italic" },
         sym"@markup.raw.block.markdown"         { fg = Comment.fg, gui = "italic" },
         sym"@label.markdown"                    { fg = grayLight, gui = "italic" },
         sym"@markup.list"                       { fg = Comment.fg },
@@ -582,6 +585,7 @@ local theme = lush(function(injected_functions)
         sym"@lsp.type.keyword.nix"      { },
         sym"@lsp.type.operator.nix"     { },
         sym"@lsp.type.variable.nix"     { Identifier }, -- TODO: Should variables in functional languages where all variables are immutable use Constant instead?
+        sym"@variable.member.nix"       { Property },
         sym"@lsp.type.property.nix"     { --[[Property]] },
         sym"@lsp.type.function.nix"     { },
         sym"@lsp.typemod.struct.builtin.nix" { Constant },
@@ -624,6 +628,21 @@ local theme = lush(function(injected_functions)
 
         -- Vimdoc
         sym"@text.literal.vimdoc"       { Number },
+
+        -- Zig
+        sym"@lsp.type.keyword.zig"       { },
+        sym"@lsp.type.namespace.zig"     { Namespace },
+        sym"@lsp.type.operator.zig"      { Operator },
+        sym"@lsp.type.builtin.zig"       { },
+        sym"@lsp.type.string.zig"        { },
+        sym"@lsp.type.comment.zig"       { },
+        sym"@lsp.type.function.zig"      { },
+        sym"@lsp.type.parameter.zig"     { },
+        sym"@lsp.type.struct.zig"        { Structure },
+        sym"@lsp.type.type.zig"          { Type },
+        sym"@lsp.type.variable.zig"      { },
+        sym"@lsp.type.property.zig"      { },
+        sym"@lsp.type.number.zig"        { },
 
         -- Netrw
         netrwBak       { },
