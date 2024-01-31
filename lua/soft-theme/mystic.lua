@@ -480,6 +480,17 @@ local theme = lush(function(injected_functions)
         sym"@constructor.c_sharp"       { Type },
         sym"@attribute.c_sharp"         { Function },
 
+        -- F#
+        sym"@lsp.type.type.fsharp"      { },
+        sym"@lsp.type.function.fsharp"  { },
+        sym"@lsp.type.operator.fsharp"  { },
+        sym"@lsp.type.variable.fsharp"  { Identifier },
+        sym"@lsp.type.namespace.fsharp" { Namespace },
+        sym"@lsp.type.struct.fsharp"    { Structure },
+        sym"@lsp.type.typeParameter.fsharp" { },
+        fsharpException                 { Exception },
+        fsharpOpen                      { Keyword },
+
         -- Java
         sym"@lsp.type.keyword.java"     { },
         sym"@lsp.type.namespace.java"   { Namespace },
@@ -633,7 +644,7 @@ local theme = lush(function(injected_functions)
         sym"@lsp.type.keyword.zig"       { },
         sym"@lsp.type.namespace.zig"     { Namespace },
         sym"@lsp.type.operator.zig"      { Operator },
-        sym"@lsp.type.builtin.zig"       { },
+        sym"@lsp.type.builtin.zig"       { Macro },
         sym"@lsp.type.string.zig"        { },
         sym"@lsp.type.comment.zig"       { },
         sym"@lsp.type.function.zig"      { },
@@ -643,6 +654,7 @@ local theme = lush(function(injected_functions)
         sym"@lsp.type.variable.zig"      { },
         sym"@lsp.type.property.zig"      { },
         sym"@lsp.type.number.zig"        { },
+        sym"@lsp.type.enumMember.zig"    { Constant },
 
         -- Netrw
         netrwBak       { },
