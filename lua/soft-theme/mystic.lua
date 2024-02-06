@@ -586,6 +586,8 @@ local theme = lush(function(injected_functions)
         sym"@markup.list.unchecked.markdown"    { fg = redLight },
         sym"@markup.list.checked.markdown"      { fg = greenLight },
         sym"@lsp.type.class.markdown"           { },
+        sym"@lsp.type.enumMember.markdown"      { },
+        sym"MarkdownError"                      { }, -- Occurs in LSP hover when containing underscores 
 
         -- Nix
         sym"@lsp.type.comment.nix"      { },
