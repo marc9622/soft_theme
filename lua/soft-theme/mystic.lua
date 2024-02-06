@@ -379,6 +379,7 @@ local theme = lush(function(injected_functions)
         -- sym"@storageclass"      { }, -- StorageClass
         -- sym"@structure"         { }, -- Structure
         sym"@namespace"         { Namespace }, -- Identifier
+        sym"@module"            { Namespace }, -- Identifier
         sym"@include"           { Keyword }, -- Include
         -- sym"@preproc"           { }, -- PreProc
         -- sym"@debug"             { }, -- Debug
@@ -447,14 +448,15 @@ local theme = lush(function(injected_functions)
         sym"@lsp.type.macro.cpp"        { Macro },
         sym"@lsp.type.function.cpp"     { },
         sym"@lsp.type.class.cpp"        { },
-        sym"@lsp.type.parameter.cpp"    { },
         sym"@lsp.type.type.cpp"         { },
-        sym"@lsp.type.variable.cpp"     { },
+        sym"@lsp.type.variable.cpp"     { gui = "italic" },
+        sym"@lsp.mod.readonly.cpp"      { gui = "nocombine" },
         sym"@lsp.type.enumMember.cpp"   { },
         sym"@lsp.type.enum.cpp"         { },
         sym"@lsp.type.namespace.cpp"    { },
-        sym"@lsp.type.property.cpp"     { },
-        sym"@lsp.type.typeParameter.cpp" { },
+        sym"@lsp.type.property.cpp"     { fg = Property.fg, gui = "italic" },
+        sym"@lsp.type.parameter.cpp"    { gui = "italic" },
+        sym"@lsp.type.typeParameter.cpp" { Constant },
         sym"@lsp.type.method.cpp"       { },
         sym"@lsp.type.unknown.cpp"      { Unknown },
         sym"@lsp.type.operator.cpp"     { },
