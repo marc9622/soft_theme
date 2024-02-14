@@ -483,11 +483,14 @@ local theme = lush(function(injected_functions)
         sym"@attribute.c_sharp"         { Function },
 
         -- F#
-        sym"@lsp.type.type.fsharp"      { },
-        sym"@lsp.type.function.fsharp"  { },
-        sym"@lsp.type.operator.fsharp"  { },
+        sym"@lsp.type.type.fsharp"      { Type },
+        sym"@lsp.type.function.fsharp"  { Function },
+        sym"@lsp.type.operator.fsharp"  { Operator },
         sym"@lsp.type.variable.fsharp"  { Identifier },
+        sym"@lsp.type.property.fsharp"  { Property },
+        sym"@lsp.type.enumMember.fsharp"{ },
         sym"@lsp.type.namespace.fsharp" { Namespace },
+        sym"@lsp.type.module.fsharp"    { Namespace },
         sym"@lsp.type.struct.fsharp"    { Structure },
         sym"@lsp.type.typeParameter.fsharp" { },
         fsharpException                 { Exception },
