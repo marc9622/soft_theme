@@ -677,7 +677,7 @@ local theme = lush(function(injected_functions)
         sym"@lsp.type.enum.zig"          { Type },
         sym"@lsp.type.enumMember.zig"    { Constant },
         sym"@lsp.type.variable.zig"      { },
-        sym"@lsp.type.property.zig"      { },
+        sym"@lsp.type.property.zig"      { Property },
         sym"@lsp.type.number.zig"        { },
 
         -- Netrw
