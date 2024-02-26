@@ -488,13 +488,16 @@ local theme = lush(function(injected_functions)
         sym"@lsp.type.operator.fsharp"  { Operator },
         sym"@lsp.type.variable.fsharp"  { Identifier },
         sym"@lsp.type.property.fsharp"  { Property },
-        sym"@lsp.type.enumMember.fsharp"{ },
+        sym"@lsp.type.enumMember.fsharp"{ Constant },
         sym"@lsp.type.namespace.fsharp" { Namespace },
         sym"@lsp.type.module.fsharp"    { Namespace },
         sym"@lsp.type.struct.fsharp"    { Structure },
+        sym"@lsp.type.interface.fsharp" { Type },
         sym"@lsp.type.typeParameter.fsharp" { },
         fsharpException                 { Exception },
         fsharpOpen                      { Keyword },
+        fsharpSScript                   { Macro },
+        fsharpSymbol                    { Identifier },
 
         -- Java
         sym"@lsp.type.keyword.java"     { },
