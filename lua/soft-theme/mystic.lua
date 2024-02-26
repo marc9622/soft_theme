@@ -539,9 +539,12 @@ local theme = lush(function(injected_functions)
         sym"@constructor.javascript"       { },
 
         -- TypeScript
-        sym"@lsp.type.class.typescript"    { Type },
-        sym"@lsp.type.variable.typescript" { },
-        sym"@lsp.type.property.typescript" { },
+        sym"@lsp.type.namespace.typescript" { Namespace },
+        sym"@lsp.type.class.typescript"     { Type },
+        sym"@lsp.type.variable.typescript"  { },
+        sym"@lsp.type.property.typescript"  { },
+        sym"@lsp.type.function.typescript"  { },
+        sym"@lsp.type.method.typescript"    { },
         -- typescriptFuncKeyword           { },
         -- typescriptFuncName              { },
         typescriptFuncComma             { Delimiter },
@@ -559,6 +562,7 @@ local theme = lush(function(injected_functions)
         sym"@lsp.type.property.typescriptreact" { },
         sym"@lsp.type.parameter.typescriptreact" { },
         sym"@lsp.type.function.typescriptreact" { },
+        sym"@lsp.type.method.typescriptreact"   { },
         sym"@lsp.type.interface.typescriptreact" { },
         sym"@lsp.type.namespace.typescriptreact" { Namespace },
         sym"@lsp.type.class.typescriptreact"    { Type },
