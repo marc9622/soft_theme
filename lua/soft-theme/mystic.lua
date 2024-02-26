@@ -528,14 +528,17 @@ local theme = lush(function(injected_functions)
         sym"@function.builtin.java"     { Identifier, gui = "italic" }, -- Used for 'super'
         sym"@variable.builtin.java"     { Identifier, gui = "italic" }, -- Used for 'this'
 
-        -- Javascript
+        -- JavaScript
         sym"@lsp.type.property.javascript" { },
         sym"@lsp.type.parameter.javascript" { },
         sym"@lsp.type.function.javascript" { },
         sym"@lsp.type.variable.javascript" { },
         sym"@constructor.javascript"       { },
 
-        -- Typescript
+        -- TypeScript
+        sym"@lsp.type.class.typescript"    { Type },
+        sym"@lsp.type.variable.typescript" { },
+        sym"@lsp.type.property.typescript" { },
         -- typescriptFuncKeyword           { },
         -- typescriptFuncName              { },
         typescriptFuncComma             { Delimiter },
@@ -547,6 +550,16 @@ local theme = lush(function(injected_functions)
         -- typescriptPredefinedType        { },
         -- typescriptType                  { },
         typescriptTypeBracket           { Keyword },
+
+        -- TypeScriptReact
+        sym"@lsp.type.variable.typescriptreact" { },
+        sym"@lsp.type.property.typescriptreact" { },
+        sym"@lsp.type.parameter.typescriptreact" { },
+        sym"@lsp.type.function.typescriptreact" { },
+        sym"@lsp.type.interface.typescriptreact" { },
+        sym"@lsp.type.namespace.typescriptreact" { Namespace },
+        sym"@lsp.type.class.typescriptreact"    { Type },
+        sym"@lsp.type.type.typescriptreact"     { },
 
         -- Lua
         sym"@lsp.type.comment.lua"      { },
