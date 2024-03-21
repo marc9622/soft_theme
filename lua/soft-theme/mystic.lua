@@ -434,15 +434,17 @@ local theme = lush(function(injected_functions)
         -- C
         sym"@lsp.type.macro.c"          { Macro },
         sym"@lsp.type.function.c"       { },
-        sym"@lsp.type.parameter.c"      { },
-        sym"@lsp.type.class.c"          { },
-        sym"@lsp.type.variable.c"       { },
+        sym"@lsp.type.class.c"          { Type },
+        sym"@lsp.type.parameter.c"      { gui = "italic" },
+        sym"@lsp.type.variable.c"       { gui = "italic" },
+        sym"@lsp.type.property.c"       { gui = "italic" },
+        sym"@lsp.mod.readonly.c"        { gui = "nocombine" },
         sym"@lsp.type.type.c"           { },
-        sym"@lsp.type.property.c"       { },
         sym"@lsp.type.enumMember.c"     { },
         sym"@lsp.type.enum.c"           { },
         sym"@lsp.type.operator.c"       { },
         sym"@lsp.type.comment.c"        { Comment },
+        sym"@lsp.type.unknown.c"        { Unknown },
 
         -- C++
         sym"@lsp.type.macro.cpp"        { Macro },
