@@ -638,7 +638,8 @@ local theme = lush(function(injected_functions)
         sym"@lsp.type.operator.nix"     { },
         sym"@lsp.type.variable.nix"     { Identifier }, -- TODO: Should variables in functional languages where all variables are immutable use Constant instead?
         sym"@variable.member.nix"       { Property },
-        sym"@lsp.type.property.nix"     { --[[Property]] },
+        sym"@lsp.type.property.nix"     { },
+        sym"@lsp.typemod.property.definition.nix" { Property },
         sym"@lsp.type.function.nix"     { },
         sym"@lsp.typemod.struct.builtin.nix" { Constant },
         sym"@lsp.mod.delimiter.nix"     { Delimiter },
