@@ -681,6 +681,8 @@ local theme = lush(function(injected_functions)
 
         -- Vimdoc
         sym"@text.literal.vimdoc"       { Number },
+        sym"@markup.link.vimdoc"        { Identifier },
+        sym"@label.vimdoc"              { Label },
 
         -- Zig
         sym"@lsp.type.keyword.zig"       { },
