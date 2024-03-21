@@ -484,6 +484,9 @@ local theme = lush(function(injected_functions)
         sym"@constructor.c_sharp"       { Type },
         sym"@attribute.c_sharp"         { Function },
 
+        -- Elm
+        sym"@constructor.elm"           { Type },
+
         -- F#
         sym"@lsp.type.type.fsharp"      { Type },
         sym"@lsp.type.function.fsharp"  { Function },
