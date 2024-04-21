@@ -490,36 +490,58 @@ local theme = lush(function(injected_functions)
         sym"@variable.builtin.java"     { Identifier, gui = "italic" }, -- Used for 'this'
 
         -- JavaScript
+        sym"@lsp.type.class.javascript"    { },
         sym"@lsp.type.property.javascript" { },
         sym"@lsp.type.parameter.javascript" { },
-        sym"@lsp.type.function.javascript" { },
         sym"@lsp.type.variable.javascript" { },
+        sym"@lsp.type.function.javascript" { },
+        sym"@lsp.type.method.javascript"   { },
         sym"@constructor.javascript"       { },
 
         -- TypeScript
         sym"@lsp.type.namespace.typescript" { Namespace },
+        sym"@lsp.typemod.variable.defaultLibrary.typescript" { fg = Namespace.fg, gui = "nocombine" }, -- Fixes namespaces such as `Math` that otherwise is tokenized as non-readonly variables.
         sym"@lsp.type.interface.typescript" { Type },
         sym"@lsp.type.class.typescript"     { Type },
         sym"@lsp.type.type.typescript"      { Type },
         sym"@lsp.type.typeParameter.typescript"      { Type },
         sym"@lsp.type.enum.typescript" { Type },
         sym"@lsp.type.enumMember.typescript" { Constant },
-        sym"@lsp.type.parameter.typescript" { },
-        sym"@lsp.type.variable.typescript"  { },
-        sym"@lsp.type.property.typescript"  { },
+        sym"@lsp.type.parameter.typescript" { gui = "italic" },
+        sym"@lsp.type.variable.typescript"  { gui = "italic" },
+        sym"@lsp.type.property.typescript"  { gui = "italic" },
+        sym"@lsp.mod.readonly.typescript"   { gui = "nocombine" },
         sym"@lsp.type.function.typescript"  { },
         sym"@lsp.type.method.typescript"    { },
+        -- typescript1                     { Identifier },
         -- typescriptFuncKeyword           { },
         -- typescriptFuncName              { },
         typescriptFuncComma             { Delimiter },
         typescriptTypeAnnotation        { Delimiter },
         typescriptRestOrSpread          { Operator },
-        -- typescriptParens                { },
+        typescriptTernaryOp             { Delimiter }, -- Actually for optional values
+        typescriptBinaryOp              { Operator }, -- For union types
+        typescriptUnaryOp               { Operator }, -- For + in +10
         typescriptCall                  { Identifier },
         typescriptIdentifierName        { Identifier },
         -- typescriptPredefinedType        { },
         -- typescriptType                  { },
-        typescriptTypeBracket           { Keyword },
+        typescriptNull                  { Constant },
+        typescriptEndColons             { Delimiter },
+        typescriptAliasDeclaration      { Type },
+        typescriptMember                { Property },
+        typescriptParens                { TSRainbowRed },
+        typescriptBraces                { TSRainbowBlue },
+        typescriptTypeBrackets          { TSRainbowYellow },
+        typescriptTypeBracket           { TSRainbowOrange },
+        typescriptTypeReference         { Type },
+        typescriptTypeParameter         { Type },
+        typescriptTypeArguments         { Delimiter },
+        -- typescriptFuncCallArg           { Delimiter },
+        typescriptDotNotation           { Delimiter },
+        typescriptVariable              { Keyword },
+        typescriptVariableDeclaration   { Type },
+        typescriptProp                  { Type },
 
         -- TypeScriptReact
         sym"@lsp.type.variable.typescriptreact" { },
@@ -543,9 +565,16 @@ local theme = lush(function(injected_functions)
         sym"@lsp.type.type.lua"         { },
         sym"@keyword.luadoc"            { Delimiter },
 
-        -- Make
+        -- Makefile
         sym"@symbol.make"               { Identifier },
         sym"@string.make"               { Identifier },
+        makeIdent                       { Identifier },
+        makePreCondit                   { Conditional },
+        makeCommands                    { Function },
+        makeSpecial                     { Operator },
+        makeDString                     { String },
+        makeEscapedChar                 { Special },
+        makeSpecTarget                  { Keyword },
 
         -- Markdown
         sym"@markup.heading.1.marker.markdown"  { fg = blueMedium, gui = "bold italic" },
@@ -641,11 +670,13 @@ local theme = lush(function(injected_functions)
         sym"@lsp.type.builtin.zig"       { Macro },
         sym"@lsp.type.string.zig"        { },
         sym"@lsp.type.comment.zig"       { },
-        sym"@lsp.type.function.zig"      { },
+        sym"@lsp.type.function.zig"      { Function },
+        sym"@function.builtin.zig"       { Macro }, -- Only affects the '@' functions in Zig, afaik
         sym"@lsp.type.parameter.zig"     { },
         sym"@lsp.type.struct.zig"        { Structure },
         sym"@lsp.type.type.zig"          { Type },
         sym"@lsp.type.enum.zig"          { Type },
+        sym"@lsp.type.typeParameter.zig" { Type },
         sym"@lsp.type.enumMember.zig"    { Constant },
         sym"@lsp.type.variable.zig"      { },
         sym"@lsp.type.property.zig"      { Property },
