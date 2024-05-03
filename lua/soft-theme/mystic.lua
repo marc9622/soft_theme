@@ -123,6 +123,8 @@ local blueVSat   = hsl('#0087e0') -- Azure
 -- support an annotation like the following. Consult your server documentation.
 ---@diagnostic disable: undefined-global
 local theme = lush(function(injected_functions)
+    vim.g.colors_name = "mystic"
+
     local sym = injected_functions.sym
     return {
         -- ColorColumn  { }, -- Columns set with 'colorcolumn'
