@@ -12,6 +12,8 @@
 -- *nanoseconds* and such could be considered "production safe".
 package.loaded['soft-theme.mystic'] = nil
 
+vim.g.colors_name = 'mystic'
+
 -- include our theme file and pass it to lush to apply
 require('lush')(require('soft-theme.mystic'))
 
