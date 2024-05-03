@@ -139,8 +139,8 @@ local theme = lush(function(injected_functions)
         ErrorMsg     { fg = redVSat, bg = bgColor.da(10) }, -- Error messages on the command line
         VertSplit    { fg = ifBg(grayMedium).noBg(CursorLine.bg) }, -- Column separating vertically split windows
         Folded       { bg = ifBg(bgColor.mix(grayVDark, 50)).noBg(""), sp = grayVDark, gui = "underdotted" }, -- Line used for closed folds
-        SignColumn   { FoldColumn }, -- Column where |signs| are displayed
         FoldColumn   { fg = bgColor.mix(grayLight, 30) }, -- 'foldcolumn'
+        SignColumn   { FoldColumn }, -- Column where |signs| are displayed
         -- IncSearch    { }, -- 'incsearch' highlighting; also used for the text replaced with ":s///c"
         Substitute   { fg = bgColor, bg = yellowMedium }, -- |:substitute| replacement text highlighting
         LineNr       { fg = ifBg(bgColor.mix(grayLight, 30)).noBg(grayDark) }, -- Line number for ":number" and ":#" commands, and when 'number' or 'relativenumber' option is set.
