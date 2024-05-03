@@ -47,10 +47,7 @@ local hsl = lush.hsl
 local function ifBg(ifColor)
     return {
         noBg = function(elseColor)
-            if vim.g.soft_theme_no_background == 1
-                then return elseColor
-                else return ifColor
-            end
+            if vim.g.mystic_transparent == 1 then return elseColor else return ifColor end
         end,
     }
 end
@@ -123,6 +120,10 @@ local blueVSat   = hsl('#0087e0') -- Azure
 -- support an annotation like the following. Consult your server documentation.
 ---@diagnostic disable: undefined-global
 local theme = lush(function(injected_functions)
+    if not vim.g.mystic_transparent then
+        vim.g.mystic_transparent = 0
+    end
+
     vim.g.colors_name = "mystic"
 
     local sym = injected_functions.sym
@@ -144,8 +145,8 @@ local theme = lush(function(injected_functions)
         ErrorMsg     { fg = redVSat, bg = bgColor.da(10) }, -- Error messages on the command line
         VertSplit    { fg = ifBg(grayMedium).noBg(CursorLine.bg) }, -- Column separating vertically split windows
         Folded       { bg = ifBg(bgColor.mix(grayVDark, 50)).noBg(""), sp = grayVDark, gui = "underdotted" }, -- Line used for closed folds
-        FoldColumn   { fg = bgColor.mix(grayLight, 30) }, -- 'foldcolumn'
         SignColumn   { FoldColumn }, -- Column where |signs| are displayed
+        FoldColumn   { fg = bgColor.mix(grayLight, 30) }, -- 'foldcolumn'
         -- IncSearch    { }, -- 'incsearch' highlighting; also used for the text replaced with ":s///c"
         Substitute   { fg = bgColor, bg = yellowMedium }, -- |:substitute| replacement text highlighting
         LineNr       { fg = ifBg(bgColor.mix(grayLight, 30)).noBg(grayDark) }, -- Line number for ":number" and ":#" commands, and when 'number' or 'relativenumber' option is set.
