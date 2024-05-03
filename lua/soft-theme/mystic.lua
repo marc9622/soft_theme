@@ -386,12 +386,13 @@ local theme = lush(function(injected_functions)
         sym"@lsp.type.variable.c"       { gui = "italic" },
         sym"@lsp.type.property.c"       { gui = "italic" },
         sym"@lsp.mod.readonly.c"        { gui = "nocombine" },
-        sym"@lsp.type.type.c"           { },
+        sym"@lsp.type.type.c"           { Type },
         sym"@lsp.type.enumMember.c"     { },
-        sym"@lsp.type.enum.c"           { },
+        sym"@lsp.type.enum.c"           { Type },
         sym"@lsp.type.operator.c"       { },
         sym"@lsp.type.comment.c"        { Comment },
         sym"@lsp.type.unknown.c"        { Unknown },
+        sym"@character.printf"          { Special },
 
         -- C++
         sym"@lsp.type.macro.cpp"        { Macro },
