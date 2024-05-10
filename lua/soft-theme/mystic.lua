@@ -551,6 +551,7 @@ local theme = lush(function(injected_functions)
         sym"@lsp.type.namespace.typescriptreact" { Namespace },
         sym"@lsp.type.class.typescriptreact"    { Type },
         sym"@lsp.type.type.typescriptreact"     { },
+        sym"@lsp.type.typeParameter.typescriptreact" { Type },
 
         -- Lua
         sym"@lsp.type.comment.lua"      { },
