@@ -502,7 +502,7 @@ local theme = lush(function(injected_functions)
         sym"@lsp.type.interface.typescript" { Type },
         sym"@lsp.type.class.typescript"     { Type },
         sym"@lsp.type.type.typescript"      { Type },
-        sym"@lsp.type.typeParameter.typescript"      { Type },
+        sym"@lsp.type.typeParameter.typescript" { Type },
         sym"@lsp.type.enum.typescript" { Type },
         sym"@lsp.type.enumMember.typescript" { Constant },
         sym"@lsp.type.parameter.typescript" { gui = "italic" },
