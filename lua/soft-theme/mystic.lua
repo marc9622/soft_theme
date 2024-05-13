@@ -439,7 +439,7 @@ local theme = lush(function(injected_functions)
         sym"@lsp.type.type.fsharp"      { Type },
         sym"@lsp.type.function.fsharp"  { Function },
         sym"@lsp.type.operator.fsharp"  { Operator },
-        sym"@lsp.type.member.fsharp"    { Property },
+        sym"@lsp.type.member.fsharp"    { Identifier },
         sym"@lsp.typemod.member.mutable.fsharp" { gui = "italic" },
         sym"@lsp.type.variable.fsharp"  { Identifier },
         sym"@lsp.type.property.fsharp"  { Property },
